@@ -3,288 +3,297 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>La Roue des Métiers du BTP – BTP CFA CVDL</title>
+<title>La Roue des Métiers – BTP CFA CVDL</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --yellow:#FFEB00; --yellow-dark:#C9B800;
-    --black:#0A0A0A; --black-mid:#141414; --black-soft:#1C1C1C;
-    --white:#FFFFFF; --gray:#888; --green:#2ECC71; --red:#E74C3C;
-  }
-  *{margin:0;padding:0;box-sizing:border-box;}
-  body{background:var(--black);color:var(--white);font-family:'Barlow',sans-serif;min-height:100vh;overflow-x:hidden;}
+:root{--y:#FFEB00;--yd:#C9B800;--bk:#0A0A0A;--bs:#1C1C1C;--w:#FFF;--gr:#888;--gn:#2ECC71;--rd:#E74C3C;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bk);color:var(--w);font-family:'Barlow',sans-serif;min-height:100vh;overflow-x:hidden;}
+.screen{display:none;min-height:100vh;}
+.screen.active{display:flex;flex-direction:column;}
+#sTrophy,#sLB{align-items:center;justify-content:center;}
+#sTrophy{background:radial-gradient(ellipse at 50% 30%,#1a1700,var(--bk) 70%);}
+#sLB{background:radial-gradient(ellipse at 50% 30%,#1a1700,var(--bk) 70%);}
 
-  /* ===== SCREENS ===== */
-  .screen{display:none;min-height:100vh;flex-direction:column;}
-  .screen.active{display:flex;}
+/* ── MODAL FORMS ── */
+.moverlay{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:3000;display:flex;align-items:center;justify-content:center;animation:fi .3s ease;}
+.moverlay.hidden{display:none;}
+@keyframes fi{from{opacity:0}to{opacity:1}}
+.mbox{background:var(--bs);border:2px solid var(--y);border-radius:20px;width:min(720px,96vw);max-height:92vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 0 80px rgba(255,235,0,.18);animation:su .35s ease;}
+@keyframes su{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:none}}
+.mhd{background:var(--bk);border-bottom:2px solid var(--y);padding:16px 22px;display:flex;align-items:center;gap:14px;flex-shrink:0;}
+.mhd .lb{background:#000;border:2px solid var(--w);border-radius:8px;padding:6px 10px;font-family:'Bebas Neue',sans-serif;font-size:11px;color:var(--w);text-align:center;line-height:1.3;letter-spacing:1px;flex-shrink:0;}
+.mhd .lb span{display:block;font-size:8px;color:var(--y);letter-spacing:2px;margin-top:2px;}
+.mhd-t h2{font-family:'Bebas Neue',sans-serif;font-size:1.55rem;color:var(--y);letter-spacing:2px;}
+.mhd-t p{font-size:.78rem;color:var(--gr);font-family:'Barlow Condensed',sans-serif;letter-spacing:2px;}
+.mbody{flex:1;overflow:hidden;}
+.mbody iframe{width:100%;height:500px;border:none;display:block;}
+.mft{background:var(--bk);border-top:1px solid #2a2a2a;padding:13px 22px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-shrink:0;}
+.mft p{font-size:.76rem;color:var(--gr);line-height:1.4;max-width:320px;}
+.mft p strong{color:var(--y);}
+.btn-play{background:var(--bk);color:var(--y);border:2px solid var(--y);border-radius:50px;font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:3px;padding:11px 32px;cursor:pointer;transition:all .2s;white-space:nowrap;}
+.btn-play:hover{background:var(--y);color:var(--bk);box-shadow:0 0 25px rgba(255,235,0,.3);}
+.skip{color:#444;font-size:.73rem;cursor:pointer;text-decoration:underline;margin-left:10px;}
+.skip:hover{color:var(--gr);}
 
-  /* ===== MODAL FORMULAIRE ===== */
-  .modal-overlay{
-    position:fixed;inset:0;background:rgba(0,0,0,0.85);
-    z-index:2000;display:flex;align-items:center;justify-content:center;
-    animation:fadeIn 0.3s ease;
-  }
-  .modal-overlay.hidden{display:none;}
-  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-  .modal-box{
-    background:var(--black-soft);border:2px solid var(--yellow);
-    border-radius:20px;width:min(700px,95vw);max-height:90vh;
-    display:flex;flex-direction:column;overflow:hidden;
-    box-shadow:0 0 80px rgba(255,235,0,0.15);
-    animation:slideUp 0.35s ease;
-  }
-  @keyframes slideUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:none}}
-  .modal-header{
-    background:var(--black);border-bottom:2px solid var(--yellow);
-    padding:18px 24px;display:flex;align-items:center;gap:14px;flex-shrink:0;
-  }
-  .modal-header .logo-badge{
-    background:#000;border:2px solid var(--white);border-radius:8px;
-    padding:6px 10px;font-family:'Bebas Neue',sans-serif;font-size:11px;
-    color:var(--white);text-align:center;line-height:1.3;letter-spacing:1px;flex-shrink:0;
-  }
-  .modal-header .logo-badge span{display:block;font-size:8px;color:var(--yellow);letter-spacing:2px;margin-top:2px;}
-  .modal-header-text h2{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:var(--yellow);letter-spacing:2px;}
-  .modal-header-text p{font-size:0.8rem;color:var(--gray);font-family:'Barlow Condensed',sans-serif;letter-spacing:2px;}
-  .modal-body{flex:1;overflow:hidden;position:relative;}
-  .modal-body iframe{width:100%;height:520px;border:none;display:block;}
-  .modal-footer{
-    background:var(--black);border-top:1px solid #2a2a2a;
-    padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-shrink:0;
-  }
-  .modal-footer p{font-size:0.78rem;color:var(--gray);line-height:1.4;max-width:340px;}
-  .modal-footer p strong{color:var(--yellow);}
-  .btn-launch{
-    background:var(--black);color:var(--yellow);
-    border:2px solid var(--yellow);border-radius:50px;
-    font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:3px;
-    padding:12px 36px;cursor:pointer;transition:all 0.2s;white-space:nowrap;
-  }
-  .btn-launch:hover{background:var(--yellow);color:var(--black);box-shadow:0 0 25px rgba(255,235,0,0.3);}
-  .skip-link{color:#444;font-size:0.75rem;cursor:pointer;text-decoration:underline;margin-left:12px;}
-  .skip-link:hover{color:var(--gray);}
+/* ── HEADER ── */
+header{background:var(--bk);border-bottom:3px solid var(--y);padding:12px 28px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.logo-z{display:flex;align-items:center;gap:14px;}
+.logo-b{background:#000;border:2px solid var(--w);border-radius:10px;padding:7px 11px;font-family:'Bebas Neue',sans-serif;font-size:12px;color:var(--w);text-align:center;line-height:1.3;letter-spacing:1px;}
+.logo-b span{display:block;font-size:8px;color:var(--y);letter-spacing:2px;margin-top:2px;}
+.hd-t h1{font-family:'Bebas Neue',sans-serif;font-size:1.9rem;color:var(--y);letter-spacing:3px;line-height:1;}
+.hd-t p{font-family:'Barlow Condensed',sans-serif;font-size:.72rem;color:var(--gr);letter-spacing:3px;text-transform:uppercase;}
+.hdr{display:flex;align-items:center;gap:12px;}
+.score-box{background:var(--bs);border-radius:12px;padding:8px 18px;text-align:center;border:2px solid var(--y);}
+.snum{font-family:'Bebas Neue',sans-serif;font-size:2.1rem;color:var(--y);line-height:1;}
+.slbl{font-size:.63rem;letter-spacing:3px;color:var(--gr);text-transform:uppercase;}
+.btn-sm{background:transparent;border:2px solid #333;border-radius:10px;color:var(--gr);font-family:'Barlow Condensed',sans-serif;font-size:.7rem;letter-spacing:2px;text-transform:uppercase;padding:8px 13px;cursor:pointer;transition:all .2s;}
+.btn-sm:hover{border-color:var(--y);color:var(--y);}
 
-  /* ===== HEADER ===== */
-  header{
-    background:var(--black);border-bottom:3px solid var(--yellow);
-    padding:14px 32px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;
-  }
-  .logo-zone{display:flex;align-items:center;gap:16px;}
-  .logo-badge-h{
-    background:#000;border:2px solid var(--white);border-radius:10px;
-    padding:8px 12px;font-family:'Bebas Neue',sans-serif;font-size:13px;
-    color:var(--white);text-align:center;line-height:1.3;letter-spacing:1px;
-  }
-  .logo-badge-h span{display:block;font-size:9px;color:var(--yellow);letter-spacing:2px;margin-top:2px;}
-  .header-title h1{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--yellow);letter-spacing:3px;line-height:1;}
-  .header-title p{font-family:'Barlow Condensed',sans-serif;font-size:0.78rem;color:var(--gray);letter-spacing:3px;text-transform:uppercase;}
-  .score-display{background:var(--black-soft);border-radius:12px;padding:10px 22px;text-align:center;border:2px solid var(--yellow);}
-  .score-display .score-num{font-family:'Bebas Neue',sans-serif;font-size:2.4rem;color:var(--yellow);line-height:1;}
-  .score-display .score-label{font-size:0.7rem;letter-spacing:3px;color:var(--gray);text-transform:uppercase;}
+/* ── PROG HEADER ── */
+.phd{display:flex;align-items:center;justify-content:space-between;padding:8px 28px;background:#0e0e0e;border-bottom:1px solid #1e1e1e;font-family:'Barlow Condensed',sans-serif;font-size:.72rem;letter-spacing:2px;color:var(--gr);text-transform:uppercase;flex-shrink:0;}
+.psteps{display:flex;gap:4px;}
+.sd{width:22px;height:6px;border-radius:4px;background:#222;transition:background .3s;}
+.sd.done{background:var(--y);}
+.sd.cur{background:#fff;}
 
-  /* ===== PROGRESS BAR ===== */
-  .progress-header{
-    display:flex;align-items:center;justify-content:space-between;
-    padding:10px 32px;background:#0e0e0e;border-bottom:1px solid #1e1e1e;
-    font-family:'Barlow Condensed',sans-serif;font-size:0.78rem;
-    letter-spacing:2px;color:var(--gray);text-transform:uppercase;flex-shrink:0;
-  }
-  .progress-steps{display:flex;gap:5px;}
-  .step-dot{width:24px;height:7px;border-radius:4px;background:#222;transition:background 0.3s;}
-  .step-dot.done{background:var(--yellow);}
-  .step-dot.current{background:#fff;}
+/* ── PACK BAR ── */
+.pack-bar{display:flex;align-items:center;gap:8px;padding:8px 28px;background:#0c0c0c;border-bottom:1px solid #1a1a1a;overflow-x:auto;flex-shrink:0;}
+.pack-chip{background:#111;border:2px solid #2a2a2a;border-radius:20px;padding:5px 14px;font-family:'Barlow Condensed',sans-serif;font-size:.75rem;letter-spacing:1px;color:var(--gr);cursor:pointer;white-space:nowrap;transition:all .2s;display:flex;align-items:center;gap:6px;}
+.pack-chip:hover:not(.locked){border-color:#555;color:var(--w);}
+.pack-chip.active{border-color:var(--y);color:var(--y);background:rgba(255,235,0,.08);}
+.pack-chip.locked{opacity:.45;cursor:default;}
+.pack-chip .ck{font-size:.7rem;color:var(--gn);}
 
-  /* ===== GAME LAYOUT ===== */
-  .game-wrapper{
-    display:grid;grid-template-columns:1fr 440px;gap:24px;
-    padding:24px 32px;flex:1;
-  }
-  .wheel-section{display:flex;flex-direction:column;align-items:center;gap:20px;}
-  .wheel-container{position:relative;width:420px;height:420px;}
-  #wheel-canvas{border-radius:50%;cursor:pointer;filter:drop-shadow(0 0 40px rgba(255,235,0,0.2));}
-  .wheel-pointer{
-    position:absolute;top:-18px;left:50%;transform:translateX(-50%);
-    width:0;height:0;border-left:17px solid transparent;border-right:17px solid transparent;
-    border-top:40px solid var(--yellow);
-    filter:drop-shadow(0 4px 10px rgba(255,235,0,0.5));z-index:10;
-  }
-  .wheel-pointer::after{content:'';position:absolute;top:-42px;left:-9px;width:18px;height:18px;background:#fff;border-radius:50%;}
-  .wheel-hub{
-    position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-    width:68px;height:68px;background:var(--black);border-radius:50%;
-    border:4px solid var(--yellow);display:flex;align-items:center;justify-content:center;
-    font-family:'Bebas Neue',sans-serif;font-size:9px;color:var(--yellow);
-    text-align:center;z-index:10;letter-spacing:1px;line-height:1.3;
-    box-shadow:0 0 20px rgba(0,0,0,0.9),0 0 10px rgba(255,235,0,0.15);
-  }
-  .spin-btn{
-    background:var(--black);color:var(--white);
-    border:2px solid var(--yellow);border-radius:50px;
-    font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:3px;
-    padding:14px 52px;cursor:pointer;transition:all 0.2s;
-  }
-  .spin-btn:hover:not(:disabled){background:var(--yellow);color:var(--black);box-shadow:0 0 30px rgba(255,235,0,0.3);transform:translateY(-2px);}
-  .spin-btn:disabled{opacity:0.4;cursor:not-allowed;}
-  .metier-info{
-    background:var(--black-soft);border:2px solid rgba(255,235,0,0.25);
-    border-radius:14px;padding:14px 22px;text-align:center;
-    width:100%;max-width:420px;min-height:62px;
-    display:flex;align-items:center;justify-content:center;
-  }
-  .metier-info .metier-name{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--yellow);letter-spacing:3px;}
-  .metier-info .metier-hint{font-size:0.9rem;color:var(--gray);font-family:'Barlow Condensed',sans-serif;}
-  .progress-track{background:#1a1a1a;border-radius:50px;height:7px;margin-top:6px;overflow:hidden;}
-  .progress-fill{height:100%;background:linear-gradient(90deg,var(--yellow-dark),var(--yellow));border-radius:50px;transition:width 0.5s ease;}
+/* ── GAME LAYOUT ── */
+.gwrap{display:grid;grid-template-columns:1fr 440px;gap:20px;padding:20px 28px;flex:1;}
+.wsec{display:flex;flex-direction:column;align-items:center;gap:16px;}
+.wcont{position:relative;width:400px;height:400px;}
+#wcanvas{border-radius:50%;filter:drop-shadow(0 0 40px rgba(255,235,0,.22));}
+.wptr{position:absolute;top:-18px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:16px solid transparent;border-right:16px solid transparent;border-top:38px solid var(--y);filter:drop-shadow(0 4px 8px rgba(255,235,0,.5));z-index:10;}
+.wptr::after{content:'';position:absolute;top:-40px;left:-9px;width:18px;height:18px;background:#fff;border-radius:50%;}
+.whub{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:64px;height:64px;background:var(--bk);border-radius:50%;border:4px solid var(--y);display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:9px;color:var(--y);text-align:center;z-index:10;letter-spacing:1px;line-height:1.3;}
+.spin-btn{background:var(--bk);color:var(--w);border:2px solid var(--y);border-radius:50px;font-family:'Bebas Neue',sans-serif;font-size:1.55rem;letter-spacing:3px;padding:13px 48px;cursor:pointer;transition:all .2s;}
+.spin-btn:hover:not(:disabled){background:var(--y);color:var(--bk);box-shadow:0 0 30px rgba(255,235,0,.3);transform:translateY(-2px);}
+.spin-btn:disabled{opacity:.4;cursor:not-allowed;}
+.mbox2{background:var(--bs);border:2px solid rgba(255,235,0,.22);border-radius:14px;padding:12px 20px;text-align:center;width:100%;max-width:400px;min-height:56px;display:flex;align-items:center;justify-content:center;}
+.mn{font-family:'Bebas Neue',sans-serif;font-size:1.85rem;color:var(--y);letter-spacing:3px;}
+.mh{font-size:.88rem;color:var(--gr);font-family:'Barlow Condensed',sans-serif;}
+.ptrack{background:#1a1a1a;border-radius:50px;height:6px;margin-top:4px;overflow:hidden;}
+.pfill{height:100%;background:linear-gradient(90deg,var(--yd),var(--y));border-radius:50px;transition:width .5s ease;}
 
-  /* ===== CHALLENGE PANEL ===== */
-  .challenge-section{display:flex;flex-direction:column;gap:16px;}
-  .challenge-card{background:var(--black-soft);border:2px solid #2a2a2a;border-radius:18px;overflow:hidden;min-height:460px;}
-  .challenge-header{background:var(--yellow);padding:14px 22px;display:flex;align-items:center;gap:12px;}
-  .challenge-icon{font-size:1.8rem;}
-  .challenge-header h2{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:2px;color:var(--black);}
-  .challenge-header .badge{margin-left:auto;background:rgba(0,0,0,0.18);border-radius:20px;padding:4px 14px;font-family:'Barlow Condensed',sans-serif;font-size:0.8rem;font-weight:700;letter-spacing:2px;color:var(--black);}
-  .challenge-body{padding:24px;}
-  .challenge-question{font-size:1.05rem;font-weight:500;color:var(--white);margin-bottom:20px;line-height:1.5;}
-  .match-container{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-  .match-col{display:flex;flex-direction:column;gap:8px;}
-  .match-col-title{font-family:'Barlow Condensed',sans-serif;font-size:0.72rem;letter-spacing:3px;color:var(--gray);text-transform:uppercase;margin-bottom:4px;text-align:center;}
-  .match-item{background:#111;border:2px solid #2a2a2a;border-radius:10px;padding:10px 12px;font-size:0.83rem;font-weight:500;cursor:pointer;transition:all 0.2s;text-align:center;user-select:none;line-height:1.3;}
-  .match-item:hover{border-color:var(--yellow);background:rgba(255,235,0,0.06);}
-  .match-item.selected{border-color:var(--yellow);background:rgba(255,235,0,0.12);color:var(--yellow);}
-  .match-item.correct{border-color:var(--green);background:rgba(46,204,113,0.12);color:var(--green);cursor:default;}
-  .match-item.wrong{border-color:var(--red);background:rgba(231,76,60,0.12);color:var(--red);animation:shake 0.3s;cursor:default;}
-  .mcq-options{display:grid;grid-template-columns:1fr;gap:9px;}
-  .mcq-btn{background:#111;border:2px solid #2a2a2a;border-radius:10px;padding:12px 16px;font-size:0.88rem;cursor:pointer;transition:all 0.2s;color:var(--white);font-family:'Barlow',sans-serif;text-align:left;line-height:1.4;}
-  .mcq-btn:hover:not(:disabled){border-color:var(--yellow);background:rgba(255,235,0,0.06);}
-  .mcq-btn.correct{border-color:var(--green);background:rgba(46,204,113,0.12);color:var(--green);}
-  .mcq-btn.wrong{border-color:var(--red);background:rgba(231,76,60,0.12);color:var(--red);}
-  .feedback-bar{margin-top:14px;padding:12px 16px;border-radius:10px;font-size:0.88rem;font-weight:500;display:none;gap:10px;line-height:1.5;}
-  .feedback-bar.show{display:flex;}
-  .feedback-bar.good{background:rgba(46,204,113,0.1);border:2px solid var(--green);color:var(--green);}
-  .feedback-bar.bad{background:rgba(231,76,60,0.1);border:2px solid var(--red);color:var(--red);}
-  .next-btn{background:var(--green);color:#000;border:none;font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:2px;padding:11px 30px;border-radius:8px;cursor:pointer;transition:all 0.2s;margin-top:14px;display:none;}
-  .next-btn.show{display:block;}
-  .next-btn:hover{background:#27ae60;}
-  .idle-message{text-align:center;padding:60px 24px;color:var(--gray);}
-  .idle-message .big-icon{font-size:4rem;margin-bottom:14px;opacity:0.5;}
-  .idle-message h3{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:2px;color:#333;margin-bottom:8px;}
+/* ── TIMER ── */
+.timer-wrap{width:100%;max-width:400px;}
+.timer-top{display:flex;justify-content:space-between;margin-bottom:5px;font-family:'Barlow Condensed',sans-serif;font-size:.72rem;letter-spacing:2px;color:var(--gr);text-transform:uppercase;}
+.timer-num{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--y);}
+.timer-bar-bg{background:#1a1a1a;border-radius:50px;height:10px;overflow:hidden;}
+.timer-bar{height:100%;border-radius:50px;transition:width .1s linear, background .5s;}
+.timer-bar.ok{background:linear-gradient(90deg,#27ae60,var(--gn));}
+.timer-bar.warn{background:linear-gradient(90deg,#e67e22,#f39c12);}
+.timer-bar.danger{background:linear-gradient(90deg,#c0392b,var(--rd));}
 
-  /* ===== TROPHY SCREEN ===== */
-  #screenTrophy{align-items:center;justify-content:center;background:radial-gradient(ellipse at 50% 30%,#1a1700 0%,#0A0A0A 70%);}
-  .trophy-card{background:var(--black-soft);border:2px solid var(--yellow);border-radius:24px;padding:52px;max-width:540px;width:90%;text-align:center;box-shadow:0 0 80px rgba(255,235,0,0.1);animation:slideUp 0.5s ease;}
-  .trophy-icon{font-size:5rem;animation:bounce 0.8s infinite alternate;margin-bottom:16px;}
-  @keyframes bounce{from{transform:translateY(0)}to{transform:translateY(-12px)}}
-  .trophy-card h2{font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:var(--yellow);letter-spacing:3px;margin-bottom:12px;}
-  .trophy-card .trophy-name{font-size:1.2rem;color:var(--white);margin-bottom:8px;}
-  .trophy-card .trophy-score{font-family:'Bebas Neue',sans-serif;font-size:3.5rem;color:var(--yellow);margin-bottom:4px;}
-  .trophy-card .trophy-stats{color:var(--gray);font-size:0.9rem;margin-bottom:24px;}
-  .trophy-card .cta-box{background:#111;border:1px solid #2a2a2a;border-radius:12px;padding:16px;margin-bottom:24px;}
-  .trophy-card .cta-box p{color:var(--gray);font-size:0.88rem;line-height:1.6;}
-  .trophy-card .cta-box strong{color:var(--yellow);}
-  .restart-btn{background:var(--black);color:var(--yellow);border:2px solid var(--yellow);font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:2px;padding:12px 36px;border-radius:50px;cursor:pointer;margin-top:6px;transition:all 0.2s;}
-  .restart-btn:hover{background:var(--yellow);color:var(--black);}
+/* ── CHALLENGE ── */
+.csec{display:flex;flex-direction:column;gap:14px;}
+.ccard{background:var(--bs);border:2px solid #2a2a2a;border-radius:18px;overflow:hidden;min-height:460px;display:flex;flex-direction:column;}
+.chd{background:var(--y);padding:13px 20px;display:flex;align-items:center;gap:12px;flex-shrink:0;}
+.chd h2{font-family:'Bebas Neue',sans-serif;font-size:1.45rem;letter-spacing:2px;color:var(--bk);}
+.chd .bdg{margin-left:auto;background:rgba(0,0,0,.18);border-radius:20px;padding:3px 12px;font-family:'Barlow Condensed',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:2px;color:var(--bk);}
+.cbody{padding:22px;flex:1;}
+.chq{font-size:1rem;font-weight:500;color:var(--w);margin-bottom:18px;line-height:1.5;}
+.mcq-opts{display:grid;gap:8px;}
+.mcq-btn{background:#111;border:2px solid #2a2a2a;border-radius:10px;padding:11px 14px;font-size:.87rem;cursor:pointer;transition:all .2s;color:var(--w);font-family:'Barlow',sans-serif;text-align:left;line-height:1.4;}
+.mcq-btn:hover:not(:disabled){border-color:var(--y);background:rgba(255,235,0,.06);}
+.mcq-btn.correct{border-color:var(--gn);background:rgba(46,204,113,.12);color:var(--gn);}
+.mcq-btn.wrong{border-color:var(--rd);background:rgba(231,76,60,.12);color:var(--rd);}
+.mgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.mcol{display:flex;flex-direction:column;gap:7px;}
+.mcolt{font-family:'Barlow Condensed',sans-serif;font-size:.68rem;letter-spacing:3px;color:var(--gr);text-transform:uppercase;margin-bottom:3px;text-align:center;}
+.mi{background:#111;border:2px solid #2a2a2a;border-radius:10px;padding:9px 11px;font-size:.82rem;font-weight:500;cursor:pointer;transition:all .2s;text-align:center;user-select:none;line-height:1.3;}
+.mi:hover{border-color:var(--y);background:rgba(255,235,0,.06);}
+.mi.sel{border-color:var(--y);background:rgba(255,235,0,.12);color:var(--y);}
+.mi.correct{border-color:var(--gn);background:rgba(46,204,113,.12);color:var(--gn);cursor:default;}
+.mi.wrong{border-color:var(--rd);background:rgba(231,76,60,.12);color:var(--rd);animation:shake .3s;cursor:default;}
+.fb{margin-top:12px;padding:11px 14px;border-radius:10px;font-size:.87rem;font-weight:500;display:none;gap:9px;line-height:1.4;}
+.fb.show{display:flex;}
+.fb.good{background:rgba(46,204,113,.1);border:2px solid var(--gn);color:var(--gn);}
+.fb.bad{background:rgba(231,76,60,.1);border:2px solid var(--rd);color:var(--rd);}
+.nxtbtn{background:var(--gn);color:#000;border:none;font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:2px;padding:10px 28px;border-radius:8px;cursor:pointer;transition:all .2s;margin-top:12px;display:none;}
+.nxtbtn.show{display:block;}
+.nxtbtn:hover{background:#27ae60;}
+.idle-msg{text-align:center;padding:60px 22px;color:var(--gr);display:flex;flex-direction:column;align-items:center;}
+.idle-icon{font-size:3.8rem;margin-bottom:12px;opacity:.5;}
+.idle-msg h3{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:2px;color:#333;margin-bottom:8px;}
 
-  .confetti-wrap{position:fixed;inset:0;pointer-events:none;z-index:1999;overflow:hidden;}
-  .confetti-piece{position:absolute;opacity:0;animation:confettiFall 1.5s ease-in forwards;}
-  @keyframes confettiFall{0%{opacity:1;top:-10px;transform:rotate(0)}100%{opacity:0;top:100vh;transform:rotate(720deg) translateX(60px)}}
-  @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
-  @keyframes slideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
+/* ── PACK COMPLETE BANNER ── */
+.pack-complete{background:linear-gradient(135deg,#1a1700,#2a2200);border:2px solid var(--y);border-radius:14px;padding:22px;text-align:center;margin-bottom:12px;display:none;animation:su .4s ease;}
+.pack-complete.show{display:block;}
+.pack-complete h3{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:var(--y);letter-spacing:3px;margin-bottom:6px;}
+.pack-complete p{color:var(--gr);font-size:.88rem;margin-bottom:14px;}
+.pack-complete .next-pack-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+.npbtn{background:var(--bk);color:var(--y);border:2px solid var(--y);border-radius:50px;font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:2px;padding:10px 24px;cursor:pointer;transition:all .2s;}
+.npbtn:hover{background:var(--y);color:var(--bk);}
 
-  @media(max-width:900px){
-    .game-wrapper{grid-template-columns:1fr;}
-    .wheel-container{width:300px;height:300px;}
-    header{padding:12px 16px;}
-    .game-wrapper{padding:16px;}
-    .modal-body iframe{height:400px;}
-  }
+/* ── TROPHY ── */
+.trophy-card{background:var(--bs);border:2px solid var(--y);border-radius:24px;padding:44px;max-width:520px;width:92%;text-align:center;box-shadow:0 0 80px rgba(255,235,0,.1);animation:su .5s ease;}
+.ticon{font-size:4.5rem;animation:bounce .8s infinite alternate;margin-bottom:14px;}
+@keyframes bounce{from{transform:translateY(0)}to{transform:translateY(-12px)}}
+.trophy-card h2{font-family:'Bebas Neue',sans-serif;font-size:2.6rem;color:var(--y);letter-spacing:3px;margin-bottom:10px;}
+.tname{font-size:1.2rem;color:var(--w);margin-bottom:6px;}
+.tscore{font-family:'Bebas Neue',sans-serif;font-size:3.5rem;color:var(--y);margin-bottom:4px;}
+.tstats{color:var(--gr);font-size:.87rem;margin-bottom:20px;}
+.tcta{background:#111;border:1px solid #2a2a2a;border-radius:12px;padding:14px;margin-bottom:20px;}
+.tcta p{color:var(--gr);font-size:.85rem;line-height:1.6;}
+.tcta strong{color:var(--y);}
+.tbtn{background:var(--bk);color:var(--y);border:2px solid var(--y);font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:2px;padding:10px 28px;border-radius:50px;cursor:pointer;transition:all .2s;margin:4px;}
+.tbtn:hover{background:var(--y);color:var(--bk);}
+.tbtn2{background:transparent;color:var(--gr);border:2px solid #333;font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:2px;padding:10px 24px;border-radius:50px;cursor:pointer;transition:all .2s;margin:4px;}
+.tbtn2:hover{border-color:var(--y);color:var(--y);}
+
+/* ── LEADERBOARD ── */
+.lb-card{background:var(--bs);border:2px solid var(--y);border-radius:24px;padding:38px 42px;max-width:640px;width:92%;box-shadow:0 0 80px rgba(255,235,0,.1);animation:su .4s ease;}
+.lb-card h2{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:var(--y);letter-spacing:3px;text-align:center;margin-bottom:4px;}
+.lb-sub{text-align:center;color:var(--gr);font-size:.78rem;letter-spacing:2px;font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;margin-bottom:20px;}
+.lb-tabs{display:flex;gap:8px;justify-content:center;margin-bottom:18px;flex-wrap:wrap;}
+.lb-tab{background:#111;border:2px solid #2a2a2a;border-radius:20px;padding:5px 16px;font-family:'Barlow Condensed',sans-serif;font-size:.75rem;letter-spacing:1px;color:var(--gr);cursor:pointer;transition:all .2s;}
+.lb-tab:hover{border-color:#555;color:var(--w);}
+.lb-tab.active{border-color:var(--y);color:var(--y);background:rgba(255,235,0,.08);}
+.lb-list{display:flex;flex-direction:column;gap:7px;max-height:380px;overflow-y:auto;padding-right:4px;}
+.lb-list::-webkit-scrollbar{width:4px;}
+.lb-list::-webkit-scrollbar-track{background:#111;}
+.lb-list::-webkit-scrollbar-thumb{background:var(--yd);border-radius:4px;}
+.lb-row{display:flex;align-items:center;gap:12px;background:#111;border:2px solid #1e1e1e;border-radius:12px;padding:11px 14px;transition:border .2s;}
+.lb-row.me{border-color:var(--y);background:rgba(255,235,0,.05);}
+.lb-rank{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:#444;width:30px;text-align:center;flex-shrink:0;}
+.lb-row:nth-child(1) .lb-rank{color:#FFD700;}
+.lb-row:nth-child(2) .lb-rank{color:#C0C0C0;}
+.lb-row:nth-child(3) .lb-rank{color:#CD7F32;}
+.lb-av{width:36px;height:36px;border-radius:50%;background:var(--y);display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:1rem;color:var(--bk);flex-shrink:0;}
+.lb-info{flex:1;}
+.lb-name{font-weight:600;font-size:.93rem;}
+.lb-detail{font-size:.73rem;color:var(--gr);font-family:'Barlow Condensed',sans-serif;letter-spacing:1px;}
+.lb-pts{font-family:'Bebas Neue',sans-serif;font-size:1.55rem;color:var(--y);}
+.lb-empty{text-align:center;padding:40px;color:#333;font-family:'Barlow Condensed',sans-serif;letter-spacing:2px;font-size:.88rem;}
+.lb-back{margin-top:20px;display:flex;justify-content:center;}
+
+/* ── CONFETTI ── */
+.cnfwrap{position:fixed;inset:0;pointer-events:none;z-index:999;overflow:hidden;}
+.cnf{position:absolute;opacity:0;animation:fall 1.5s ease-in forwards;}
+@keyframes fall{0%{opacity:1;top:-10px;transform:rotate(0)}100%{opacity:0;top:100vh;transform:rotate(720deg) translateX(60px)}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+@keyframes su{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
+
+/* ── TIMEOUT OVERLAY ── */
+.timeout-flash{position:absolute;inset:0;background:rgba(231,76,60,.18);border-radius:18px;pointer-events:none;animation:flash .4s ease;z-index:5;}
+@keyframes flash{from{opacity:1}to{opacity:0}}
+
+@media(max-width:920px){
+  .gwrap{grid-template-columns:1fr;}
+  .wcont{width:300px;height:300px;}
+  header,.phd,.pack-bar{padding-left:16px;padding-right:16px;}
+  .gwrap{padding:16px;}
+}
 </style>
 </head>
 <body>
 
-<!-- ===== MODAL MICROSOFT FORMS ===== -->
-<div class="modal-overlay" id="modalForms">
-  <div class="modal-box">
-    <div class="modal-header">
-      <div class="logo-badge">BTP<br>CFA<br><span>CVDL</span></div>
-      <div class="modal-header-text">
-        <h2>&#128203; Inscription rapide</h2>
-        <p>Avant de jouer &#8212; 30 secondes chrono !</p>
+<!-- ── MODAL MICROSOFT FORMS ── -->
+<div class="moverlay" id="modalForms">
+  <div class="mbox">
+    <div class="mhd">
+      <div class="lb">BTP<br>CFA<br><span>CVDL</span></div>
+      <div class="mhd-t">
+        <h2>📋 Inscription rapide</h2>
+        <p>30 secondes avant de jouer !</p>
       </div>
     </div>
-    <div class="modal-body">
+    <div class="mbody">
       <iframe
-        src="https://forms.microsoft.com/Pages/ResponsePage.aspx?id=LyQ3FHr2WUOpr3mlWBAEFr6A7BpL9cBCoSJpGDkJBiRUNlpTWDhJRDgwRFQ3M1dDRk9SUFZJSVMzTi4u&embed=true"
-        title="Inscription BTP CFA CVDL"
-        allowfullscreen
-        loading="lazy">
-      </iframe>
+        src="https://forms.office.com/Pages/ResponsePage.aspx?id=LyQ3FHr2WUOpr3mlWBAEFr6A7BpL9cBCoSJpGDkJBiRUNlpTWDhJRDgwRFQ3M1dDRk9SUFZJSVMzTi4u&embed=true"
+        title="Inscription BTP CFA CVDL" allowfullscreen loading="lazy"></iframe>
     </div>
-    <div class="modal-footer">
-      <p>Tes donn&#233;es sont collect&#233;es uniquement par <strong>BTP CFA CVDL</strong> dans le cadre de cet &#233;v&#233;nement.</p>
-      <div style="display:flex;align-items:center;gap:12px;flex-shrink:0;">
-        <button class="btn-launch" onclick="launchGame()">&#127919; JOUER !</button>
-        <span class="skip-link" onclick="launchGame()" title="Passer l'inscription">Passer</span>
+    <div class="mft">
+      <p>Données collectées uniquement par <strong>BTP CFA CVDL</strong> dans le cadre de cet événement.</p>
+      <div style="display:flex;align-items:center;gap:10px;flex-shrink:0;">
+        <button class="btn-play" onclick="launchGame()">🎯 JOUER !</button>
+        <span class="skip" onclick="launchGame()">Passer</span>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ===== GAME SCREEN ===== -->
-<div id="screenGame" class="screen active">
+<!-- ── GAME ── -->
+<div id="sGame" class="screen active">
   <header>
-    <div class="logo-zone">
-      <div class="logo-badge-h">BTP<br>CFA<br><span>CVDL</span></div>
-      <div class="header-title">
-        <h1>La Roue des M&#233;tiers</h1>
-        <p>BTP CFA Centre-Val de Loire</p>
-      </div>
+    <div class="logo-z">
+      <div class="logo-b">BTP<br>CFA<br><span>CVDL</span></div>
+      <div class="hd-t"><h1>La Roue des Métiers</h1><p>BTP CFA Centre-Val de Loire</p></div>
     </div>
-    <div class="score-display">
-      <div class="score-num" id="scoreDisplay">0</div>
-      <div class="score-label">Points</div>
+    <div class="hdr">
+      <button class="btn-sm" onclick="showLB()">🏆 Classement</button>
+      <div class="score-box"><div class="snum" id="scoreDisp">0</div><div class="slbl">Points</div></div>
     </div>
   </header>
-  <div class="progress-header">
-    <span>Progression</span>
-    <div class="progress-steps" id="progressSteps"></div>
-    <span id="progressLabel">0 / 10 d&#233;fis</span>
+
+  <div class="phd">
+    <span id="greetLbl">Bienvenue !</span>
+    <div class="psteps" id="psteps"></div>
+    <span id="plbl">0 / 10 défis</span>
   </div>
-  <div class="game-wrapper">
-    <div class="wheel-section">
-      <div class="wheel-container">
-        <div class="wheel-pointer"></div>
-        <canvas id="wheel-canvas" width="420" height="420"></canvas>
-        <div class="wheel-hub">BTP<br>CFA</div>
+
+  <div class="pack-bar" id="packBar"></div>
+
+  <div class="gwrap">
+    <!-- ROUE -->
+    <div class="wsec">
+      <div class="wcont">
+        <div class="wptr"></div>
+        <canvas id="wcanvas" width="400" height="400"></canvas>
+        <div class="whub">BTP<br>CFA</div>
       </div>
-      <button class="spin-btn" id="spinBtn" onclick="spinWheel()">&#127919; TOURNER LA ROUE</button>
-      <div class="metier-info" id="metierInfo">
-        <div><div class="metier-hint">Tourne la roue pour d&#233;couvrir ton m&#233;tier !</div></div>
-      </div>
-      <div style="width:100%;max-width:420px;">
-        <div style="display:flex;justify-content:space-between;margin-bottom:5px;font-family:'Barlow Condensed',sans-serif;font-size:0.72rem;letter-spacing:2px;color:var(--gray);text-transform:uppercase;">
-          <span>Progression</span><span id="defisCount">0 / 10</span>
+      <button class="spin-btn" id="spinBtn" onclick="spinWheel()">🎯 TOURNER LA ROUE</button>
+      <div class="mbox2" id="metierBox"><div><div class="mh">Tourne la roue pour découvrir ton métier !</div></div></div>
+
+      <!-- PROGRESS -->
+      <div style="width:100%;max-width:400px;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px;font-family:'Barlow Condensed',sans-serif;font-size:.7rem;letter-spacing:2px;color:var(--gr);text-transform:uppercase;">
+          <span>Progression</span><span id="defCnt">0 / 10</span>
         </div>
-        <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+        <div class="ptrack"><div class="pfill" id="pfill" style="width:0%"></div></div>
+      </div>
+
+      <!-- TIMER -->
+      <div class="timer-wrap" id="timerWrap" style="display:none;">
+        <div class="timer-top"><span>Temps restant</span><span class="timer-num" id="timerNum">20</span></div>
+        <div class="timer-bar-bg"><div class="timer-bar ok" id="timerBar" style="width:100%"></div></div>
       </div>
     </div>
-    <div class="challenge-section">
-      <div class="challenge-card">
-        <div class="idle-message" id="idleMsg">
-          <div class="big-icon">&#9881;&#65039;</div>
-          <h3>Pr&#234;t &#224; relever le d&#233;fi ?</h3>
-          <p>Tourne la roue pour d&#233;couvrir un m&#233;tier du BTP !</p>
+
+    <!-- DEFI -->
+    <div class="csec">
+      <!-- Pack complete banner -->
+      <div class="pack-complete" id="packCompleteBanner">
+        <h3>🏅 Pack terminé !</h3>
+        <p id="packCompleteMsg">Bravo, tu as complété ce pack !</p>
+        <div class="next-pack-btns" id="nextPackBtns"></div>
+      </div>
+
+      <div class="ccard" id="ccard">
+        <div class="idle-msg" id="idleMsg">
+          <div class="idle-icon">⚙️</div>
+          <h3>Prêt à relever le défi ?</h3>
+          <p>Tourne la roue pour découvrir un métier du BTP !</p>
         </div>
-        <div id="challengeContent" style="display:none;">
-          <div class="challenge-header">
-            <span class="challenge-icon" id="challengeIcon">&#127959;</span>
-            <h2 id="challengeTitle">D&#233;fi</h2>
-            <span class="badge">+10 PTS</span>
+        <div id="chContent" style="display:none;flex-direction:column;flex:1;">
+          <div class="chd">
+            <span id="chIcon">🏗</span>
+            <h2 id="chTitle">Défi</h2>
+            <span class="bdg" id="chBadge">+10 PTS</span>
           </div>
-          <div class="challenge-body">
-            <div class="challenge-question" id="challengeQuestion"></div>
-            <div id="challengeOptions"></div>
-            <div class="feedback-bar" id="feedbackBar"></div>
-            <button class="next-btn" id="nextBtn" onclick="nextChallenge()">D&#201;FI SUIVANT &#8594;</button>
+          <div class="cbody">
+            <div class="chq" id="chQ"></div>
+            <div id="chOpts"></div>
+            <div class="fb" id="fbBar"></div>
+            <button class="nxtbtn" id="nxtBtn" onclick="nextChallenge()">DÉFI SUIVANT →</button>
           </div>
         </div>
       </div>
@@ -292,380 +301,548 @@
   </div>
 </div>
 
-<!-- ===== TROPHY SCREEN ===== -->
-<div id="screenTrophy" class="screen">
+<!-- ── LEADERBOARD ── -->
+<div id="sLB" class="screen">
+  <div class="lb-card">
+    <h2>🏆 Classement</h2>
+    <p class="lb-sub" id="lbSub">Tous les joueurs</p>
+    <div class="lb-tabs" id="lbTabs"></div>
+    <div class="lb-list" id="lbList"></div>
+    <div class="lb-back"><button class="tbtn" onclick="show('sGame')">← RETOUR AU JEU</button></div>
+  </div>
+</div>
+
+<!-- ── TROPHY ── -->
+<div id="sTrophy" class="screen">
   <div class="trophy-card">
-    <div class="trophy-icon">&#127942;</div>
-    <h2>Bravo !</h2>
-    <div class="trophy-score" id="trophyScore">0 pts</div>
-    <div class="trophy-stats" id="trophyStats"></div>
-    <div class="cta-box">
-      <p>Tu as explor&#233; les 10 m&#233;tiers du BTP !<br>
-      Envie d&#8217;en savoir plus sur nos formations ?<br>
-      <strong>Viens parler &#224; un conseiller BTP CFA CVDL &#8594; sur notre stand !</strong></p>
+    <div class="ticon">🏆</div>
+    <h2>Félicitations !</h2>
+    <div class="tname" id="tName">Champion(ne) BTP !</div>
+    <div class="tscore" id="tScore">0 pts</div>
+    <div class="tstats" id="tStats"></div>
+    <div class="tcta">
+      <p>Tu as exploré tous les défis du pack !<br>
+      Envie d'en savoir plus sur nos formations ?<br>
+      <strong>Parle à un conseiller BTP CFA CVDL → sur notre stand !</strong></p>
     </div>
-    <button class="restart-btn" onclick="restartGame()">&#128260; NOUVELLE PARTIE</button>
+    <button class="tbtn" onclick="restartGame()">🔄 REJOUER</button>
+    <button class="tbtn2" onclick="showLB()">🏆 CLASSEMENT</button>
   </div>
 </div>
 
-<div class="confetti-wrap" id="confettiWrap"></div>
+<div class="cnfwrap" id="cnfWrap"></div>
 
 <script>
-// ===== METIERS DATA =====
-const METIERS = [
-  { name:"Maçon",            icon:"🧱", sIdx:0,
-    type:"mcq",
-    question:"En maçonnerie, comment pose-t-on correctement une brique sur un mur ?",
-    options:["On étale le mortier sur la brique du dessus et on appuie.",
-             "On pose la brique à sec pour tester l'alignement.",
-             "On pose le mortier sur la brique déjà en place, on pose la nouvelle et on vérifie le niveau.",
-             "On humidifie la brique puis on attend 24h sans mortier."],
-    correct:2,
-    explanation:"On applique le mortier sur la brique déjà posée, on place la nouvelle en vérifiant l'horizontalité au niveau à bulle !" },
-
-  { name:"Électricien",      icon:"⚡", sIdx:1,
-    type:"match",
-    question:"Associe chaque couleur de câble à sa fonction électrique !",
-    left:["Rouge/Marron","Bleu","Vert-Jaune","Noir"],
-    right:["Phase (courant actif)","Neutre","Terre (sécurité)","Phase secondaire"],
-    pairs:[0,1,2,3],
-    explanation:"Connaître les couleurs de câble est essentiel pour la sécurité électrique sur chantier !" },
-
-  { name:"Couvreur",         icon:"🏠", sIdx:2,
-    type:"match",
-    question:"Relie chaque matériau de toiture à son usage principal !",
-    left:["Ardoise","Tuile terre cuite","Bac acier","Zinc"],
-    right:["Toiture traditionnelle, durable 100 ans","Habitation classique régionale","Hangar industriel","Toiture mansardée & gouttières"],
-    pairs:[0,1,2,3],
-    explanation:"Chaque matériau a ses avantages selon le type de bâtiment et la région climatique !" },
-
-  { name:"Charpentier",      icon:"🪵", sIdx:0,
-    type:"mcq",
-    question:"Pour une coupe d'onglet à 45° sur une pièce de bois, quelle machine utilise-t-on ?",
-    options:["La scie circulaire portative","La scie à onglets (ongletteuse)","La défonceuse","Le rabot électrique"],
-    correct:1,
-    explanation:"La scie à onglets est l'outil idéal pour des coupes angulaires précises à 45° !" },
-
-  { name:"Plombier",         icon:"🔧", sIdx:1,
-    type:"match",
-    question:"Relie chaque type de tuyau à son usage principal !",
-    left:["PER (polyéthylène)","Cuivre","PVC"],
-    right:["Eau chaude & froide, flexible","Eau chaude sanitaire soudé","Évacuation & eaux usées"],
-    pairs:[0,1,2],
-    explanation:"Bien choisir ses matériaux garantit une installation durable et sans fuite !" },
-
-  { name:"Peintre",          icon:"🎨", sIdx:2,
-    type:"mcq",
-    question:"Lors de peinture en spray, quelle protection individuelle est OBLIGATOIRE ?",
-    options:["Lunettes de soleil et gants latex","Masque FFP2/FFP3 et lunettes de protection","Casque de chantier et bouchons d'oreilles","Tablier et chaussures de sécurité uniquement"],
-    correct:1,
-    explanation:"Les aérosols libèrent des particules fines : masque FFP2/FFP3 et lunettes protègent les voies respiratoires et les yeux !" },
-
-  { name:"Cond. d'engins",   icon:"🚜", sIdx:0,
-    type:"match",
-    question:"Associe chaque engin à sa tâche principale sur chantier !",
-    left:["Pelle hydraulique","Tombereau","Grue à tour","Bulldozer"],
-    right:["Lever & positionner des charges","Terrassement & fouilles","Niveler & déplacer des terres","Transport de matériaux en vrac"],
-    pairs:[1,3,0,2],
-    explanation:"Chaque engin est conçu pour une tâche précise — les reconnaître, c'est travailler en sécurité !" },
-
-  { name:"Chargé d'affaires", icon:"📋", sIdx:1,
-    type:"mcq",
-    question:"Dans quel ordre logique se déroulent les grandes phases d'un chantier ?",
-    options:["Finitions → Gros œuvre → Fondations → Second œuvre",
-             "Fondations → Gros œuvre → Second œuvre → Finitions",
-             "Second œuvre → Fondations → Gros œuvre → Finitions",
-             "Gros œuvre → Fondations → Finitions → Second œuvre"],
-    correct:1,
-    explanation:"Fondations → Gros œuvre → Second œuvre → Finitions : du sol au détail, c'est la logique de tout chantier !" },
-
-  { name:"Tech. énergie",    icon:"🔋", sIdx:2,
-    type:"match",
-    question:"Associe chaque appareil de mesure à ce qu'il mesure !",
-    left:["Multimètre","Thermocouple","Anémomètre","Pyranomètre"],
-    right:["Vitesse du vent","Tension & intensité","Rayonnement solaire","Température"],
-    pairs:[1,3,0,2],
-    explanation:"Les techniciens énergie utilisent des instruments précis pour optimiser les installations !" },
-
-  { name:"Dessinateur",      icon:"📐", sIdx:0,
-    type:"match",
-    question:"Relie chaque symbole de plan architectural à sa signification !",
-    left:["Cercle+croix","3 lignes parallèles","Flèche+chiffre","Carré hachuré"],
-    right:["Poteau ou pilier","Paroi en béton armé","Cote (dimension)","Pilier maçonné"],
-    pairs:[0,1,2,3],
-    explanation:"Lire un plan de bâtiment est une compétence clé : chaque symbole a une signification précise !" }
+// ═══════════════════════════════════════════════
+//  PACKS DE QUESTIONS
+// ═══════════════════════════════════════════════
+const PACKS = [
+  { id:'metiers', label:'🧱 Métiers', unlocked:true,
+    questions:[
+      {name:"Maçon",icon:"🧱",sIdx:0,type:"mcq",timer:20,
+       question:"En maçonnerie, comment pose-t-on correctement une brique sur un mur ?",
+       options:["On étale le mortier sur la brique du dessus et on appuie fort.","On pose la brique à sec pour tester l'alignement d'abord.","On pose le mortier sur la brique déjà en place, on pose la nouvelle et on vérifie le niveau.","On humidifie la brique puis on attend 24h sans mortier."],
+       correct:2,explanation:"On applique le mortier sur la brique posée, on place la nouvelle en vérifiant l'horizontalité au niveau à bulle !"},
+      {name:"Électricien",icon:"⚡",sIdx:1,type:"match",timer:30,
+       question:"Associe chaque couleur de câble à sa fonction électrique !",
+       left:["Rouge/Marron","Bleu","Vert-Jaune","Noir"],right:["Phase (courant actif)","Neutre","Terre (sécurité)","Phase secondaire"],pairs:[0,1,2,3],
+       explanation:"Connaître les couleurs de câble est essentiel pour la sécurité électrique !"},
+      {name:"Couvreur",icon:"🏠",sIdx:2,type:"match",timer:30,
+       question:"Relie chaque matériau de toiture à son usage principal !",
+       left:["Ardoise","Tuile terre cuite","Bac acier","Zinc"],right:["Toiture traditionnelle, durable 100 ans","Habitation classique régionale","Hangar industriel","Toiture mansardée & gouttières"],pairs:[0,1,2,3],
+       explanation:"Chaque matériau a ses avantages selon le type de bâtiment !"},
+      {name:"Charpentier",icon:"🪵",sIdx:0,type:"mcq",timer:20,
+       question:"Pour une coupe d'onglet à 45° sur une pièce de bois, quelle machine utilise-t-on ?",
+       options:["La scie circulaire portative","La scie à onglets (ongletteuse)","La défonceuse","Le rabot électrique"],
+       correct:1,explanation:"La scie à onglets est l'outil idéal pour des coupes angulaires précises à 45° !"},
+      {name:"Plombier",icon:"🔧",sIdx:1,type:"match",timer:25,
+       question:"Relie chaque type de tuyau à son usage principal !",
+       left:["PER (polyéthylène)","Cuivre","PVC"],right:["Eau chaude & froide, flexible","Eau chaude sanitaire soudé","Évacuation & eaux usées"],pairs:[0,1,2],
+       explanation:"Bien choisir ses matériaux garantit une installation durable !"},
+      {name:"Peintre",icon:"🎨",sIdx:2,type:"mcq",timer:20,
+       question:"Lors de peinture en spray, quelle protection individuelle est OBLIGATOIRE ?",
+       options:["Lunettes de soleil et gants latex","Masque FFP2/FFP3 et lunettes de protection","Casque de chantier et bouchons d'oreilles","Tablier et chaussures de sécurité uniquement"],
+       correct:1,explanation:"Les aérosols libèrent des particules fines : masque FFP2/FFP3 et lunettes protègent !"},
+      {name:"Cond. d'engins",icon:"🚜",sIdx:0,type:"match",timer:30,
+       question:"Associe chaque engin à sa tâche principale sur chantier !",
+       left:["Pelle hydraulique","Tombereau","Grue à tour","Bulldozer"],right:["Lever & positionner des charges","Terrassement & fouilles","Niveler & déplacer des terres","Transport de matériaux en vrac"],pairs:[1,3,0,2],
+       explanation:"Chaque engin est conçu pour une tâche précise !"},
+      {name:"Chargé d'affaires",icon:"📋",sIdx:1,type:"mcq",timer:20,
+       question:"Dans quel ordre logique se déroulent les grandes phases d'un chantier ?",
+       options:["Finitions → Gros œuvre → Fondations → Second œuvre","Fondations → Gros œuvre → Second œuvre → Finitions","Second œuvre → Fondations → Gros œuvre → Finitions","Gros œuvre → Fondations → Finitions → Second œuvre"],
+       correct:1,explanation:"Fondations → Gros œuvre → Second œuvre → Finitions : la logique de tout chantier !"},
+      {name:"Tech. énergie",icon:"🔋",sIdx:2,type:"match",timer:30,
+       question:"Associe chaque appareil de mesure à ce qu'il mesure !",
+       left:["Multimètre","Thermocouple","Anémomètre","Pyranomètre"],right:["Vitesse du vent","Tension & intensité","Rayonnement solaire","Température"],pairs:[1,3,0,2],
+       explanation:"Les techniciens énergie utilisent des instruments précis !"},
+      {name:"Dessinateur",icon:"📐",sIdx:0,type:"match",timer:30,
+       question:"Relie chaque symbole de plan architectural à sa signification !",
+       left:["Cercle+croix","3 lignes parallèles","Flèche+chiffre","Carré hachuré"],right:["Poteau ou pilier","Paroi en béton armé","Cote (dimension)","Pilier maçonné"],pairs:[0,1,2,3],
+       explanation:"Lire un plan de bâtiment est une compétence clé !"}
+    ]},
+  { id:'securite', label:'⛑️ Sécurité', unlocked:true,
+    questions:[
+      {name:"EPI",icon:"⛑️",sIdx:0,type:"mcq",timer:20,
+       question:"Quels sont les 3 EPI obligatoires sur tout chantier de construction ?",
+       options:["Casque, gants, lunettes","Casque, chaussures de sécurité, gilet haute visibilité","Casque, harnais, masque","Bouchons d'oreilles, lunettes, gants"],
+       correct:1,explanation:"Casque, chaussures de sécurité et gilet haute visibilité sont les 3 EPI de base obligatoires !"},
+      {name:"Hauteur",icon:"🪜",sIdx:1,type:"mcq",timer:20,
+       question:"À partir de quelle hauteur le port du harnais est-il obligatoire ?",
+       options:["1 mètre","2 mètres","3 mètres","5 mètres"],
+       correct:1,explanation:"Le harnais est obligatoire dès 2 mètres — 1ère cause d'accidents graves sur chantier !"},
+      {name:"Électricité",icon:"⚡",sIdx:2,type:"mcq",timer:20,
+       question:"Avant d'intervenir sur un tableau électrique, quelle est la 1ère action obligatoire ?",
+       options:["Prévenir le chef de chantier","Couper le courant et consigner l'installation","Vérifier avec un testeur sous tension","Mettre des gants isolants et travailler normalement"],
+       correct:1,explanation:"Couper et consigner est OBLIGATOIRE avant toute intervention électrique !"},
+      {name:"Produits chimiques",icon:"☠️",sIdx:0,type:"match",timer:30,
+       question:"Associe chaque pictogramme de danger à sa signification !",
+       left:["💀 Tête de mort","🔥 Flamme","⚠️ Point d'exclamation","🌿 Environnement"],right:["Toxique / Mortel","Inflammable","Irritant / Nocif","Dangereux pour l'eau"],pairs:[0,1,2,3],
+       explanation:"Ces pictogrammes GHS/CLP peuvent sauver des vies !"},
+      {name:"Incendie",icon:"🧯",sIdx:1,type:"mcq",timer:20,
+       question:"Quel extincteur utiliser sur un feu électrique actif ?",
+       options:["Eau pulvérisée","CO₂ (dioxyde de carbone)","Poudre ABC","Mousse AFFF"],
+       correct:1,explanation:"Seul le CO₂ est adapté aux feux électriques — l'eau est interdite car conductrice !"},
+      {name:"Manutention",icon:"📦",sIdx:2,type:"mcq",timer:20,
+       question:"Quelle est la charge maximale recommandée pour le port manuel ?",
+       options:["10 kg","25 kg","55 kg","Aucune limite avec ceinture"],
+       correct:1,explanation:"25 kg est la limite recommandée — au-delà, utiliser une aide mécanique !"},
+      {name:"Signalisation",icon:"🚧",sIdx:0,type:"match",timer:25,
+       question:"Relie chaque couleur de signalisation à sa signification !",
+       left:["Rouge","Jaune/Orange","Vert","Bleu"],right:["Obligation / Information","Danger / Avertissement","Sécurité / Premiers secours","Interdiction / Arrêt"],pairs:[3,1,2,0],
+       explanation:"Ces couleurs sont universelles sur tous les chantiers du monde !"},
+      {name:"Fouilles",icon:"⛏️",sIdx:1,type:"mcq",timer:20,
+       question:"Avant de creuser, quelle démarche est OBLIGATOIRE pour repérer les réseaux ?",
+       options:["Appeler son chef","Consulter le plan masse","Faire une DT-DICT auprès des gestionnaires de réseaux","Vérifier avec un détecteur de métaux"],
+       correct:2,explanation:"La DT-DICT est obligatoire avant tout terrassement !"},
+      {name:"Bruit",icon:"🔊",sIdx:2,type:"mcq",timer:15,
+       question:"À partir de quel niveau sonore les bouchons d'oreilles sont-ils obligatoires ?",
+       options:["65 dB","80 dB","95 dB","110 dB"],
+       correct:1,explanation:"80 dB est le seuil d'action — au-delà, les protections auditives sont obligatoires !"},
+      {name:"Premiers secours",icon:"🚑",sIdx:0,type:"match",timer:25,
+       question:"En cas d'accident sur chantier, quel est l'ordre correct d'action ?",
+       left:["1er","2ème","3ème"],right:["Alerter les secours (15/18/112)","Protéger la zone","Secourir la victime"],pairs:[1,0,2],
+       explanation:"Protéger → Alerter → Secourir : le PAS qui sauve des vies !"}
+    ]},
+  { id:'formations', label:'🎓 Formations', unlocked:true,
+    questions:[
+      {name:"CAP",icon:"🎓",sIdx:0,type:"mcq",timer:20,
+       question:"Combien d'années dure un CAP en alternance au BTP CFA ?",
+       options:["1 an","2 ans","3 ans","4 ans"],
+       correct:1,explanation:"Le CAP en alternance se prépare en 2 ans, avec des périodes en entreprise et au CFA !"},
+      {name:"BP",icon:"📜",sIdx:1,type:"mcq",timer:20,
+       question:"Qu'est-ce qu'un Brevet Professionnel (BP) dans le BTP ?",
+       options:["Un diplôme de niveau Bac qui approfondit un CAP","Un diplôme de niveau Bac+2","Une certification optionnelle","Un titre délivré par les entreprises"],
+       correct:0,explanation:"Le BP niveau Bac permet d'accéder à des postes de technicien ou chef d'équipe !"},
+      {name:"Alternance",icon:"🔄",sIdx:2,type:"mcq",timer:20,
+       question:"Dans le cadre de l'alternance, qui prend en charge les frais de formation ?",
+       options:["L'apprenti","Les parents","L'entreprise et l'OPCO","L'État uniquement"],
+       correct:2,explanation:"L'entreprise et l'OPCO financent la formation — l'apprenti reçoit un salaire !"},
+      {name:"BTS",icon:"🏛️",sIdx:0,type:"mcq",timer:20,
+       question:"Quels BTS peut-on préparer au BTP CFA en lien avec la construction ?",
+       options:["BTS Tourisme","BTS Bâtiment et BTS Travaux Publics","BTS Informatique","BTS Commerce"],
+       correct:1,explanation:"BTS Bâtiment et BTS Travaux Publics sont les 2 BTS phares du secteur !"},
+      {name:"Salaire apprenti",icon:"💰",sIdx:1,type:"mcq",timer:20,
+       question:"Quel salaire minimum perçoit un apprenti de 18 ans en 1ère année de CAP ?",
+       options:["Aucun salaire","27% du SMIC","43% du SMIC","100% du SMIC"],
+       correct:2,explanation:"43% du SMIC en 1ère année — et ce taux augmente avec les années !"},
+      {name:"CFA CVDL",icon:"🏫",sIdx:2,type:"match",timer:30,
+       question:"Associe chaque ville à son département BTP CFA CVDL !",
+       left:["Tours","Blois","Orléans","Chartres"],right:["Loiret (45)","Eure-et-Loir (28)","Indre-et-Loire (37)","Loir-et-Cher (41)"],pairs:[2,3,0,1],
+       explanation:"Le BTP CFA CVDL couvre tout le Centre-Val de Loire !"},
+      {name:"Contrat",icon:"📅",sIdx:0,type:"mcq",timer:20,
+       question:"Quelle est la durée minimale d'un contrat d'apprentissage ?",
+       options:["6 mois","1 an","2 ans","La durée du diplôme uniquement"],
+       correct:0,explanation:"Un contrat d'apprentissage peut durer au minimum 6 mois !"},
+      {name:"Titre Pro",icon:"🏅",sIdx:1,type:"mcq",timer:20,
+       question:"Un Titre Professionnel est délivré par quel ministère ?",
+       options:["Ministère de l'Éducation nationale","Ministère du Travail","Ministère de la Construction","Chambre des métiers"],
+       correct:1,explanation:"Les Titres Professionnels sont délivrés par le Ministère du Travail !"},
+      {name:"Rythme",icon:"🗓️",sIdx:2,type:"match",timer:25,
+       question:"Associe chaque rythme d'alternance à sa description !",
+       left:["1 sem / 1 sem","3 jours / 2 jours","1 mois / 1 mois"],right:["Adapté aux entreprises lointaines","Le plus courant en CAP BTP","Bonne alternance théorie/pratique"],pairs:[0,2,1],
+       explanation:"Le rythme 1 sem/1 sem est le plus courant en CAP BTP !"},
+      {name:"Passerelle",icon:"🌉",sIdx:0,type:"mcq",timer:20,
+       question:"Après un CAP, quelle passerelle directe est possible au BTP CFA ?",
+       options:["Aucune, il faut passer par le Bac général","BP, Bac Pro ou Mention Complémentaire","Directement un Master","Un BTS sans conditions"],
+       correct:1,explanation:"Après un CAP : BP, Bac Pro ou Mention Complémentaire en continuant en alternance !"}
+    ]},
+  { id:'culture', label:'🏛️ Culture BTP', unlocked:false, questions:[] },
+  { id:'techniques', label:'🔬 Techniques', unlocked:false, questions:[] }
 ];
 
-// Alternance noir / jaune / blanc
-const SECTOR_COLORS = [
-  {bg:'#000000', text:'#FFEB00', border:'rgba(255,235,0,0.5)'},
-  {bg:'#FFEB00', text:'#000000', border:'rgba(0,0,0,0.3)'},
-  {bg:'#FFFFFF', text:'#000000', border:'rgba(0,0,0,0.2)'}
-];
+// ═══════════════════════════════════════════════
+//  STORAGE
+// ═══════════════════════════════════════════════
+const LB_KEY = 'btpcfa_lb_v3';
+function getLB(){ try{ return JSON.parse(localStorage.getItem(LB_KEY)||'[]'); }catch(e){return [];} }
+function saveLB(d){ try{ localStorage.setItem(LB_KEY,JSON.stringify(d)); }catch(e){} }
+function addToLB(e){ const lb=getLB(); lb.push({...e,ts:Date.now()}); lb.sort((a,b)=>b.score-a.score); saveLB(lb.slice(0,100)); }
 
-// ===== WHEEL ENGINE =====
-const canvas = document.getElementById('wheel-canvas');
-const ctx    = canvas.getContext('2d');
-const W = canvas.width, H = canvas.height;
-const NUM = METIERS.length;
-const ARC = (2*Math.PI)/NUM;
-let currentAngle=0, spinning=false, completed=[], score=0;
-let selectedLeft=null, matchedPairs=[], currentMetierIndex=-1;
-let sessionStart = Date.now();
+// ═══════════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════════
+const SCOLS=[{bg:'#000000',text:'#FFEB00',border:'rgba(255,235,0,.5)'},{bg:'#FFEB00',text:'#000000',border:'rgba(0,0,0,.3)'},{bg:'#FFFFFF',text:'#000000',border:'rgba(0,0,0,.2)'}];
+let currentPack=PACKS[0], questions=[], completed=[], score=0;
+let angle=0, spinning=false, selLeft=null, matched=[], curQ=-1;
+let sessionStart=Date.now();
+// Timer
+let timerInterval=null, timerLeft=0, timerMax=0, challengeAnswered=false;
 
-function drawWheel(rotation) {
-  ctx.clearRect(0,0,W,H);
-  const cx=W/2, cy=H/2, r=W/2-6;
+const canvas=document.getElementById('wcanvas'), ctx=canvas.getContext('2d');
+const W=canvas.width, H=canvas.height;
 
-  for(let i=0;i<NUM;i++){
-    const sa = rotation + i*ARC - Math.PI/2;
-    const ea = sa + ARC;
-    const m  = METIERS[i];
-    const col= SECTOR_COLORS[m.sIdx];
-    const done= completed.includes(i);
-
-    // Sector
-    ctx.beginPath(); ctx.moveTo(cx,cy); ctx.arc(cx,cy,r,sa,ea); ctx.closePath();
-    ctx.fillStyle = done ? '#151515' : col.bg;
-    ctx.fill();
-    ctx.strokeStyle = done ? '#2a2a2a' : col.border;
-    ctx.lineWidth = 2; ctx.stroke();
-
-    // Content along radius
-    ctx.save();
-    ctx.translate(cx, cy);
-    ctx.rotate(sa + ARC/2);
-
-    if(!done){
-      // Icon (closer to rim)
-      ctx.font = '16px serif';
-      ctx.textAlign = 'right';
-      ctx.fillStyle = col.text;
-      ctx.fillText(m.icon, r-8, -6);
-
-      // Name — split long names at space for 2 lines
-      const nameParts = m.name.split(' ');
-      ctx.font = 'bold 9px Barlow Condensed,Arial Narrow,sans-serif';
-      ctx.fillStyle = col.text;
-      ctx.textAlign = 'right';
-      if(nameParts.length <= 1 || m.name.length <= 9){
-        ctx.fillText(m.name.toUpperCase(), r-8, 8);
-      } else {
-        // Try to split roughly in half
-        const mid = Math.ceil(nameParts.length/2);
-        const line1 = nameParts.slice(0,mid).join(' ').toUpperCase();
-        const line2 = nameParts.slice(mid).join(' ').toUpperCase();
-        ctx.fillText(line1, r-8, 4);
-        ctx.fillText(line2, r-8, 14);
-      }
-    } else {
-      // Done state — just show checkmark
-      ctx.font = '15px serif';
-      ctx.textAlign = 'right';
-      ctx.fillStyle = '#FFEB00';
-      ctx.fillText('✓ '+m.name.split(' ')[0].toUpperCase(), r-8, 6);
-    }
-
-    ctx.restore();
-  }
-
-  // Outer ring glow
-  ctx.beginPath(); ctx.arc(cx,cy,r,0,2*Math.PI);
-  ctx.strokeStyle='rgba(255,235,0,0.5)'; ctx.lineWidth=5; ctx.stroke();
-  // Inner shadow ring
-  ctx.beginPath(); ctx.arc(cx,cy,r,0,2*Math.PI);
-  ctx.strokeStyle='rgba(0,0,0,0.6)'; ctx.lineWidth=2; ctx.stroke();
-}
-
-drawWheel(0);
-
-// ===== MODAL / LAUNCH =====
+// ═══════════════════════════════════════════════
+//  LAUNCH
+// ═══════════════════════════════════════════════
 function launchGame(){
   document.getElementById('modalForms').classList.add('hidden');
-  updateProgress(); drawWheel(0);
+  initPack(PACKS[0]);
+  drawWheel(0);
 }
 
-// ===== SPIN =====
+// ═══════════════════════════════════════════════
+//  PACK SYSTEM
+// ═══════════════════════════════════════════════
+function buildPackBar(){
+  const bar=document.getElementById('packBar'); bar.innerHTML='';
+  PACKS.forEach(p=>{
+    const chip=document.createElement('div');
+    const done=isPackDone(p.id);
+    chip.className='pack-chip'+(p.id===currentPack.id?' active':'')+(p.unlocked?'':' locked');
+    chip.innerHTML=p.label+(done?' <span class="ck">✓</span>':'')+(p.unlocked?'':'  🔒');
+    if(p.unlocked) chip.onclick=()=>switchPack(p);
+    bar.appendChild(chip);
+  });
+}
+
+function isPackDone(packId){ const lb=getLB(); return lb.some(e=>e.packId===packId); }
+
+function switchPack(p){
+  if(!p.unlocked||p.id===currentPack.id) return;
+  if(completed.length>0&&!confirm('Changer de pack réinitialisera ta progression actuelle. Continuer ?')) return;
+  initPack(p);
+}
+
+function initPack(p){
+  stopTimer();
+  currentPack=p; questions=[...p.questions];
+  completed=[]; score=0; angle=0; selLeft=null; matched=[]; curQ=-1;
+  sessionStart=Date.now();
+  document.getElementById('scoreDisp').textContent='0';
+  document.getElementById('idleMsg').style.display='flex';
+  document.getElementById('chContent').style.display='none';
+  document.getElementById('metierBox').innerHTML='<div><div class="mh">Tourne la roue pour découvrir ton métier !</div></div>';
+  document.getElementById('spinBtn').disabled=false;
+  document.getElementById('timerWrap').style.display='none';
+  document.getElementById('packCompleteBanner').className='pack-complete';
+  buildPackBar(); updateProg(); drawWheel(0);
+}
+
+// ═══════════════════════════════════════════════
+//  WHEEL
+// ═══════════════════════════════════════════════
+function drawWheel(rot){
+  ctx.clearRect(0,0,W,H);
+  const cx=W/2,cy=H/2,r=W/2-6,N=questions.length,arc=(2*Math.PI)/N;
+  for(let i=0;i<N;i++){
+    const sa=rot+i*arc-Math.PI/2,ea=sa+arc;
+    const m=questions[i],col=SCOLS[m.sIdx],done=completed.includes(i);
+    ctx.beginPath(); ctx.moveTo(cx,cy); ctx.arc(cx,cy,r,sa,ea); ctx.closePath();
+    ctx.fillStyle=done?'#151515':col.bg; ctx.fill();
+    ctx.strokeStyle=done?'#2a2a2a':col.border; ctx.lineWidth=2; ctx.stroke();
+    ctx.save(); ctx.translate(cx,cy); ctx.rotate(sa+arc/2);
+    if(!done){
+      ctx.font='15px serif'; ctx.textAlign='right'; ctx.fillStyle=col.text; ctx.fillText(m.icon,r-8,-6);
+      const pts=m.name.split(' ');
+      ctx.font='bold 8.5px Barlow Condensed,Arial Narrow,sans-serif'; ctx.fillStyle=col.text; ctx.textAlign='right';
+      if(pts.length<=1||m.name.length<=9){ ctx.fillText(m.name.toUpperCase(),r-8,8); }
+      else{ const mid=Math.ceil(pts.length/2); ctx.fillText(pts.slice(0,mid).join(' ').toUpperCase(),r-8,4); ctx.fillText(pts.slice(mid).join(' ').toUpperCase(),r-8,14); }
+    } else {
+      ctx.font='13px serif'; ctx.textAlign='right'; ctx.fillStyle='#FFEB00'; ctx.fillText('✓ '+m.name.split(' ')[0].toUpperCase(),r-8,6);
+    }
+    ctx.restore();
+  }
+  ctx.beginPath(); ctx.arc(cx,cy,r,0,2*Math.PI); ctx.strokeStyle='rgba(255,235,0,.5)'; ctx.lineWidth=5; ctx.stroke();
+  ctx.beginPath(); ctx.arc(cx,cy,r,0,2*Math.PI); ctx.strokeStyle='rgba(0,0,0,.6)'; ctx.lineWidth=2; ctx.stroke();
+}
+
 function spinWheel(){
   if(spinning) return;
-  const allDone = METIERS.every((_,i)=>completed.includes(i));
-  if(allDone){ endGame(); return; }
-  spinning = true;
-  document.getElementById('spinBtn').disabled = true;
-  document.getElementById('idleMsg').style.display = 'none';
-  document.getElementById('challengeContent').style.display = 'none';
+  if(questions.every((_,i)=>completed.includes(i))){ endGame(); return; }
+  spinning=true; stopTimer(); document.getElementById('spinBtn').disabled=true;
+  document.getElementById('idleMsg').style.display='none';
+  document.getElementById('chContent').style.display='none';
+  document.getElementById('timerWrap').style.display='none';
+  const avail=questions.map((_,i)=>i).filter(i=>!completed.includes(i));
+  const target=avail[Math.floor(Math.random()*avail.length)];
+  const N=questions.length, arc=(2*Math.PI)/N;
+  const tc=-(target*arc)+Math.PI/2-arc/2;
+  const total=tc+Math.PI*2*(4+Math.floor(Math.random()*3));
+  const st=angle, dur=4000; let t0=null;
+  const anim=ts=>{ if(!t0)t0=ts; const p=Math.min((ts-t0)/dur,1); const e=1-Math.pow(1-p,4); angle=st+total*e; drawWheel(angle); if(p<1)requestAnimationFrame(anim); else{ spinning=false; curQ=target; showMetier(target); showChallenge(target); } };
+  requestAnimationFrame(anim);
+}
 
-  const available = METIERS.map((_,i)=>i).filter(i=>!completed.includes(i));
-  const target = available[Math.floor(Math.random()*available.length)];
-  const targetCenter = -(target*ARC) + Math.PI/2 - ARC/2;
-  const totalSpin = targetCenter + Math.PI*2*(4+Math.floor(Math.random()*3));
-  const startAngle = currentAngle; const duration = 4000;
-  let startTime = null;
+function showMetier(i){
+  const m=questions[i];
+  document.getElementById('metierBox').innerHTML='<div><div class="mn">'+m.icon+' '+m.name.toUpperCase()+'</div><div class="mh">Relève le défi ci-contre !</div></div>';
+}
 
-  function animate(ts){
-    if(!startTime) startTime = ts;
-    const p = Math.min((ts-startTime)/duration, 1);
-    const ease = 1-Math.pow(1-p, 4);
-    currentAngle = startAngle + totalSpin*ease;
-    drawWheel(currentAngle);
-    if(p<1){ requestAnimationFrame(animate); }
-    else { spinning=false; currentMetierIndex=target; showMetierInfo(target); showChallenge(target); }
+// ═══════════════════════════════════════════════
+//  TIMER
+// ═══════════════════════════════════════════════
+function startTimer(seconds){
+  stopTimer();
+  timerLeft=seconds; timerMax=seconds; challengeAnswered=false;
+  const wrap=document.getElementById('timerWrap');
+  const num=document.getElementById('timerNum');
+  const bar=document.getElementById('timerBar');
+  wrap.style.display='block';
+  num.textContent=timerLeft;
+  bar.style.width='100%'; bar.className='timer-bar ok';
+  timerInterval=setInterval(()=>{
+    timerLeft--;
+    const pct=Math.round((timerLeft/timerMax)*100);
+    num.textContent=timerLeft;
+    bar.style.width=pct+'%';
+    if(pct>50) bar.className='timer-bar ok';
+    else if(pct>25) bar.className='timer-bar warn';
+    else bar.className='timer-bar danger';
+    if(timerLeft<=0){ stopTimer(); if(!challengeAnswered) onTimeout(); }
+  },1000);
+}
+
+function stopTimer(){ clearInterval(timerInterval); timerInterval=null; }
+
+function onTimeout(){
+  challengeAnswered=true;
+  // Disable all inputs
+  document.querySelectorAll('.mcq-btn').forEach(b=>b.disabled=true);
+  document.querySelectorAll('.mi').forEach(b=>{ b.style.pointerEvents='none'; });
+  // Show correct for MCQ
+  const m=questions[curQ];
+  if(m.type==='mcq'){
+    const btns=document.querySelectorAll('.mcq-btn');
+    if(btns[m.correct]) btns[m.correct].classList.add('correct');
   }
-  requestAnimationFrame(animate);
+  showFb(false,'⏱️ Temps écoulé ! '+m.explanation);
+  // Flash card red
+  const card=document.getElementById('ccard');
+  const flash=document.createElement('div'); flash.className='timeout-flash'; card.style.position='relative'; card.appendChild(flash); setTimeout(()=>flash.remove(),500);
+  doneChallenge();
 }
 
-function showMetierInfo(idx){
-  const m=METIERS[idx];
-  document.getElementById('metierInfo').innerHTML =
-    '<div><div class="metier-name">'+m.icon+' '+m.name.toUpperCase()+'</div><div class="metier-hint">Relève le défi ci-contre !</div></div>';
-}
-
-// ===== CHALLENGES =====
-function showChallenge(idx){
-  const m=METIERS[idx];
-  document.getElementById('challengeContent').style.display='block';
-  document.getElementById('challengeIcon').textContent=m.icon;
-  document.getElementById('challengeTitle').textContent='Défi '+m.name;
-  document.getElementById('challengeQuestion').textContent=m.question;
-  document.getElementById('feedbackBar').className='feedback-bar';
-  document.getElementById('nextBtn').className='next-btn';
+// ═══════════════════════════════════════════════
+//  CHALLENGES
+// ═══════════════════════════════════════════════
+function showChallenge(i){
+  const m=questions[i]; challengeAnswered=false;
+  document.getElementById('chContent').style.display='flex';
+  document.getElementById('chIcon').textContent=m.icon;
+  document.getElementById('chTitle').textContent='Défi '+m.name;
+  document.getElementById('chQ').textContent=m.question;
+  document.getElementById('fbBar').className='fb';
+  document.getElementById('nxtBtn').className='nxtbtn';
   document.getElementById('spinBtn').disabled=true;
-  selectedLeft=null; matchedPairs=[];
-  const opts=document.getElementById('challengeOptions'); opts.innerHTML='';
-  if(m.type==='mcq') renderMCQ(m,opts); else renderMatch(m,opts);
+  selLeft=null; matched=[];
+  const opts=document.getElementById('chOpts'); opts.innerHTML='';
+  if(m.type==='mcq') buildMCQ(m,opts); else buildMatch(m,opts);
+  startTimer(m.timer||20);
 }
 
-function renderMCQ(m,container){
-  const div=document.createElement('div'); div.className='mcq-options';
-  m.options.forEach((opt,i)=>{
-    const btn=document.createElement('button'); btn.className='mcq-btn';
-    const letter=String.fromCharCode(65+i);
-    btn.innerHTML='<strong style="color:var(--yellow);margin-right:8px;">'+letter+'.</strong>'+opt;
-    btn.onclick=()=>{
-      document.querySelectorAll('.mcq-btn').forEach(b=>b.disabled=true);
-      if(i===m.correct){ btn.classList.add('correct'); showFeedback(true,m.explanation); addScore(10); }
-      else { btn.classList.add('wrong'); document.querySelectorAll('.mcq-btn')[m.correct].classList.add('correct'); showFeedback(false,m.explanation); }
-      completeChallenge();
+function buildMCQ(m,c){
+  const d=document.createElement('div'); d.className='mcq-opts';
+  m.options.forEach((o,i)=>{
+    const b=document.createElement('button'); b.className='mcq-btn';
+    b.innerHTML='<strong style="color:var(--y);margin-right:8px;">'+String.fromCharCode(65+i)+'.</strong>'+o;
+    b.onclick=()=>{
+      if(challengeAnswered) return;
+      challengeAnswered=true; stopTimer();
+      document.getElementById('timerWrap').style.display='none';
+      d.querySelectorAll('.mcq-btn').forEach(x=>x.disabled=true);
+      if(i===m.correct){ b.classList.add('correct'); showFb(true,m.explanation); addPts(calcPts()); }
+      else{ b.classList.add('wrong'); d.querySelectorAll('.mcq-btn')[m.correct].classList.add('correct'); showFb(false,m.explanation); }
+      doneChallenge();
     };
-    div.appendChild(btn);
+    d.appendChild(b);
   });
-  container.appendChild(div);
+  c.appendChild(d);
 }
 
-function renderMatch(m,container){
-  const grid=document.createElement('div'); grid.className='match-container';
-  const lc=document.createElement('div'); lc.className='match-col'; lc.innerHTML='<div class="match-col-title">Éléments</div>';
-  const rc=document.createElement('div'); rc.className='match-col'; rc.innerHTML='<div class="match-col-title">Correspondances</div>';
+function buildMatch(m,c){
+  const g=document.createElement('div'); g.className='mgrid';
+  const lc=document.createElement('div'); lc.className='mcol'; lc.innerHTML='<div class="mcolt">Éléments</div>';
+  const rc=document.createElement('div'); rc.className='mcol'; rc.innerHTML='<div class="mcolt">Correspondances</div>';
   const ro=m.right.map((_,i)=>i);
   for(let i=ro.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [ro[i],ro[j]]=[ro[j],ro[i]]; }
-  m.left.forEach((label,i)=>{
-    const item=document.createElement('div'); item.className='match-item'; item.textContent=label; item.dataset.leftIdx=i;
-    item.onclick=()=>{
-      if(item.classList.contains('correct')||item.classList.contains('wrong'))return;
-      document.querySelectorAll('.match-item[data-left-idx]').forEach(el=>el.classList.remove('selected'));
-      item.classList.add('selected'); selectedLeft=i;
+  m.left.forEach((lbl,i)=>{
+    const el=document.createElement('div'); el.className='mi'; el.textContent=lbl; el.dataset.li=i;
+    el.onclick=()=>{
+      if(el.classList.contains('correct')||el.classList.contains('wrong'))return;
+      document.querySelectorAll('.mi[data-li]').forEach(x=>x.classList.remove('sel'));
+      el.classList.add('sel'); selLeft=i;
     };
-    lc.appendChild(item);
+    lc.appendChild(el);
   });
-  ro.forEach(rIdx=>{
-    const item=document.createElement('div'); item.className='match-item'; item.textContent=m.right[rIdx]; item.dataset.rightIdx=rIdx;
-    item.onclick=()=>{
-      if(selectedLeft===null||item.classList.contains('correct')||item.classList.contains('wrong'))return;
-      const correct=m.pairs[selectedLeft];
-      const selEl=document.querySelector('.match-item[data-left-idx="'+selectedLeft+'"]');
-      if(rIdx===correct){
-        item.classList.add('correct'); if(selEl)selEl.classList.add('correct');
-        matchedPairs.push(selectedLeft); launchConfetti();
-        if(matchedPairs.length===m.left.length){ showFeedback(true,m.explanation); addScore(10); completeChallenge(); }
+  ro.forEach(ri=>{
+    const el=document.createElement('div'); el.className='mi'; el.textContent=m.right[ri]; el.dataset.ri=ri;
+    el.onclick=()=>{
+      if(selLeft===null||el.classList.contains('correct')||el.classList.contains('wrong'))return;
+      if(challengeAnswered) return;
+      const cor=m.pairs[selLeft];
+      const sEl=document.querySelector('.mi[data-li="'+selLeft+'"]');
+      if(ri===cor){
+        el.classList.add('correct'); if(sEl)sEl.classList.add('correct');
+        matched.push(selLeft); confetti();
+        if(matched.length===m.left.length){
+          challengeAnswered=true; stopTimer();
+          document.getElementById('timerWrap').style.display='none';
+          showFb(true,m.explanation); addPts(calcPts()); doneChallenge();
+        }
       } else {
-        item.classList.add('wrong'); if(selEl)selEl.classList.add('wrong');
-        setTimeout(()=>{ item.classList.remove('wrong'); if(selEl)selEl.classList.remove('wrong','selected'); },700);
-        showFeedback(false,'Pas tout à fait… Essaie encore !');
+        el.classList.add('wrong'); if(sEl)sEl.classList.add('wrong');
+        setTimeout(()=>{ el.classList.remove('wrong'); if(sEl)sEl.classList.remove('wrong','sel'); },700);
+        showFb(false,'Pas tout à fait… Essaie encore !');
       }
-      selectedLeft=null; document.querySelectorAll('.match-item[data-left-idx]').forEach(el=>el.classList.remove('selected'));
+      selLeft=null; document.querySelectorAll('.mi[data-li]').forEach(x=>x.classList.remove('sel'));
     };
-    rc.appendChild(item);
+    rc.appendChild(el);
   });
-  grid.appendChild(lc); grid.appendChild(rc); container.appendChild(grid);
+  g.appendChild(lc); g.appendChild(rc); c.appendChild(g);
 }
 
-function showFeedback(good,msg){
-  const fb=document.getElementById('feedbackBar');
-  fb.className='feedback-bar show '+(good?'good':'bad');
-  fb.innerHTML=(good?'🎉 ':'💡 ')+msg;
+// Points bonus selon temps restant
+function calcPts(){
+  const ratio=timerLeft/timerMax;
+  if(ratio>0.6) return 15;   // rapide → bonus
+  if(ratio>0.3) return 10;   // normal
+  return 5;                  // juste à temps
 }
 
-function addScore(pts){ score+=pts; document.getElementById('scoreDisplay').textContent=score; launchConfetti(); }
+function showFb(ok,msg){
+  const fb=document.getElementById('fbBar');
+  fb.className='fb show '+(ok?'good':'bad');
+  fb.innerHTML=(ok?'🎉 ':'💡 ')+msg;
+}
+function addPts(n){ score+=n; document.getElementById('scoreDisp').textContent=score; confetti(); }
 
-function completeChallenge(){
-  if(!completed.includes(currentMetierIndex)) completed.push(currentMetierIndex);
-  updateProgress();
-  document.getElementById('nextBtn').className='next-btn show';
-  if(completed.length===METIERS.length) document.getElementById('nextBtn').textContent='🏆 VOIR MON SCORE FINAL';
+function doneChallenge(){
+  if(!completed.includes(curQ)) completed.push(curQ);
+  updateProg();
+  drawWheel(angle);
+  const nb=document.getElementById('nxtBtn'); nb.className='nxtbtn show';
+  if(completed.length===questions.length) nb.textContent='🏆 VOIR MON SCORE FINAL';
 }
 
 function nextChallenge(){
-  if(completed.length===METIERS.length){ endGame(); return; }
-  document.getElementById('challengeContent').style.display='none';
+  if(completed.length===questions.length){ endGame(); return; }
+  document.getElementById('chContent').style.display='none';
   document.getElementById('idleMsg').style.display='flex';
-  document.getElementById('metierInfo').innerHTML='<div><div class="metier-hint">Tourne la roue pour le prochain métier !</div></div>';
+  document.getElementById('timerWrap').style.display='none';
+  document.getElementById('metierBox').innerHTML='<div><div class="mh">Tourne la roue pour le prochain défi !</div></div>';
   document.getElementById('spinBtn').disabled=false;
 }
 
+// ═══════════════════════════════════════════════
+//  END GAME
+// ═══════════════════════════════════════════════
 function endGame(){
-  const durSec=Math.round((Date.now()-sessionStart)/1000);
-  const min=Math.floor(durSec/60); const sec=durSec%60;
-  document.getElementById('trophyScore').textContent=score+' pts';
-  document.getElementById('trophyStats').textContent='Durée : '+(min>0?min+'min ':'')+sec+'s  |  10/10 métiers découverts';
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  document.getElementById('screenTrophy').classList.add('active');
-  launchConfetti(); setTimeout(launchConfetti,600); setTimeout(launchConfetti,1200);
+  stopTimer();
+  const dur=Math.round((Date.now()-sessionStart)/1000);
+  const min=Math.floor(dur/60), sec=dur%60;
+  addToLB({packId:currentPack.id,packLabel:currentPack.label,score,dur,completed:questions.length,ts:Date.now()});
+  // Show pack complete banner with next pack options
+  const banner=document.getElementById('packCompleteBanner');
+  document.getElementById('packCompleteMsg').textContent='Score final : '+score+' pts — '+questions.length+'/'+questions.length+' défis en '+(min>0?min+'min ':'')+sec+'s !';
+  const btns=document.getElementById('nextPackBtns'); btns.innerHTML='';
+  PACKS.filter(p=>p.unlocked&&p.id!==currentPack.id&&p.questions.length>0).forEach(p=>{
+    const b=document.createElement('button'); b.className='npbtn';
+    b.textContent='Jouer '+p.label; b.onclick=()=>{ banner.className='pack-complete'; initPack(p); };
+    btns.appendChild(b);
+  });
+  const bRestart=document.createElement('button'); bRestart.className='npbtn'; bRestart.style.borderColor='#555'; bRestart.style.color=bRestart.style.background=''; 
+  bRestart.textContent='🔄 Rejouer ce pack'; bRestart.onclick=()=>{ banner.className='pack-complete'; initPack(currentPack); };
+  btns.appendChild(bRestart);
+  banner.className='pack-complete show';
+  document.getElementById('chContent').style.display='none';
+  document.getElementById('idleMsg').style.display='none';
+  document.getElementById('spinBtn').disabled=true;
+  confetti(); setTimeout(confetti,600); setTimeout(confetti,1200);
 }
 
-function restartGame(){
-  completed=[]; score=0; currentAngle=0; selectedLeft=null; matchedPairs=[]; currentMetierIndex=-1; sessionStart=Date.now();
-  document.getElementById('scoreDisplay').textContent='0';
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  document.getElementById('screenGame').classList.add('active');
-  document.getElementById('challengeContent').style.display='none';
-  document.getElementById('idleMsg').style.display='flex';
-  document.getElementById('metierInfo').innerHTML='<div><div class="metier-hint">Tourne la roue pour découvrir ton métier !</div></div>';
-  document.getElementById('spinBtn').disabled=false;
-  document.getElementById('modalForms').classList.remove('hidden');
-  updateProgress(); drawWheel(0);
+function restartGame(){ show('sGame'); initPack(currentPack); }
+
+// ═══════════════════════════════════════════════
+//  LEADERBOARD
+// ═══════════════════════════════════════════════
+let lbFilter='all';
+function showLB(){
+  buildLB(lbFilter); show('sLB');
 }
 
-function updateProgress(){
-  const count=completed.length;
-  document.getElementById('defisCount').textContent=count+' / 10';
-  document.getElementById('progressFill').style.width=(count*10)+'%';
-  document.getElementById('progressLabel').textContent=count+' / 10 défis';
-  const dots=document.getElementById('progressSteps'); dots.innerHTML='';
-  for(let i=0;i<10;i++){
-    const d=document.createElement('div');
-    d.className='step-dot'+(i<count?' done':(i===count?' current':''));
-    dots.appendChild(d);
+function buildLB(filter){
+  lbFilter=filter;
+  const lb=getLB();
+  // Tabs
+  const tabs=document.getElementById('lbTabs'); tabs.innerHTML='';
+  const filters=[{id:'all',label:'🌍 Tous'},...PACKS.filter(p=>p.unlocked&&p.questions.length>0).map(p=>({id:p.id,label:p.label}))];
+  filters.forEach(f=>{
+    const t=document.createElement('div'); t.className='lb-tab'+(f.id===filter?' active':'');
+    t.textContent=f.label; t.onclick=()=>buildLB(f.id); tabs.appendChild(t);
+  });
+  const data=filter==='all'?lb:lb.filter(e=>e.packId===filter);
+  const sorted=[...data].sort((a,b)=>b.score-a.score);
+  document.getElementById('lbSub').textContent=sorted.length+' score'+(sorted.length!==1?'s':'')+(filter!=='all'?' — '+PACKS.find(p=>p.id===filter)?.label:'');
+  const list=document.getElementById('lbList'); list.innerHTML='';
+  if(sorted.length===0){
+    list.innerHTML='<div class="lb-empty">Aucun score enregistré !<br>Sois le premier à jouer 🎯</div>';
+    return;
+  }
+  sorted.forEach((e,i)=>{
+    const row=document.createElement('div'); row.className='lb-row';
+    const min=Math.floor((e.dur||0)/60), sec=(e.dur||0)%60;
+    const pack=PACKS.find(p=>p.id===e.packId);
+    const dt=e.ts?new Date(e.ts).toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}):'';
+    const initials='J'+(i+1);
+    row.innerHTML='<div class="lb-rank">'+(i+1)+'</div>'
+      +'<div class="lb-av">'+initials+'</div>'
+      +'<div class="lb-info"><div class="lb-name">'+(pack?pack.label:e.packId||'')+'</div>'
+      +'<div class="lb-detail">'+dt+'  ·  '+(min>0?min+'min ':'')+sec+'s  ·  '+(e.completed||0)+' défis</div></div>'
+      +'<div class="lb-pts">'+e.score+' pts</div>';
+    list.appendChild(row);
+  });
+}
+
+// ═══════════════════════════════════════════════
+//  UTILS
+// ═══════════════════════════════════════════════
+function show(id){ document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active')); document.getElementById(id).classList.add('active'); }
+
+function updateProg(){
+  const n=completed.length, tot=questions.length;
+  document.getElementById('defCnt').textContent=n+' / '+tot;
+  document.getElementById('pfill').style.width=(tot?Math.round(n/tot*100):0)+'%';
+  document.getElementById('plbl').textContent=n+' / '+tot+' défis';
+  const steps=document.getElementById('psteps'); steps.innerHTML='';
+  for(let i=0;i<tot;i++){
+    const d=document.createElement('div'); d.className='sd'+(i<n?' done':(i===n?' cur':'')); steps.appendChild(d);
   }
 }
 
-function launchConfetti(){
-  const wrap=document.getElementById('confettiWrap');
-  const colors=['#FFEB00','#FFFFFF','#000000','#FFD700','#C9B800'];
+function confetti(){
+  const wrap=document.getElementById('cnfWrap');
+  const cols=['#FFEB00','#FFFFFF','#000000','#FFD700','#C9B800'];
   for(let i=0;i<35;i++){
-    const c=document.createElement('div'); c.className='confetti-piece';
-    c.style.left=Math.random()*100+'vw';
-    c.style.animationDelay=Math.random()*0.6+'s';
-    c.style.animationDuration=(1+Math.random()*0.8)+'s';
-    c.style.background=colors[Math.floor(Math.random()*colors.length)];
-    c.style.borderRadius=Math.random()>0.5?'50%':'2px';
-    c.style.width=(6+Math.random()*10)+'px';
-    c.style.height=(6+Math.random()*10)+'px';
+    const c=document.createElement('div'); c.className='cnf';
+    c.style.left=Math.random()*100+'vw'; c.style.animationDelay=Math.random()*.6+'s';
+    c.style.animationDuration=(1+Math.random()*.8)+'s'; c.style.background=cols[Math.floor(Math.random()*cols.length)];
+    c.style.borderRadius=Math.random()>.5?'50%':'2px'; c.style.width=(6+Math.random()*10)+'px'; c.style.height=(6+Math.random()*10)+'px';
     wrap.appendChild(c); setTimeout(()=>c.remove(),2500);
   }
 }
 
 // Init
-updateProgress();
+updateProg(); drawWheel(0);
 </script>
 </body>
 </html>
