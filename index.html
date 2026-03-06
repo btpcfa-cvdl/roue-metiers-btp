@@ -4,7 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>La Roue des Métiers – BTP CFA CVDL</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500&display=swap" rel="stylesheet">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500&display=swap');
+</style>
 <style>
 :root{--y:#FFEB00;--yd:#C9B800;--bk:#0A0A0A;--bs:#1C1C1C;--w:#FFF;--gr:#888;--gn:#2ECC71;--rd:#E74C3C;}
 *{margin:0;padding:0;box-sizing:border-box;}
@@ -184,63 +186,12 @@ header{background:var(--bk);border-bottom:3px solid var(--y);padding:12px 28px;d
 .timeout-flash{position:absolute;inset:0;background:rgba(231,76,60,.18);border-radius:18px;pointer-events:none;animation:flash .4s ease;z-index:5;}
 @keyframes flash{from{opacity:1}to{opacity:0}}
 
-@media(max-width:960px){
-  .gwrap{grid-template-columns:1fr;padding:12px 16px;gap:12px;}
-  header{padding:10px 16px;flex-wrap:wrap;gap:8px;}
-  .hd-t h1{font-size:1.4rem;}
-  .hdr{gap:8px;flex-wrap:wrap;}
-  .score-box{padding:6px 12px;}
-  .snum{font-size:1.6rem;}
-  .phd{padding:6px 16px;font-size:.65rem;flex-wrap:wrap;gap:4px;}
-  .pack-bar{padding:6px 16px;}
-  .resume-banner{margin:8px 16px 0;flex-direction:column;gap:10px;}
-  .rb-btns{margin-left:0;width:100%;justify-content:center;}
-  .wsec{gap:12px;}
-  .wcont{width:min(320px,90vw);height:min(320px,90vw);}
-  #wcanvas{width:100%;height:100%;}
-  .spin-btn{font-size:1.2rem;padding:11px 32px;}
-  .mbox2{max-width:100%;}
-  .mn{font-size:1.4rem;}
-  .csec{gap:10px;}
-  .ccard{min-height:unset;}
-  .chd h2{font-size:1.2rem;}
-  .cbody{padding:16px;}
-  .chq{font-size:.92rem;}
-  .mcq-btn{font-size:.82rem;padding:9px 12px;}
-  .mgrid{grid-template-columns:1fr 1fr;gap:6px;}
-  .mi{font-size:.75rem;padding:8px 7px;}
-  .lb-card{padding:24px 16px;}
-  .trophy-card{padding:28px 20px;}
-}
-@media(max-width:480px){
-  .hd-t h1{font-size:1.15rem;}
-  .hd-t p{display:none;}
-  .logo-b{font-size:10px;padding:5px 8px;}
-  .btn-sm{font-size:.62rem;padding:6px 9px;}
-  .user-chip .uname{max-width:70px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-  .wcont{width:min(280px,88vw);height:min(280px,88vw);}
-  .whub{width:50px;height:50px;font-size:7px;}
-  .spin-btn{font-size:1.05rem;padding:10px 24px;width:100%;max-width:280px;}
-  .mgrid{grid-template-columns:1fr 1fr;}
-  .mi{font-size:.72rem;padding:7px 5px;}
-  .mcq-btn{font-size:.8rem;}
-  .chd{padding:10px 14px;}
-  .chd h2{font-size:1.05rem;}
-  .cbody{padding:12px;}
-  .chq{font-size:.88rem;margin-bottom:12px;}
-  .nxtbtn{width:100%;text-align:center;}
-  .pack-bar{gap:6px;}
-  .pack-chip{font-size:.68rem;padding:4px 10px;}
-  .psteps{display:none;}
-  .lb-card{padding:20px 14px;}
-  .lb-card h2{font-size:1.7rem;}
-  .lb-tabs{gap:5px;}
-  .lb-tab{font-size:.68rem;padding:4px 10px;}
-  .trophy-card{padding:24px 16px;}
-  .trophy-card h2{font-size:2rem;}
-  .tscore{font-size:2.6rem;}
-  .login-card{padding:28px 20px;}
-  .login-card h2{font-size:1.8rem;}
+@media(max-width:920px){
+  .gwrap{grid-template-columns:1fr;}
+  .wcont{width:300px;height:300px;}
+  header,.phd,.pack-bar{padding-left:16px;padding-right:16px;}
+  .gwrap{padding:16px;}
+  .lb-card{padding:28px 20px;}
 }
 </style>
 </head>
@@ -257,13 +208,13 @@ header{background:var(--bk);border-bottom:3px solid var(--y);padding:12px 28px;d
       </div>
     </div>
     <div class="tab-row">
-      <button class="tab-btn active" id="tabLogin" onclick="switchAuthTab('login')">🔑 CONNEXION</button>
-      <button class="tab-btn" id="tabRegister" onclick="switchAuthTab('register')">✨ INSCRIPTION</button>
+      <button class="tab-btn active" id="tabLogin" id="tabLogin">🔑 CONNEXION</button>
+      <button class="tab-btn" id="tabRegister">✨ INSCRIPTION</button>
     </div>
     <div id="loginForm">
       <div class="field"><label>Prénom</label><input type="text" id="loginName" placeholder="Ex: Thomas"></div>
       <div class="field"><label>Code PIN (4 chiffres)</label><input type="password" id="loginPin" placeholder="••••" maxlength="4" inputmode="numeric"></div>
-      <button class="login-btn" onclick="doLogin()">🎯 JOUER !</button>
+      <button class="login-btn" id="loginBtn">🎯 JOUER !</button>
       <div class="login-err" id="loginErr"></div>
       <div class="login-info">Entre ton prénom + code PIN pour retrouver ta progression.<br><strong>Nouvelle visite ? Utilise l'onglet Inscription.</strong></div>
     </div>
@@ -271,11 +222,11 @@ header{background:var(--bk);border-bottom:3px solid var(--y);padding:12px 28px;d
       <div class="field"><label>Prénom</label><input type="text" id="regName" placeholder="Ex: Thomas"></div>
       <div class="field"><label>Code PIN (4 chiffres)</label><input type="password" id="regPin" placeholder="••••" maxlength="4" inputmode="numeric"></div>
       <div class="field"><label>Confirmer le code PIN</label><input type="password" id="regPin2" placeholder="••••" maxlength="4" inputmode="numeric"></div>
-      <button class="login-btn" onclick="doRegister()">🚀 CRÉER MON COMPTE</button>
+      <button class="login-btn" id="registerBtn">🚀 CRÉER MON COMPTE</button>
       <div class="login-err" id="regErr"></div>
       <div class="login-info">Ton PIN te permet de <strong>retrouver ton score</strong> et reprendre là où tu t'es arrêté(e) !</div>
     </div>
-    <button class="guest-btn" onclick="doGuest()">Jouer sans compte (score non sauvegardé)</button>
+    <button class="guest-btn" id="guestBtn">Jouer sans compte (score non sauvegardé)</button>
   </div>
 </div>
 
@@ -288,9 +239,9 @@ header{background:var(--bk);border-bottom:3px solid var(--y);padding:12px 28px;d
     </div>
     <div class="hdr">
       <div class="user-chip"><div class="av" id="userAv">?</div><span class="uname" id="userName">Invité</span></div>
-      <button class="btn-sm" onclick="showLB()">🏆 Classement</button>
+      <button class="btn-sm" id="lbBtn">🏆 Classement</button>
       <div class="score-box"><div class="snum" id="scoreDisp">0</div><div class="slbl">Points</div></div>
-      <button class="btn-sm" onclick="doLogout()">⎋ Quitter</button>
+      <button class="btn-sm" id="logoutBtn">⎋ Quitter</button>
     </div>
   </header>
   <div class="phd">
@@ -299,11 +250,11 @@ header{background:var(--bk);border-bottom:3px solid var(--y);padding:12px 28px;d
     <span id="plbl">0 / 10 défis</span>
   </div>
   <div class="pack-bar" id="packBar"></div>
-  <div class="resume-banner" id="resumeBanner">
+      <div class="resume-banner" id="resumeBanner">
     <div class="rb-txt"><h4>🔄 Reprendre la partie ?</h4><p id="resumeDesc"></p></div>
     <div class="rb-btns">
-      <button class="rb-btn" onclick="resumeSession()">▶ REPRENDRE</button>
-      <button class="rb-btn2" onclick="freshStart()">Recommencer</button>
+      <button class="rb-btn" id="resumeBtn">▶ REPRENDRE</button>
+      <button class="rb-btn2" id="freshBtn">Recommencer</button>
     </div>
   </div>
   <div class="gwrap">
@@ -313,7 +264,7 @@ header{background:var(--bk);border-bottom:3px solid var(--y);padding:12px 28px;d
         <canvas id="wcanvas" width="400" height="400"></canvas>
         <div class="whub">BTP<br>CFA</div>
       </div>
-      <button class="spin-btn" id="spinBtn" onclick="spinWheel()">🎯 TOURNER LA ROUE</button>
+      <button class="spin-btn" id="spinBtn">🎯 TOURNER LA ROUE</button>
       <div class="mbox2" id="metierBox"><div class="mh">Tourne la roue pour découvrir ton métier !</div></div>
       <div style="width:100%;max-width:400px;">
         <div style="display:flex;justify-content:space-between;margin-bottom:4px;font-family:'Barlow Condensed',sans-serif;font-size:.7rem;letter-spacing:2px;color:var(--gr);text-transform:uppercase;">
@@ -344,7 +295,7 @@ header{background:var(--bk);border-bottom:3px solid var(--y);padding:12px 28px;d
             <div class="chq" id="chQ"></div>
             <div id="chOpts"></div>
             <div class="fb" id="fbBar"></div>
-            <button class="nxtbtn" id="nxtBtn" onclick="nextChallenge()">DÉFI SUIVANT →</button>
+            <button class="nxtbtn" id="nxtBtn">DÉFI SUIVANT →</button>
           </div>
         </div>
       </div>
@@ -359,7 +310,7 @@ header{background:var(--bk);border-bottom:3px solid var(--y);padding:12px 28px;d
     <p class="lb-sub" id="lbSub"></p>
     <div class="lb-tabs" id="lbTabs"></div>
     <div class="lb-list" id="lbList"></div>
-    <div class="lb-back"><button class="tbtn" onclick="show('sGame')">← RETOUR AU JEU</button></div>
+    <div class="lb-back"><button class="tbtn" id="lbBackBtn">← RETOUR AU JEU</button></div>
   </div>
 </div>
 
@@ -371,8 +322,9 @@ header{background:var(--bk);border-bottom:3px solid var(--y);padding:12px 28px;d
     <div class="tscore" id="tScore">0 pts</div>
     <div class="tstats" id="tStats"></div>
     <div class="tcta"><p>Tu as exploré tous les défis !<br>Envie d'en savoir plus sur nos formations ?<br><strong>Parle à un conseiller BTP CFA CVDL → sur notre stand !</strong></p></div>
-    <button class="tbtn" onclick="restartGame()">🔄 REJOUER</button>
-    <button class="tbtn2" onclick="showLB()">🏆 CLASSEMENT</button>
+    <div id="badgePanelTrophy"></div>
+    <button class="tbtn" id="replayBtn">🔄 REJOUER</button>
+    <button class="tbtn2" id="lbTrophyBtn">🏆 CLASSEMENT</button>
   </div>
 </div>
 
@@ -499,6 +451,7 @@ function showErr(el,msg){el.textContent=msg;el.className='login-err show';}
 function startSession(){
   document.getElementById('userAv').textContent=currentUser.name[0].toUpperCase();
   document.getElementById('userName').textContent=currentUser.name;
+  loadUserBadges();
   show('sGame');
   initPack(PACKS[0]);
 }
@@ -550,6 +503,7 @@ function initPack(p){
   stopTimer();
   currentPack=p;questions=[...p.questions];
   completed=[];score=0;angle=0;selLeft=null;matched=[];curQ=-1;
+  packErrors=0;earnedBadges=[];
   sessionStart=Date.now();
   document.getElementById('scoreDisp').textContent='0';
   document.getElementById('idleMsg').style.display='flex';
@@ -559,7 +513,29 @@ function initPack(p){
   document.getElementById('timerWrap').style.display='none';
   document.getElementById('packCompleteBanner').className='pack-complete';
   document.getElementById('resumeBanner').className='resume-banner';
-  buildPackBar();updateProg();drawWheel(0);
+  buildPackBar();updateProg();// ═══════════════════════════════════════════════
+// BIND ALL EVENTS HERE — after DOM is ready
+// ═══════════════════════════════════════════════
+document.getElementById('tabLogin').addEventListener('click',()=>switchAuthTab('login'));
+document.getElementById('tabRegister').addEventListener('click',()=>switchAuthTab('register'));
+document.getElementById('loginBtn').addEventListener('click',doLogin);
+document.getElementById('registerBtn').addEventListener('click',doRegister);
+document.getElementById('guestBtn').addEventListener('click',doGuest);
+document.getElementById('lbBtn').addEventListener('click',showLB);
+document.getElementById('logoutBtn').addEventListener('click',doLogout);
+document.getElementById('resumeBtn').addEventListener('click',resumeSession);
+document.getElementById('freshBtn').addEventListener('click',freshStart);
+document.getElementById('nxtBtn').addEventListener('click',nextChallenge);
+document.getElementById('lbBackBtn').addEventListener('click',()=>show('sGame'));
+document.getElementById('replayBtn').addEventListener('click',restartGame);
+document.getElementById('lbTrophyBtn').addEventListener('click',showLB);
+document.getElementById('spinBtn').addEventListener('click',spinWheel);
+
+// Allow Enter key on login/register inputs
+['loginName','loginPin'].forEach(id=>document.getElementById(id).addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();}));
+['regName','regPin','regPin2'].forEach(id=>document.getElementById(id).addEventListener('keydown',e=>{if(e.key==='Enter')doRegister();}));
+
+drawWheel(0);
 
   if(!p.unlocked||!p.questions.length)return;
   const saved=loadProgress(p.id);
@@ -618,6 +594,7 @@ function drawWheel(rot){
 
 function spinWheel(){
   if(spinning)return;
+  playSpin();
   if(questions.every((_,i)=>completed.includes(i))){endGame();return;}
   spinning=true;stopTimer();document.getElementById('spinBtn').disabled=true;
   document.getElementById('idleMsg').style.display='none';
@@ -650,12 +627,13 @@ function startTimer(s){
     timerLeft--;const pct=Math.round(timerLeft/timerMax*100);
     num.textContent=timerLeft;bar.style.width=pct+'%';
     if(pct>50)bar.className='timer-bar ok';else if(pct>25)bar.className='timer-bar warn';else bar.className='timer-bar danger';
+    if(timerLeft<=5&&timerLeft>0)playTimerTick();
     if(timerLeft<=0){stopTimer();if(!challengeAnswered)onTimeout();}
   },1000);
 }
 function stopTimer(){clearInterval(timerInterval);timerInterval=null;}
 function onTimeout(){
-  challengeAnswered=true;
+  challengeAnswered=true;playTimeout();
   document.querySelectorAll('.mcq-btn').forEach(b=>b.disabled=true);
   document.querySelectorAll('.mi').forEach(b=>b.style.pointerEvents='none');
   const m=questions[curQ];
@@ -692,8 +670,8 @@ function buildMCQ(m,c){
       if(challengeAnswered)return;challengeAnswered=true;stopTimer();
       document.getElementById('timerWrap').style.display='none';
       d.querySelectorAll('.mcq-btn').forEach(x=>x.disabled=true);
-      if(i===m.correct){b.classList.add('correct');showFb(true,m.explanation);addPts(calcPts());}
-      else{b.classList.add('wrong');d.querySelectorAll('.mcq-btn')[m.correct].classList.add('correct');showFb(false,m.explanation);}
+      if(i===m.correct){b.classList.add('correct');showFb(true,m.explanation);addPts(calcPts());playSuccess();checkBadges();}
+      else{b.classList.add('wrong');d.querySelectorAll('.mcq-btn')[m.correct].classList.add('correct');showFb(false,m.explanation);playWrong();packErrors++;}
       doneChallenge();
     };
     d.appendChild(b);
@@ -726,12 +704,12 @@ function buildMatch(m,c){
         matched.push(selLeft);confetti();
         if(matched.length===m.left.length){
           challengeAnswered=true;stopTimer();document.getElementById('timerWrap').style.display='none';
-          showFb(true,m.explanation);addPts(calcPts());doneChallenge();
+          showFb(true,m.explanation);addPts(calcPts());playSuccess();checkBadges();doneChallenge();
         }
       } else {
         el.classList.add('wrong');if(sEl)sEl.classList.add('wrong');
         setTimeout(()=>{el.classList.remove('wrong');if(sEl)sEl.classList.remove('wrong','sel');},700);
-        showFb(false,'Pas tout à fait… Essaie encore !');
+        showFb(false,'Pas tout à fait… Essaie encore !');playWrong();packErrors++;
       }
       selLeft=null;document.querySelectorAll('.mi[data-li]').forEach(x=>x.classList.remove('sel'));
     };
@@ -767,6 +745,11 @@ function endGame(){
   stopTimer();
   const dur=Math.round((Date.now()-sessionStart)/1000);
   const min=Math.floor(dur/60),sec=dur%60;
+  // Check end-of-pack badges
+  if(packErrors===0)awardBadge('perfect_pack');
+  awardBadge('full_pack');
+  if(dur<180)awardBadge('quick_finish');
+  playVictory();
   addToLB({packId:currentPack.id,packLabel:currentPack.label,score,dur,completed:questions.length});
   clearProgress(currentPack.id);
   const banner=document.getElementById('packCompleteBanner');
@@ -851,6 +834,128 @@ function toast(msg){
 }
 
 drawWheel(0);
-</script>
+
+// ═══════════════════════════════════════════════
+// AUDIO — Web Audio API (sons générés, pas de fichiers externes)
+// ═══════════════════════════════════════════════
+let audioCtx=null;
+function getACtx(){if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();return audioCtx;}
+
+function playTone(freq,dur,type='sine',vol=0.18){
+  try{
+    const a=getACtx(),o=a.createOscillator(),g=a.createGain();
+    o.connect(g);g.connect(a.destination);
+    o.type=type;o.frequency.setValueAtTime(freq,a.currentTime);
+    g.gain.setValueAtTime(vol,a.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001,a.currentTime+dur);
+    o.start(a.currentTime);o.stop(a.currentTime+dur);
+  }catch{}
+}
+
+function playSuccess(){
+  playTone(523,0.12,'sine',0.2);
+  setTimeout(()=>playTone(659,0.12,'sine',0.2),120);
+  setTimeout(()=>playTone(784,0.25,'sine',0.22),240);
+}
+
+function playWrong(){
+  playTone(200,0.18,'sawtooth',0.15);
+  setTimeout(()=>playTone(150,0.22,'sawtooth',0.12),160);
+}
+
+function playTimeout(){
+  playTone(330,0.1,'square',0.12);
+  setTimeout(()=>playTone(220,0.3,'square',0.1),100);
+}
+
+function playSpin(){
+  // Rising tone while spinning
+  try{
+    const a=getACtx(),o=a.createOscillator(),g=a.createGain();
+    o.connect(g);g.connect(a.destination);
+    o.type='sine';
+    o.frequency.setValueAtTime(200,a.currentTime);
+    o.frequency.linearRampToValueAtTime(600,a.currentTime+1.5);
+    o.frequency.linearRampToValueAtTime(300,a.currentTime+3.5);
+    g.gain.setValueAtTime(0.08,a.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001,a.currentTime+4);
+    o.start(a.currentTime);o.stop(a.currentTime+4);
+  }catch{}
+}
+
+function playVictory(){
+  const notes=[523,659,784,1047];
+  notes.forEach((n,i)=>setTimeout(()=>playTone(n,0.3,'sine',0.22),i*180));
+}
+
+function playTimerTick(){playTone(880,0.05,'square',0.06);}
+
+// ═══════════════════════════════════════════════
+// BADGES & TROPHÉES
+// ═══════════════════════════════════════════════
+const BADGES=[
+  {id:'first_win',   icon:'🥇', name:'Premier Défi',    desc:'Réussir son 1er défi',          check:()=>completed.length===1&&challengeAnswered},
+  {id:'speed_demon', icon:'⚡', name:'Éclair',           desc:'Répondre en moins de 5 secondes',check:()=>timerLeft>=(timerMax-5)&&challengeAnswered},
+  {id:'perfect_pack',icon:'🏆', name:'Pack Parfait',     desc:'Terminer un pack sans erreur',   check:null}, // checked in endGame
+  {id:'half_way',    icon:'🌟', name:'À mi-chemin',      desc:'5 défis complétés',              check:()=>completed.length===5},
+  {id:'full_pack',   icon:'🎯', name:'Pack Complété',    desc:'Terminer tous les défis',        check:null}, // endGame
+  {id:'quick_finish',icon:'🚀', name:'Fusée',            desc:'Finir un pack en moins de 3 min',check:null}, // endGame
+];
+
+let earnedBadges=[]; // per session
+let packErrors=0;    // count wrong answers in pack
+
+function checkBadges(context='answer'){
+  BADGES.forEach(b=>{
+    if(!b.check||earnedBadges.includes(b.id))return;
+    if(b.check())awardBadge(b.id);
+  });
+}
+
+function awardBadge(id){
+  if(earnedBadges.includes(id))return;
+  earnedBadges.push(id);
+  const b=BADGES.find(x=>x.id===id);if(!b)return;
+  showBadgePopup(b);
+  playTone(1046,0.15,'sine',0.18);setTimeout(()=>playTone(1318,0.2,'sine',0.18),150);
+  // Save to localStorage
+  const key='btpcfa_badges_'+(currentUser?.name||'guest').toLowerCase();
+  const saved=LS.get(key)||[];
+  if(!saved.includes(id)){saved.push(id);LS.set(key,saved);}
+}
+
+function showBadgePopup(b){
+  const el=document.createElement('div');
+  el.style.cssText='position:fixed;top:80px;right:24px;background:#1C1C1C;border:2px solid #FFEB00;border-radius:14px;padding:14px 20px;z-index:9999;animation:toast-in .3s ease;box-shadow:0 8px 32px rgba(0,0,0,.6);max-width:260px;';
+  el.innerHTML='<div style="font-size:1.8rem;text-align:center;margin-bottom:6px;">'+b.icon+'</div>'
+    +'<div style="font-family:\'Bebas Neue\',sans-serif;font-size:1.1rem;color:#FFEB00;letter-spacing:2px;text-align:center;">BADGE DÉBLOQUÉ !</div>'
+    +'<div style="font-weight:600;font-size:.9rem;text-align:center;margin-top:4px;">'+b.name+'</div>'
+    +'<div style="font-size:.75rem;color:#888;text-align:center;margin-top:2px;">'+b.desc+'</div>';
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(),3800);
+}
+
+function loadUserBadges(){
+  if(!currentUser||currentUser.isGuest)return;
+  const key='btpcfa_badges_'+currentUser.name.toLowerCase();
+  earnedBadges=LS.get(key)||[];
+}
+
+// Badge panel in trophy screen
+function renderBadgePanel(){
+  const key='btpcfa_badges_'+(currentUser?.name||'guest').toLowerCase();
+  const earned=LS.get(key)||[];
+  let html='<div style="margin-top:16px;"><div style="font-family:\'Bebas Neue\',sans-serif;font-size:1.1rem;color:#FFEB00;letter-spacing:2px;margin-bottom:10px;">🏅 TES BADGES</div><div style="display:flex;flex-wrap:wrap;gap:10px;justify-content:center;">';
+  BADGES.forEach(b=>{
+    const got=earned.includes(b.id);
+    html+='<div title="'+b.name+' — '+b.desc+'" style="background:'+(got?'rgba(255,235,0,.1)':'#111')+';border:2px solid '+(got?'#FFEB00':'#222')+';border-radius:10px;padding:8px 12px;text-align:center;opacity:'+(got?'1':'.3')+';">'
+      +'<div style="font-size:1.4rem;">'+b.icon+'</div>'
+      +'<div style="font-size:.65rem;color:'+(got?'#FFEB00':'#555')+';font-family:\'Barlow Condensed\',sans-serif;letter-spacing:1px;margin-top:3px;">'+b.name+'</div>'
+      +'</div>';
+  });
+  html+='</div></div>';
+  return html;
+}
+
 </body>
 </html>
