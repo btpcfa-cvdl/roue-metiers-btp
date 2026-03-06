@@ -420,7 +420,7 @@ header{background:var(--bk);border-bottom:3px solid var(--y);padding:10px 20px;d
 
   .hd-t h1 { font-size: 1.1rem; }
   .hdr { gap: 5px; }
-  .btn-sm { display: none; } /* hide LB button in header, accessible via trophy screen */
+  .btn-sm:not(.btn-sm-ig) { display: none; } /* hide LB/Quitter on mobile, keep Suivez-nous */
   .score-box { padding: 4px 8px; }
   .snum { font-size: 1.4rem; }
 
@@ -429,6 +429,48 @@ header{background:var(--bk);border-bottom:3px solid var(--y);padding:10px 20px;d
   .mcq-btn { font-size: .8rem; padding: 9px 10px; }
   .mi { font-size: .74rem; padding: 7px 6px; }
   .mgrid { gap: 5px; }
+}
+
+/* ── BOUTON INSTAGRAM HEADER ── */
+.btn-sm-ig{
+  background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045) !important;
+  border-color:transparent !important;
+  color:#fff !important;
+  font-weight:700;
+}
+.btn-sm-ig:hover{opacity:.85;transform:translateY(-1px);}
+
+/* ── BANNIÈRE RÉSEAUX (sous pack-bar) ── */
+.social-banner{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:12px;
+  padding:9px 20px;
+  background:linear-gradient(90deg,#1a0a2e,#2d0a0a,#1a1700);
+  border-bottom:2px solid rgba(255,235,0,.25);
+  flex-shrink:0;
+  flex-wrap:wrap;
+}
+.social-banner-txt{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:.78rem;letter-spacing:2px;
+  color:#bbb;text-transform:uppercase;
+}
+.social-banner-btn{
+  background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);
+  color:#fff;border:none;border-radius:50px;
+  font-family:'Bebas Neue',sans-serif;
+  font-size:.95rem;letter-spacing:2px;
+  padding:7px 20px;cursor:pointer;
+  white-space:nowrap;
+  transition:opacity .2s,transform .2s;
+  flex-shrink:0;
+}
+.social-banner-btn:hover{opacity:.85;transform:scale(1.03);}
+.social-banner-btn:active{transform:scale(.97);}
+
+@media(max-width:640px){
+  .social-banner{padding:8px 12px;}
+  .social-banner-txt{font-size:.7rem;}
 }
 
 /* ── POPUP FORMULAIRE ── */
@@ -536,6 +578,7 @@ header{background:var(--bk);border-bottom:3px solid var(--y);padding:10px 20px;d
     <div class="hdr">
       <div class="user-chip"><div class="av" id="userAv">?</div><span class="uname" id="userName">Invité</span></div>
       <button class="btn-sm" id="lbBtn">🏆 Classement</button>
+      <button class="btn-sm btn-sm-ig" id="reseauxBtnHeader">📱 Suivez-nous</button>
       <div class="score-box"><div class="snum" id="scoreDisp">0</div><div class="slbl">Points</div></div>
       <button class="btn-sm" id="logoutBtn">⎋ Quitter</button>
     </div>
@@ -546,6 +589,11 @@ header{background:var(--bk);border-bottom:3px solid var(--y);padding:10px 20px;d
     <span id="plbl">0 / 10 défis</span>
   </div>
   <div class="pack-bar" id="packBar"></div>
+  <!-- Bannière Réseaux — toujours visible -->
+  <div class="social-banner" id="socialBannerGame">
+    <span class="social-banner-txt">📱 Suivez le BTP CFA CVDL sur les réseaux !</span>
+    <button class="social-banner-btn" id="reseauxBtnBanner">SUIVEZ-NOUS →</button>
+  </div>
   <div class="resume-banner" id="resumeBanner">
     <div class="rb-txt"><h4>🔄 Reprendre la partie ?</h4><p id="resumeDesc"></p></div>
     <div class="rb-btns">
@@ -1311,6 +1359,9 @@ window.addEventListener('load',function(){
   document.getElementById('reseauxBtn').addEventListener('click',()=>show('sReseaux'));
   document.getElementById('reseauxReplayBtn').addEventListener('click',restartGame);
   document.getElementById('reseauxLbBtn').addEventListener('click',showLB);
+  // Boutons réseaux (header + bannière — accessibles pendant le jeu)
+  document.getElementById('reseauxBtnHeader').addEventListener('click',()=>show('sReseaux'));
+  document.getElementById('reseauxBtnBanner').addEventListener('click',()=>show('sReseaux'));
 
   document.getElementById('tabLogin').addEventListener('click',()=>switchAuthTab('login'));
   document.getElementById('tabRegister').addEventListener('click',()=>switchAuthTab('register'));
