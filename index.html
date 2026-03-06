@@ -184,12 +184,63 @@ header{background:var(--bk);border-bottom:3px solid var(--y);padding:12px 28px;d
 .timeout-flash{position:absolute;inset:0;background:rgba(231,76,60,.18);border-radius:18px;pointer-events:none;animation:flash .4s ease;z-index:5;}
 @keyframes flash{from{opacity:1}to{opacity:0}}
 
-@media(max-width:920px){
-  .gwrap{grid-template-columns:1fr;}
-  .wcont{width:300px;height:300px;}
-  header,.phd,.pack-bar{padding-left:16px;padding-right:16px;}
-  .gwrap{padding:16px;}
-  .lb-card{padding:28px 20px;}
+@media(max-width:960px){
+  .gwrap{grid-template-columns:1fr;padding:12px 16px;gap:12px;}
+  header{padding:10px 16px;flex-wrap:wrap;gap:8px;}
+  .hd-t h1{font-size:1.4rem;}
+  .hdr{gap:8px;flex-wrap:wrap;}
+  .score-box{padding:6px 12px;}
+  .snum{font-size:1.6rem;}
+  .phd{padding:6px 16px;font-size:.65rem;flex-wrap:wrap;gap:4px;}
+  .pack-bar{padding:6px 16px;}
+  .resume-banner{margin:8px 16px 0;flex-direction:column;gap:10px;}
+  .rb-btns{margin-left:0;width:100%;justify-content:center;}
+  .wsec{gap:12px;}
+  .wcont{width:min(320px,90vw);height:min(320px,90vw);}
+  #wcanvas{width:100%;height:100%;}
+  .spin-btn{font-size:1.2rem;padding:11px 32px;}
+  .mbox2{max-width:100%;}
+  .mn{font-size:1.4rem;}
+  .csec{gap:10px;}
+  .ccard{min-height:unset;}
+  .chd h2{font-size:1.2rem;}
+  .cbody{padding:16px;}
+  .chq{font-size:.92rem;}
+  .mcq-btn{font-size:.82rem;padding:9px 12px;}
+  .mgrid{grid-template-columns:1fr 1fr;gap:6px;}
+  .mi{font-size:.75rem;padding:8px 7px;}
+  .lb-card{padding:24px 16px;}
+  .trophy-card{padding:28px 20px;}
+}
+@media(max-width:480px){
+  .hd-t h1{font-size:1.15rem;}
+  .hd-t p{display:none;}
+  .logo-b{font-size:10px;padding:5px 8px;}
+  .btn-sm{font-size:.62rem;padding:6px 9px;}
+  .user-chip .uname{max-width:70px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .wcont{width:min(280px,88vw);height:min(280px,88vw);}
+  .whub{width:50px;height:50px;font-size:7px;}
+  .spin-btn{font-size:1.05rem;padding:10px 24px;width:100%;max-width:280px;}
+  .mgrid{grid-template-columns:1fr 1fr;}
+  .mi{font-size:.72rem;padding:7px 5px;}
+  .mcq-btn{font-size:.8rem;}
+  .chd{padding:10px 14px;}
+  .chd h2{font-size:1.05rem;}
+  .cbody{padding:12px;}
+  .chq{font-size:.88rem;margin-bottom:12px;}
+  .nxtbtn{width:100%;text-align:center;}
+  .pack-bar{gap:6px;}
+  .pack-chip{font-size:.68rem;padding:4px 10px;}
+  .psteps{display:none;}
+  .lb-card{padding:20px 14px;}
+  .lb-card h2{font-size:1.7rem;}
+  .lb-tabs{gap:5px;}
+  .lb-tab{font-size:.68rem;padding:4px 10px;}
+  .trophy-card{padding:24px 16px;}
+  .trophy-card h2{font-size:2rem;}
+  .tscore{font-size:2.6rem;}
+  .login-card{padding:28px 20px;}
+  .login-card h2{font-size:1.8rem;}
 }
 </style>
 </head>
