@@ -708,13 +708,47 @@ function saveProgress(){const k=pKey(currentPack.id);if(k)LS.set(k,{completed,sc
 function loadProgress(packId){const k=pKey(packId);return k?LS.get(k):null;}
 function clearProgress(packId){const k=pKey(packId);if(k)LS.del(k);}
 
-// LB
-const LB_KEY='btpcfa_leaderboard';
-function getLB(){return LS.get(LB_KEY)||[];}
-function addToLB(e){
+// ═══════════════════════════════════
+// SUPABASE — Classement partagé
+// ═══════════════════════════════════
+const SUPA_URL='https://mptbhnwpkoswtahyxsom.supabase.co';
+const SUPA_KEY='sb_publishable_OumM4ZMJg8xHa2x4-n_S1g_5HjAT2cK';
+const SUPA_HEADERS={
+  'apikey':SUPA_KEY,
+  'Authorization':'Bearer '+SUPA_KEY,
+  'Content-Type':'application/json'
+};
+
+async function getLB(){
+  try{
+    const res=await fetch(SUPA_URL+'/rest/v1/leaderboard?order=score.desc&limit=200',{headers:SUPA_HEADERS});
+    if(!res.ok)throw new Error('Supabase read error '+res.status);
+    return await res.json();
+  }catch(err){
+    console.warn('Supabase getLB error:',err);
+    return[];
+  }
+}
+
+async function addToLB(e){
   if(currentUser.isGuest)return;
-  const lb=getLB();lb.push({...e,name:currentUser.name,ts:Date.now()});
-  lb.sort((a,b)=>b.score-a.score);LS.set(LB_KEY,lb.slice(0,200));
+  try{
+    const res=await fetch(SUPA_URL+'/rest/v1/leaderboard',{
+      method:'POST',
+      headers:{...SUPA_HEADERS,'Prefer':'return=minimal'},
+      body:JSON.stringify({
+        name:currentUser.name,
+        score:e.score,
+        pack_id:e.packId,
+        pack_label:e.packLabel,
+        dur:e.dur,
+        ts:Date.now()
+      })
+    });
+    if(!res.ok)throw new Error('Supabase insert error '+res.status);
+  }catch(err){
+    console.warn('Supabase addToLB error:',err);
+  }
 }
 
 // ═══════════════════════════════════
@@ -1034,14 +1068,14 @@ function nextChallenge(){
 // ═══════════════════════════════════
 // END GAME
 // ═══════════════════════════════════
-function endGame(){
+async function endGame(){
   stopTimer();playVictory();
   const dur=Math.round((Date.now()-sessionStart)/1000);
   const min=Math.floor(dur/60),sec=dur%60;
   if(packErrors===0)awardBadge('perfect_pack');
   awardBadge('full_pack');
   if(dur<180)awardBadge('quick_finish');
-  addToLB({packId:currentPack.id,packLabel:currentPack.label,score,dur,completed:questions.length});
+  await addToLB({packId:currentPack.id,packLabel:currentPack.label,score,dur,completed:questions.length});
   clearProgress(currentPack.id);
   document.getElementById('tScore').textContent=score+' pts';
   document.getElementById('tStats').textContent=questions.length+' défis  ·  '+(min>0?min+'min ':'')+sec+'s  ·  '+packErrors+' erreur(s)';
@@ -1069,7 +1103,7 @@ function restartGame(){show('sGame');initPack(currentPack);}
 // ═══════════════════════════════════
 let lbFilter='all';
 function showLB(){buildLB(lbFilter);show('sLB');}
-function buildLB(filter){
+async function buildLB(filter){
   lbFilter=filter;
   const tabs=document.getElementById('lbTabs');tabs.innerHTML='';
   const filters=[{id:'all',label:'🌍 Tous'},...PACKS.filter(p=>p.unlocked&&p.questions.length>0).map(p=>({id:p.id,label:p.label}))];
@@ -1077,20 +1111,24 @@ function buildLB(filter){
     const t=document.createElement('div');t.className='lb-tab'+(f.id===filter?' active':'');
     t.textContent=f.label;t.addEventListener('click',()=>buildLB(f.id));tabs.appendChild(t);
   });
-  let rows=getLB();if(filter!=='all')rows=rows.filter(e=>e.packId===filter);
+  // Affiche un loader pendant le chargement
+  const list=document.getElementById('lbList');
+  list.innerHTML='<div class="lb-empty" style="color:#555;">⏳ Chargement du classement…</div>';
+  let rows=await getLB();
+  if(filter!=='all')rows=rows.filter(e=>e.pack_id===filter);
   rows.sort((a,b)=>b.score-a.score);
   document.getElementById('lbSub').textContent=rows.length+' score'+(rows.length!==1?'s':'')+(filter!=='all'?' — '+(PACKS.find(p=>p.id===filter)?.label||''):'');
-  const list=document.getElementById('lbList');list.innerHTML='';
+  list.innerHTML='';
   if(!rows.length){list.innerHTML='<div class="lb-empty">Aucun score encore !<br>Sois le premier à jouer 🎯</div>';return;}
   rows.forEach((e,i)=>{
     const row=document.createElement('div');row.className='lb-row'+(e.name===currentUser?.name?' me':'');
     const min=Math.floor((e.dur||0)/60),sec=(e.dur||0)%60;
-    const pack=PACKS.find(p=>p.id===e.packId);
+    const pack=PACKS.find(p=>p.id===(e.pack_id||e.packId));
     const dt=e.ts?new Date(e.ts).toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}):'';
     row.innerHTML='<div class="lb-rank">'+(i+1)+'</div>'
       +'<div class="lb-av">'+(e.name||'?')[0].toUpperCase()+'</div>'
       +'<div class="lb-info"><div class="lb-name">'+(e.name||'Anonyme')+(e.name===currentUser?.name?' 👈':'')+'</div>'
-      +'<div class="lb-detail">'+(pack?pack.label:'')+'  ·  '+dt+'  ·  '+(min>0?min+'min ':'')+sec+'s</div></div>'
+      +'<div class="lb-detail">'+(pack?pack.label:(e.pack_label||''))+'  ·  '+dt+'  ·  '+(min>0?min+'min ':'')+sec+'s</div></div>'
       +'<div class="lb-pts">'+e.score+'</div>';
     list.appendChild(row);
   });
