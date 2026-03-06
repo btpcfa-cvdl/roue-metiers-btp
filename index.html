@@ -12,11 +12,8 @@ body{background:var(--bk);color:var(--w);font-family:'Barlow',sans-serif;min-hei
 .screen{display:none;min-height:100vh;}
 .screen.active{display:flex;flex-direction:column;}
 #sLogin,#sTrophy,#sLB{align-items:center;justify-content:center;}
-#sLogin{background:radial-gradient(ellipse at 50% 30%,#1a1700,var(--bk) 70%);}
-#sTrophy{background:radial-gradient(ellipse at 50% 30%,#1a1700,var(--bk) 70%);}
-#sLB{background:radial-gradient(ellipse at 50% 30%,#1a1700,var(--bk) 70%);}
+#sLogin,#sTrophy,#sLB{background:radial-gradient(ellipse at 50% 30%,#1a1700,var(--bk) 70%);}
 
-/* ── LOGIN ── */
 .login-card{background:var(--bs);border:2px solid var(--y);border-radius:24px;padding:44px 40px;max-width:460px;width:92%;box-shadow:0 0 80px rgba(255,235,0,.12);animation:su .5s ease;}
 .login-logo{display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:28px;}
 .logo-b{background:#000;border:2px solid var(--w);border-radius:10px;padding:7px 11px;font-family:'Bebas Neue',sans-serif;font-size:12px;color:var(--w);text-align:center;line-height:1.3;letter-spacing:1px;}
@@ -40,7 +37,6 @@ body{background:var(--bk);color:var(--w);font-family:'Barlow',sans-serif;min-hei
 .guest-btn{background:transparent;border:2px solid #2a2a2a;border-radius:50px;color:#555;font-family:'Bebas Neue',sans-serif;font-size:.9rem;letter-spacing:2px;padding:9px 24px;cursor:pointer;transition:all .2s;width:100%;margin-top:10px;}
 .guest-btn:hover{border-color:#555;color:var(--gr);}
 
-/* ── HEADER ── */
 header{background:var(--bk);border-bottom:3px solid var(--y);padding:12px 28px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
 .logo-z{display:flex;align-items:center;gap:14px;}
 .hd-t h1{font-family:'Bebas Neue',sans-serif;font-size:1.9rem;color:var(--y);letter-spacing:3px;line-height:1;}
@@ -53,24 +49,20 @@ header{background:var(--bk);border-bottom:3px solid var(--y);padding:12px 28px;d
 .btn-sm:hover{border-color:var(--y);color:var(--y);}
 .user-chip{background:#111;border:2px solid #2a2a2a;border-radius:20px;padding:5px 12px;font-family:'Barlow Condensed',sans-serif;font-size:.75rem;color:var(--gr);display:flex;align-items:center;gap:8px;}
 .user-chip .av{background:var(--y);color:var(--bk);border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:.75rem;flex-shrink:0;}
-.user-chip .name{color:var(--w);font-weight:600;}
+.user-chip .uname{color:var(--w);font-weight:600;}
 
-/* ── PROG HEADER ── */
 .phd{display:flex;align-items:center;justify-content:space-between;padding:8px 28px;background:#0e0e0e;border-bottom:1px solid #1e1e1e;font-family:'Barlow Condensed',sans-serif;font-size:.72rem;letter-spacing:2px;color:var(--gr);text-transform:uppercase;flex-shrink:0;}
 .psteps{display:flex;gap:4px;}
 .sd{width:22px;height:6px;border-radius:4px;background:#222;transition:background .3s;}
 .sd.done{background:var(--y);}
 .sd.cur{background:#fff;}
 
-/* ── PACK BAR ── */
 .pack-bar{display:flex;align-items:center;gap:8px;padding:8px 28px;background:#0c0c0c;border-bottom:1px solid #1a1a1a;overflow-x:auto;flex-shrink:0;}
 .pack-chip{background:#111;border:2px solid #2a2a2a;border-radius:20px;padding:5px 14px;font-family:'Barlow Condensed',sans-serif;font-size:.75rem;letter-spacing:1px;color:var(--gr);cursor:pointer;white-space:nowrap;transition:all .2s;display:flex;align-items:center;gap:6px;}
 .pack-chip:hover:not(.locked){border-color:#555;color:var(--w);}
 .pack-chip.active{border-color:var(--y);color:var(--y);background:rgba(255,235,0,.08);}
 .pack-chip.locked{opacity:.45;cursor:default;}
-.pack-chip .ck{font-size:.7rem;color:var(--gn);}
 
-/* ── GAME LAYOUT ── */
 .gwrap{display:grid;grid-template-columns:1fr 440px;gap:20px;padding:20px 28px;flex:1;}
 .wsec{display:flex;flex-direction:column;align-items:center;gap:16px;}
 .wcont{position:relative;width:400px;height:400px;}
@@ -87,17 +79,15 @@ header{background:var(--bk);border-bottom:3px solid var(--y);padding:12px 28px;d
 .ptrack{background:#1a1a1a;border-radius:50px;height:6px;margin-top:4px;overflow:hidden;}
 .pfill{height:100%;background:linear-gradient(90deg,var(--yd),var(--y));border-radius:50px;transition:width .5s ease;}
 
-/* ── TIMER ── */
 .timer-wrap{width:100%;max-width:400px;}
 .timer-top{display:flex;justify-content:space-between;margin-bottom:5px;font-family:'Barlow Condensed',sans-serif;font-size:.72rem;letter-spacing:2px;color:var(--gr);text-transform:uppercase;}
 .timer-num{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--y);}
 .timer-bar-bg{background:#1a1a1a;border-radius:50px;height:10px;overflow:hidden;}
-.timer-bar{height:100%;border-radius:50px;transition:width .1s linear, background .5s;}
+.timer-bar{height:100%;border-radius:50px;transition:width .1s linear,background .5s;}
 .timer-bar.ok{background:linear-gradient(90deg,#27ae60,var(--gn));}
 .timer-bar.warn{background:linear-gradient(90deg,#e67e22,#f39c12);}
 .timer-bar.danger{background:linear-gradient(90deg,#c0392b,var(--rd));}
 
-/* ── CHALLENGE ── */
 .csec{display:flex;flex-direction:column;gap:14px;}
 .ccard{background:var(--bs);border:2px solid #2a2a2a;border-radius:18px;overflow:hidden;min-height:460px;display:flex;flex-direction:column;}
 .chd{background:var(--y);padding:13px 20px;display:flex;align-items:center;gap:12px;flex-shrink:0;}
@@ -118,8 +108,8 @@ header{background:var(--bk);border-bottom:3px solid var(--y);padding:12px 28px;d
 .mi.sel{border-color:var(--y);background:rgba(255,235,0,.12);color:var(--y);}
 .mi.correct{border-color:var(--gn);background:rgba(46,204,113,.12);color:var(--gn);cursor:default;}
 .mi.wrong{border-color:var(--rd);background:rgba(231,76,60,.12);color:var(--rd);animation:shake .3s;cursor:default;}
-.fb{margin-top:12px;padding:11px 14px;border-radius:10px;font-size:.87rem;font-weight:500;display:none;gap:9px;line-height:1.4;}
-.fb.show{display:flex;}
+.fb{margin-top:12px;padding:11px 14px;border-radius:10px;font-size:.87rem;font-weight:500;display:none;line-height:1.4;}
+.fb.show{display:block;}
 .fb.good{background:rgba(46,204,113,.1);border:2px solid var(--gn);color:var(--gn);}
 .fb.bad{background:rgba(231,76,60,.1);border:2px solid var(--rd);color:var(--rd);}
 .nxtbtn{background:var(--gn);color:#000;border:none;font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:2px;padding:10px 28px;border-radius:8px;cursor:pointer;transition:all .2s;margin-top:12px;display:none;}
@@ -129,32 +119,26 @@ header{background:var(--bk);border-bottom:3px solid var(--y);padding:12px 28px;d
 .idle-icon{font-size:3.8rem;margin-bottom:12px;opacity:.5;}
 .idle-msg h3{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:2px;color:#333;margin-bottom:8px;}
 
-/* ── RESUME BANNER ── */
-.resume-banner{background:linear-gradient(135deg,#1a1700,#2a2200);border:2px solid var(--y);border-radius:14px;padding:18px 22px;margin-bottom:0;display:none;animation:su .4s ease;}
-.resume-banner.show{display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
-.resume-banner .rb-txt h4{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;color:var(--y);letter-spacing:2px;margin-bottom:3px;}
-.resume-banner .rb-txt p{font-size:.8rem;color:var(--gr);}
+.resume-banner{background:linear-gradient(135deg,#1a1700,#2a2200);border:2px solid var(--y);border-radius:14px;padding:18px 22px;margin:10px 28px 0;display:none;}
+.resume-banner.show{display:flex;align-items:center;gap:14px;flex-wrap:wrap;animation:su .4s ease;}
+.rb-txt h4{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;color:var(--y);letter-spacing:2px;margin-bottom:3px;}
+.rb-txt p{font-size:.8rem;color:var(--gr);}
 .rb-btns{display:flex;gap:8px;margin-left:auto;}
-.rb-btn{background:var(--y);color:var(--bk);border:none;font-family:'Bebas Neue',sans-serif;font-size:.95rem;letter-spacing:2px;padding:8px 18px;border-radius:8px;cursor:pointer;transition:all .2s;}
-.rb-btn:hover{background:var(--yd);}
-.rb-btn2{background:transparent;color:#555;border:2px solid #2a2a2a;font-family:'Bebas Neue',sans-serif;font-size:.85rem;letter-spacing:2px;padding:8px 14px;border-radius:8px;cursor:pointer;transition:all .2s;}
-.rb-btn2:hover{border-color:#555;color:var(--gr);}
+.rb-btn{background:var(--y);color:var(--bk);border:none;font-family:'Bebas Neue',sans-serif;font-size:.95rem;letter-spacing:2px;padding:8px 18px;border-radius:8px;cursor:pointer;}
+.rb-btn2{background:transparent;color:#555;border:2px solid #2a2a2a;font-family:'Bebas Neue',sans-serif;font-size:.85rem;letter-spacing:2px;padding:8px 14px;border-radius:8px;cursor:pointer;}
 
-/* ── PACK COMPLETE ── */
-.pack-complete{background:linear-gradient(135deg,#1a1700,#2a2200);border:2px solid var(--y);border-radius:14px;padding:22px;text-align:center;margin-bottom:12px;display:none;animation:su .4s ease;}
-.pack-complete.show{display:block;}
+.pack-complete{background:linear-gradient(135deg,#1a1700,#2a2200);border:2px solid var(--y);border-radius:14px;padding:22px;text-align:center;display:none;}
+.pack-complete.show{display:block;animation:su .4s ease;}
 .pack-complete h3{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:var(--y);letter-spacing:3px;margin-bottom:6px;}
 .pack-complete p{color:var(--gr);font-size:.88rem;margin-bottom:14px;}
 .next-pack-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
 .npbtn{background:var(--bk);color:var(--y);border:2px solid var(--y);border-radius:50px;font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:2px;padding:10px 24px;cursor:pointer;transition:all .2s;}
 .npbtn:hover{background:var(--y);color:var(--bk);}
 
-/* ── TROPHY ── */
 .trophy-card{background:var(--bs);border:2px solid var(--y);border-radius:24px;padding:44px;max-width:520px;width:92%;text-align:center;box-shadow:0 0 80px rgba(255,235,0,.1);animation:su .5s ease;}
 .ticon{font-size:4.5rem;animation:bounce .8s infinite alternate;margin-bottom:14px;}
 @keyframes bounce{from{transform:translateY(0)}to{transform:translateY(-12px)}}
 .trophy-card h2{font-family:'Bebas Neue',sans-serif;font-size:2.6rem;color:var(--y);letter-spacing:3px;margin-bottom:10px;}
-.tname{font-size:1.2rem;color:var(--w);margin-bottom:6px;}
 .tscore{font-family:'Bebas Neue',sans-serif;font-size:3.5rem;color:var(--y);margin-bottom:4px;}
 .tstats{color:var(--gr);font-size:.87rem;margin-bottom:20px;}
 .tcta{background:#111;border:1px solid #2a2a2a;border-radius:12px;padding:14px;margin-bottom:20px;}
@@ -165,19 +149,16 @@ header{background:var(--bk);border-bottom:3px solid var(--y);padding:12px 28px;d
 .tbtn2{background:transparent;color:var(--gr);border:2px solid #333;font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:2px;padding:10px 24px;border-radius:50px;cursor:pointer;transition:all .2s;margin:4px;}
 .tbtn2:hover{border-color:var(--y);color:var(--y);}
 
-/* ── LEADERBOARD ── */
 .lb-card{background:var(--bs);border:2px solid var(--y);border-radius:24px;padding:38px 42px;max-width:640px;width:92%;box-shadow:0 0 80px rgba(255,235,0,.1);animation:su .4s ease;}
 .lb-card h2{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:var(--y);letter-spacing:3px;text-align:center;margin-bottom:4px;}
 .lb-sub{text-align:center;color:var(--gr);font-size:.78rem;letter-spacing:2px;font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;margin-bottom:20px;}
 .lb-tabs{display:flex;gap:8px;justify-content:center;margin-bottom:18px;flex-wrap:wrap;}
 .lb-tab{background:#111;border:2px solid #2a2a2a;border-radius:20px;padding:5px 16px;font-family:'Barlow Condensed',sans-serif;font-size:.75rem;letter-spacing:1px;color:var(--gr);cursor:pointer;transition:all .2s;}
-.lb-tab:hover{border-color:#555;color:var(--w);}
 .lb-tab.active{border-color:var(--y);color:var(--y);background:rgba(255,235,0,.08);}
 .lb-list{display:flex;flex-direction:column;gap:7px;max-height:380px;overflow-y:auto;padding-right:4px;}
 .lb-list::-webkit-scrollbar{width:4px;}
-.lb-list::-webkit-scrollbar-track{background:#111;}
 .lb-list::-webkit-scrollbar-thumb{background:var(--yd);border-radius:4px;}
-.lb-row{display:flex;align-items:center;gap:12px;background:#111;border:2px solid #1e1e1e;border-radius:12px;padding:11px 14px;transition:border .2s;}
+.lb-row{display:flex;align-items:center;gap:12px;background:#111;border:2px solid #1e1e1e;border-radius:12px;padding:11px 14px;}
 .lb-row.me{border-color:var(--y);background:rgba(255,235,0,.05);}
 .lb-rank{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:#444;width:30px;text-align:center;flex-shrink:0;}
 .lb-row:nth-child(1) .lb-rank{color:#FFD700;}
@@ -191,12 +172,10 @@ header{background:var(--bk);border-bottom:3px solid var(--y);padding:12px 28px;d
 .lb-empty{text-align:center;padding:40px;color:#333;font-family:'Barlow Condensed',sans-serif;letter-spacing:2px;font-size:.88rem;}
 .lb-back{margin-top:20px;display:flex;justify-content:center;}
 
-/* ── TOASTS ── */
 .toast-wrap{position:fixed;bottom:24px;right:24px;display:flex;flex-direction:column;gap:10px;z-index:9999;}
 .toast{background:var(--bs);border:2px solid var(--y);border-radius:12px;padding:12px 18px;font-size:.85rem;color:var(--w);animation:toast-in .3s ease;box-shadow:0 8px 32px rgba(0,0,0,.5);max-width:300px;}
 @keyframes toast-in{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:none}}
 
-/* ── MISC ── */
 .cnfwrap{position:fixed;inset:0;pointer-events:none;z-index:999;overflow:hidden;}
 .cnf{position:absolute;opacity:0;animation:fall 1.5s ease-in forwards;}
 @keyframes fall{0%{opacity:1;top:-10px;transform:rotate(0)}100%{opacity:0;top:100vh;transform:rotate(720deg) translateX(60px)}}
@@ -204,9 +183,6 @@ header{background:var(--bk);border-bottom:3px solid var(--y);padding:12px 28px;d
 @keyframes su{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
 .timeout-flash{position:absolute;inset:0;background:rgba(231,76,60,.18);border-radius:18px;pointer-events:none;animation:flash .4s ease;z-index:5;}
 @keyframes flash{from{opacity:1}to{opacity:0}}
-.loading{display:flex;align-items:center;justify-content:center;gap:10px;color:var(--gr);font-family:'Barlow Condensed',sans-serif;letter-spacing:2px;font-size:.85rem;padding:20px;}
-.spinner{width:18px;height:18px;border:3px solid #333;border-top-color:var(--y);border-radius:50%;animation:spin .7s linear infinite;}
-@keyframes spin{to{transform:rotate(360deg)}}
 
 @media(max-width:920px){
   .gwrap{grid-template-columns:1fr;}
@@ -219,7 +195,7 @@ header{background:var(--bk);border-bottom:3px solid var(--y);padding:12px 28px;d
 </head>
 <body>
 
-<!-- ── LOGIN ── -->
+<!-- LOGIN -->
 <div id="sLogin" class="screen active">
   <div class="login-card">
     <div class="login-logo">
@@ -233,28 +209,26 @@ header{background:var(--bk);border-bottom:3px solid var(--y);padding:12px 28px;d
       <button class="tab-btn active" id="tabLogin" onclick="switchAuthTab('login')">🔑 CONNEXION</button>
       <button class="tab-btn" id="tabRegister" onclick="switchAuthTab('register')">✨ INSCRIPTION</button>
     </div>
-    <!-- Login form -->
     <div id="loginForm">
-      <div class="field"><label>Prénom</label><input type="text" id="loginName" placeholder="Ex: Thomas" autocomplete="given-name"></div>
-      <div class="field"><label>Code PIN (4 chiffres)</label><input type="password" id="loginPin" placeholder="••••" maxlength="4" pattern="[0-9]{4}" inputmode="numeric"></div>
+      <div class="field"><label>Prénom</label><input type="text" id="loginName" placeholder="Ex: Thomas"></div>
+      <div class="field"><label>Code PIN (4 chiffres)</label><input type="password" id="loginPin" placeholder="••••" maxlength="4" inputmode="numeric"></div>
       <button class="login-btn" onclick="doLogin()">🎯 JOUER !</button>
       <div class="login-err" id="loginErr"></div>
       <div class="login-info">Entre ton prénom + code PIN pour retrouver ta progression.<br><strong>Nouvelle visite ? Utilise l'onglet Inscription.</strong></div>
     </div>
-    <!-- Register form -->
     <div id="registerForm" style="display:none;">
-      <div class="field"><label>Prénom</label><input type="text" id="regName" placeholder="Ex: Thomas" autocomplete="given-name"></div>
-      <div class="field"><label>Choisir un code PIN (4 chiffres)</label><input type="password" id="regPin" placeholder="••••" maxlength="4" pattern="[0-9]{4}" inputmode="numeric"></div>
-      <div class="field"><label>Confirmer le code PIN</label><input type="password" id="regPin2" placeholder="••••" maxlength="4" pattern="[0-9]{4}" inputmode="numeric"></div>
+      <div class="field"><label>Prénom</label><input type="text" id="regName" placeholder="Ex: Thomas"></div>
+      <div class="field"><label>Code PIN (4 chiffres)</label><input type="password" id="regPin" placeholder="••••" maxlength="4" inputmode="numeric"></div>
+      <div class="field"><label>Confirmer le code PIN</label><input type="password" id="regPin2" placeholder="••••" maxlength="4" inputmode="numeric"></div>
       <button class="login-btn" onclick="doRegister()">🚀 CRÉER MON COMPTE</button>
       <div class="login-err" id="regErr"></div>
-      <div class="login-info">Ton code PIN te permet de <strong>retrouver ton score</strong> et continuer là où tu t'es arrêté(e) !</div>
+      <div class="login-info">Ton PIN te permet de <strong>retrouver ton score</strong> et reprendre là où tu t'es arrêté(e) !</div>
     </div>
     <button class="guest-btn" onclick="doGuest()">Jouer sans compte (score non sauvegardé)</button>
   </div>
 </div>
 
-<!-- ── GAME ── -->
+<!-- GAME -->
 <div id="sGame" class="screen">
   <header>
     <div class="logo-z">
@@ -262,33 +236,25 @@ header{background:var(--bk);border-bottom:3px solid var(--y);padding:12px 28px;d
       <div class="hd-t"><h1>La Roue des Métiers</h1><p>BTP CFA Centre-Val de Loire</p></div>
     </div>
     <div class="hdr">
-      <div class="user-chip" id="userChip"><div class="av" id="userAv">?</div><span class="name" id="userName">Invité</span></div>
+      <div class="user-chip"><div class="av" id="userAv">?</div><span class="uname" id="userName">Invité</span></div>
       <button class="btn-sm" onclick="showLB()">🏆 Classement</button>
       <div class="score-box"><div class="snum" id="scoreDisp">0</div><div class="slbl">Points</div></div>
       <button class="btn-sm" onclick="doLogout()">⎋ Quitter</button>
     </div>
   </header>
-
   <div class="phd">
     <span id="greetLbl">Bienvenue !</span>
     <div class="psteps" id="psteps"></div>
     <span id="plbl">0 / 10 défis</span>
   </div>
-
   <div class="pack-bar" id="packBar"></div>
-
-  <!-- Resume banner -->
-  <div class="resume-banner" id="resumeBanner" style="margin:10px 28px 0;">
-    <div class="rb-txt">
-      <h4>🔄 Reprendre la partie ?</h4>
-      <p id="resumeDesc">Tu avais déjà commencé ce pack !</p>
-    </div>
+  <div class="resume-banner" id="resumeBanner">
+    <div class="rb-txt"><h4>🔄 Reprendre la partie ?</h4><p id="resumeDesc"></p></div>
     <div class="rb-btns">
       <button class="rb-btn" onclick="resumeSession()">▶ REPRENDRE</button>
       <button class="rb-btn2" onclick="freshStart()">Recommencer</button>
     </div>
   </div>
-
   <div class="gwrap">
     <div class="wsec">
       <div class="wcont">
@@ -297,7 +263,7 @@ header{background:var(--bk);border-bottom:3px solid var(--y);padding:12px 28px;d
         <div class="whub">BTP<br>CFA</div>
       </div>
       <button class="spin-btn" id="spinBtn" onclick="spinWheel()">🎯 TOURNER LA ROUE</button>
-      <div class="mbox2" id="metierBox"><div><div class="mh">Tourne la roue pour découvrir ton métier !</div></div></div>
+      <div class="mbox2" id="metierBox"><div class="mh">Tourne la roue pour découvrir ton métier !</div></div>
       <div style="width:100%;max-width:400px;">
         <div style="display:flex;justify-content:space-between;margin-bottom:4px;font-family:'Barlow Condensed',sans-serif;font-size:.7rem;letter-spacing:2px;color:var(--gr);text-transform:uppercase;">
           <span>Progression</span><span id="defCnt">0 / 10</span>
@@ -309,7 +275,6 @@ header{background:var(--bk);border-bottom:3px solid var(--y);padding:12px 28px;d
         <div class="timer-bar-bg"><div class="timer-bar ok" id="timerBar" style="width:100%"></div></div>
       </div>
     </div>
-
     <div class="csec">
       <div class="pack-complete" id="packCompleteBanner">
         <h3>🏅 Pack terminé !</h3>
@@ -323,11 +288,7 @@ header{background:var(--bk);border-bottom:3px solid var(--y);padding:12px 28px;d
           <p>Tourne la roue pour découvrir un métier du BTP !</p>
         </div>
         <div id="chContent" style="display:none;flex-direction:column;flex:1;">
-          <div class="chd">
-            <span id="chIcon">🏗</span>
-            <h2 id="chTitle">Défi</h2>
-            <span class="bdg" id="chBadge">+10 PTS</span>
-          </div>
+          <div class="chd"><span id="chIcon">🏗</span><h2 id="chTitle">Défi</h2><span class="bdg" id="chBadge">+10 PTS</span></div>
           <div class="cbody">
             <div class="chq" id="chQ"></div>
             <div id="chOpts"></div>
@@ -340,30 +301,25 @@ header{background:var(--bk);border-bottom:3px solid var(--y);padding:12px 28px;d
   </div>
 </div>
 
-<!-- ── LEADERBOARD ── -->
+<!-- LEADERBOARD -->
 <div id="sLB" class="screen">
   <div class="lb-card">
     <h2>🏆 Classement</h2>
-    <p class="lb-sub" id="lbSub">Tous les joueurs</p>
+    <p class="lb-sub" id="lbSub"></p>
     <div class="lb-tabs" id="lbTabs"></div>
-    <div id="lbLoading" class="loading" style="display:none;"><div class="spinner"></div>Chargement…</div>
     <div class="lb-list" id="lbList"></div>
     <div class="lb-back"><button class="tbtn" onclick="show('sGame')">← RETOUR AU JEU</button></div>
   </div>
 </div>
 
-<!-- ── TROPHY ── -->
+<!-- TROPHY -->
 <div id="sTrophy" class="screen">
   <div class="trophy-card">
     <div class="ticon">🏆</div>
     <h2>Félicitations !</h2>
-    <div class="tname" id="tName"></div>
     <div class="tscore" id="tScore">0 pts</div>
     <div class="tstats" id="tStats"></div>
-    <div class="tcta">
-      <p>Tu as exploré tous les défis du pack !<br>Envie d'en savoir plus sur nos formations ?<br>
-      <strong>Parle à un conseiller BTP CFA CVDL → sur notre stand !</strong></p>
-    </div>
+    <div class="tcta"><p>Tu as exploré tous les défis !<br>Envie d'en savoir plus sur nos formations ?<br><strong>Parle à un conseiller BTP CFA CVDL → sur notre stand !</strong></p></div>
     <button class="tbtn" onclick="restartGame()">🔄 REJOUER</button>
     <button class="tbtn2" onclick="showLB()">🏆 CLASSEMENT</button>
   </div>
@@ -374,7 +330,18 @@ header{background:var(--bk);border-bottom:3px solid var(--y);padding:12px 28px;d
 
 <script>
 // ═══════════════════════════════════════════════
-//  PACKS
+// STORAGE — localStorage uniquement (fiable dans les artefacts)
+// Clé globale partagée dans le navigateur de l'animateur
+// ═══════════════════════════════════════════════
+const LS = {
+  get(k){ try{ const v=localStorage.getItem(k); return v?JSON.parse(v):null; }catch{ return null; } },
+  set(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); return true; }catch(e){ console.warn('LS.set',e); return false; } },
+  del(k){ try{ localStorage.removeItem(k); }catch{} },
+  keys(pfx){ try{ return Object.keys(localStorage).filter(k=>k.startsWith(pfx)); }catch{ return []; } }
+};
+
+// ═══════════════════════════════════════════════
+// PACKS
 // ═══════════════════════════════════════════════
 const PACKS=[
   {id:'metiers',label:'🧱 Métiers',unlocked:true,questions:[
@@ -392,13 +359,13 @@ const PACKS=[
   {id:'securite',label:'⛑️ Sécurité',unlocked:true,questions:[
     {name:"EPI",icon:"⛑️",sIdx:0,type:"mcq",timer:20,question:"Quels sont les 3 EPI obligatoires sur tout chantier de construction ?",options:["Casque, gants, lunettes","Casque, chaussures de sécurité, gilet haute visibilité","Casque, harnais, masque","Bouchons d'oreilles, lunettes, gants"],correct:1,explanation:"Casque, chaussures de sécurité et gilet haute visibilité sont les 3 EPI de base !"},
     {name:"Hauteur",icon:"🪜",sIdx:1,type:"mcq",timer:20,question:"À partir de quelle hauteur le port du harnais est-il obligatoire ?",options:["1 mètre","2 mètres","3 mètres","5 mètres"],correct:1,explanation:"Le harnais est obligatoire dès 2 mètres !"},
-    {name:"Électricité",icon:"⚡",sIdx:2,type:"mcq",timer:20,question:"Avant d'intervenir sur un tableau électrique, quelle est la 1ère action obligatoire ?",options:["Prévenir le chef de chantier","Couper le courant et consigner l'installation","Vérifier avec un testeur sous tension","Mettre des gants isolants et travailler normalement"],correct:1,explanation:"Couper et consigner est OBLIGATOIRE avant toute intervention électrique !"},
+    {name:"Électricité",icon:"⚡",sIdx:2,type:"mcq",timer:20,question:"Avant d'intervenir sur un tableau électrique, quelle est la 1ère action obligatoire ?",options:["Prévenir le chef de chantier","Couper le courant et consigner l'installation","Vérifier avec un testeur sous tension","Mettre des gants isolants"],correct:1,explanation:"Couper et consigner est OBLIGATOIRE avant toute intervention électrique !"},
     {name:"Produits chimiques",icon:"☠️",sIdx:0,type:"match",timer:30,question:"Associe chaque pictogramme de danger à sa signification !",left:["💀 Tête de mort","🔥 Flamme","⚠️ Point d'exclamation","🌿 Environnement"],right:["Toxique / Mortel","Inflammable","Irritant / Nocif","Dangereux pour l'eau"],pairs:[0,1,2,3],explanation:"Ces pictogrammes GHS/CLP peuvent sauver des vies !"},
     {name:"Incendie",icon:"🧯",sIdx:1,type:"mcq",timer:20,question:"Quel extincteur utiliser sur un feu électrique actif ?",options:["Eau pulvérisée","CO₂ (dioxyde de carbone)","Poudre ABC","Mousse AFFF"],correct:1,explanation:"Seul le CO₂ est adapté aux feux électriques !"},
     {name:"Manutention",icon:"📦",sIdx:2,type:"mcq",timer:20,question:"Quelle est la charge maximale recommandée pour le port manuel ?",options:["10 kg","25 kg","55 kg","Aucune limite avec ceinture"],correct:1,explanation:"25 kg est la limite recommandée !"},
     {name:"Signalisation",icon:"🚧",sIdx:0,type:"match",timer:25,question:"Relie chaque couleur de signalisation à sa signification !",left:["Rouge","Jaune/Orange","Vert","Bleu"],right:["Obligation / Information","Danger / Avertissement","Sécurité / Premiers secours","Interdiction / Arrêt"],pairs:[3,1,2,0],explanation:"Ces couleurs sont universelles sur tous les chantiers du monde !"},
-    {name:"Fouilles",icon:"⛏️",sIdx:1,type:"mcq",timer:20,question:"Avant de creuser, quelle démarche est OBLIGATOIRE pour repérer les réseaux ?",options:["Appeler son chef","Consulter le plan masse","Faire une DT-DICT auprès des gestionnaires de réseaux","Vérifier avec un détecteur de métaux"],correct:2,explanation:"La DT-DICT est obligatoire avant tout terrassement !"},
-    {name:"Bruit",icon:"🔊",sIdx:2,type:"mcq",timer:15,question:"À partir de quel niveau sonore les bouchons d'oreilles sont-ils obligatoires ?",options:["65 dB","80 dB","95 dB","110 dB"],correct:1,explanation:"80 dB est le seuil d'action !"},
+    {name:"Fouilles",icon:"⛏️",sIdx:1,type:"mcq",timer:20,question:"Avant de creuser, quelle démarche est OBLIGATOIRE pour repérer les réseaux ?",options:["Appeler son chef","Consulter le plan masse","Faire une DT-DICT","Vérifier avec un détecteur de métaux"],correct:2,explanation:"La DT-DICT est obligatoire avant tout terrassement !"},
+    {name:"Bruit",icon:"🔊",sIdx:2,type:"mcq",timer:15,question:"À partir de quel niveau sonore les protections auditives sont-elles obligatoires ?",options:["65 dB","80 dB","95 dB","110 dB"],correct:1,explanation:"80 dB est le seuil d'action !"},
     {name:"Premiers secours",icon:"🚑",sIdx:0,type:"match",timer:25,question:"En cas d'accident sur chantier, quel est l'ordre correct d'action ?",left:["1er","2ème","3ème"],right:["Alerter les secours (15/18/112)","Protéger la zone","Secourir la victime"],pairs:[1,0,2],explanation:"Protéger → Alerter → Secourir : le PAS qui sauve des vies !"}
   ]},
   {id:'formations',label:'🎓 Formations',unlocked:true,questions:[
@@ -418,30 +385,9 @@ const PACKS=[
 ];
 
 // ═══════════════════════════════════════════════
-//  STORAGE HELPERS (persistent via window.storage)
+// AUTH — stockage localStorage
 // ═══════════════════════════════════════════════
-const S={
-  async get(k,shared=false){
-    try{const r=await window.storage.get(k,shared);return(r&&r.value!=null)?JSON.parse(r.value):null;}
-    catch{return null;}
-  },
-  async set(k,v,shared=false){
-    try{await window.storage.set(k,JSON.stringify(v),shared);}
-    catch(e){console.warn('storage set fail',e);}
-  },
-  async del(k,shared=false){
-    try{await window.storage.delete(k,shared);}catch{}
-  },
-  async list(pfx,shared=false){
-    try{const r=await window.storage.list(pfx,shared);return r?r.keys:[];}
-    catch{return[];}
-  }
-};
-
-// ═══════════════════════════════════════════════
-//  AUTH
-// ═══════════════════════════════════════════════
-let currentUser=null; // {name, pin, isGuest}
+let currentUser=null;
 
 function switchAuthTab(t){
   document.getElementById('tabLogin').classList.toggle('active',t==='login');
@@ -450,37 +396,34 @@ function switchAuthTab(t){
   document.getElementById('registerForm').style.display=t==='register'?'':'none';
 }
 
-async function doRegister(){
+function doRegister(){
   const name=document.getElementById('regName').value.trim();
   const pin=document.getElementById('regPin').value.trim();
   const pin2=document.getElementById('regPin2').value.trim();
   const err=document.getElementById('regErr');
   err.className='login-err';
-  if(!name||name.length<2){err.textContent='Entre un prénom valide (2 caractères min).';err.className='login-err show';return;}
-  if(!/^\d{4}$/.test(pin)){err.textContent='Le code PIN doit contenir exactement 4 chiffres.';err.className='login-err show';return;}
-  if(pin!==pin2){err.textContent='Les deux codes PIN ne correspondent pas.';err.className='login-err show';return;}
-  const key='user:'+name.toLowerCase();
-  const existing=await S.get(key,true);
-  if(existing){err.textContent='Ce prénom est déjà pris. Choisis-en un autre ou connecte-toi.';err.className='login-err show';return;}
-  await S.set(key,{name,pin,createdAt:Date.now()},true);
-  // Verify write succeeded
-  const check=await S.get(key,true);
-  if(!check){err.textContent='Erreur de sauvegarde du compte. Réessaie.';err.className='login-err show';return;}
+  if(!name||name.length<2){showErr(err,'Entre un prénom valide (2 caractères min).');return;}
+  if(!/^\d{4}$/.test(pin)){showErr(err,'Le code PIN doit contenir exactement 4 chiffres.');return;}
+  if(pin!==pin2){showErr(err,'Les deux codes PIN ne correspondent pas.');return;}
+  const key='btpcfa_user_'+name.toLowerCase();
+  if(LS.get(key)){showErr(err,'Ce prénom est déjà pris. Connecte-toi ou choisis un autre prénom.');return;}
+  const ok=LS.set(key,{name,pin,createdAt:Date.now()});
+  if(!ok){showErr(err,'Impossible de sauvegarder (localStorage indisponible).');return;}
   toast('🎉 Compte créé ! Bienvenue '+name+' !');
   currentUser={name,pin};
   startSession();
 }
 
-async function doLogin(){
+function doLogin(){
   const name=document.getElementById('loginName').value.trim();
   const pin=document.getElementById('loginPin').value.trim();
   const err=document.getElementById('loginErr');
   err.className='login-err';
-  if(!name||!pin){err.textContent='Entre ton prénom et ton code PIN.';err.className='login-err show';return;}
-  const key='user:'+name.toLowerCase();
-  const u=await S.get(key,true);
-  if(!u){err.textContent='Prénom inconnu. Inscris-toi d\'abord !';err.className='login-err show';return;}
-  if(u.pin!==pin){err.textContent='Code PIN incorrect.';err.className='login-err show';return;}
+  if(!name||!pin){showErr(err,'Entre ton prénom et ton code PIN.');return;}
+  const key='btpcfa_user_'+name.toLowerCase();
+  const u=LS.get(key);
+  if(!u){showErr(err,'Prénom inconnu. Inscris-toi d\'abord via l\'onglet Inscription !');return;}
+  if(u.pin!==pin){showErr(err,'Code PIN incorrect. Réessaie !');return;}
   currentUser={name:u.name,pin};
   toast('👋 Bon retour '+u.name+' !');
   startSession();
@@ -492,137 +435,111 @@ function doGuest(){
 }
 
 function doLogout(){
-  if(confirm('Quitter la partie ? Ta progression est sauvegardée.')){
+  if(confirm('Quitter ? Ta progression est sauvegardée.')){
     currentUser=null; show('sLogin');
   }
 }
 
+function showErr(el,msg){el.textContent=msg;el.className='login-err show';}
+
 // ═══════════════════════════════════════════════
-//  SESSION
+// SESSION
 // ═══════════════════════════════════════════════
-async function startSession(){
+function startSession(){
   document.getElementById('userAv').textContent=currentUser.name[0].toUpperCase();
   document.getElementById('userName').textContent=currentUser.name;
   show('sGame');
-  await initPack(PACKS[0]);
+  initPack(PACKS[0]);
 }
 
 // ═══════════════════════════════════════════════
-//  GAME STATE
+// GAME STATE
 // ═══════════════════════════════════════════════
 const SCOLS=[{bg:'#000000',text:'#FFEB00',border:'rgba(255,235,0,.5)'},{bg:'#FFEB00',text:'#000000',border:'rgba(0,0,0,.3)'},{bg:'#FFFFFF',text:'#000000',border:'rgba(0,0,0,.2)'}];
-let currentPack=PACKS[0], questions=[], completed=[], score=0;
-let angle=0, spinning=false, selLeft=null, matched=[], curQ=-1;
-let sessionStart=Date.now(), timerInterval=null, timerLeft=0, timerMax=0, challengeAnswered=false;
+let currentPack=PACKS[0],questions=[],completed=[],score=0;
+let angle=0,spinning=false,selLeft=null,matched=[],curQ=-1;
+let sessionStart=Date.now(),timerInterval=null,timerLeft=0,timerMax=0,challengeAnswered=false;
 
 const canvas=document.getElementById('wcanvas'),ctx=canvas.getContext('2d');
 const W=canvas.width,H=canvas.height;
 
-// ── Save & Load progress per user/pack ──
-function saveKey(packId){ return currentUser&&!currentUser.isGuest?'progress:'+currentUser.name.toLowerCase()+':'+packId:null; }
+// PROGRESS SAVE/LOAD
+function progressKey(packId){return currentUser&&!currentUser.isGuest?'btpcfa_prog_'+currentUser.name.toLowerCase()+'_'+packId:null;}
+function saveProgress(){const k=progressKey(currentPack.id);if(k)LS.set(k,{completed,score,angle,ts:Date.now()});}
+function loadProgress(packId){const k=progressKey(packId);return k?LS.get(k):null;}
+function clearProgress(packId){const k=progressKey(packId);if(k)LS.del(k);}
 
-async function saveProgress(){
-  const k=saveKey(currentPack.id); if(!k) return;
-  await S.set(k,{completed,score,angle,ts:Date.now()},false); // personal storage
-}
-
-async function loadProgress(packId){
-  const k=saveKey(packId); if(!k) return null;
-  return await S.get(k,false); // personal storage
-}
-
-async function clearProgress(packId){
-  const k=saveKey(packId); if(!k) return;
-  await S.del(k,false);
-}
-
-// ── LB ──
-async function addToLB(entry){
-  const k='lb:'+currentPack.id+':'+currentUser.name.toLowerCase()+':'+Date.now();
-  try{await window.storage.set(k,JSON.stringify({...entry,ts:Date.now()}),true);}catch(e){console.warn('LB save failed',e);}
-}
-
-async function getLB(packId){
-  const pfx='lb:'+(packId==='all'?'':packId);
-  const keys=await S.list(pfx);
-  const rows=await Promise.all(keys.map(k=>S.get(k.replace(/^[^:]*:/,'lb:'))||window.storage.get(k).then(r=>r?JSON.parse(r.value):null).catch(()=>null)));
-  // fetch via direct key
-  const results=[];
-  for(const k of keys){
-    try{const r=await window.storage.get(k,true);if(r)results.push(JSON.parse(r.value));}catch{}
-  }
-  return results.sort((a,b)=>b.score-a.score);
+// LEADERBOARD
+const LB_KEY='btpcfa_leaderboard';
+function getLB(){return LS.get(LB_KEY)||[];}
+function saveLB(d){LS.set(LB_KEY,d);}
+function addToLB(entry){
+  if(currentUser.isGuest)return;
+  const lb=getLB();
+  lb.push({...entry,name:currentUser.name,ts:Date.now()});
+  lb.sort((a,b)=>b.score-a.score);
+  saveLB(lb.slice(0,200));
 }
 
 // ═══════════════════════════════════════════════
-//  PACK SYSTEM
+// PACK SYSTEM
 // ═══════════════════════════════════════════════
 function buildPackBar(){
-  const bar=document.getElementById('packBar'); bar.innerHTML='';
+  const bar=document.getElementById('packBar');bar.innerHTML='';
   PACKS.forEach(p=>{
-    const chip=document.createElement('div');
-    chip.className='pack-chip'+(p.id===currentPack.id?' active':'')+(p.unlocked?'':' locked');
-    chip.innerHTML=p.label+(p.unlocked?'':'  🔒');
-    if(p.unlocked) chip.onclick=()=>confirmSwitchPack(p);
-    bar.appendChild(chip);
+    const c=document.createElement('div');
+    c.className='pack-chip'+(p.id===currentPack.id?' active':'')+(p.unlocked?'':' locked');
+    c.innerHTML=p.label+(p.unlocked?'':'  🔒');
+    if(p.unlocked)c.onclick=()=>{if(p.id!==currentPack.id){saveProgress();initPack(p);}};
+    bar.appendChild(c);
   });
 }
 
-async function confirmSwitchPack(p){
-  if(p.id===currentPack.id) return;
-  if(completed.length>0&&!confirm('Changer de pack ? Ta progression est sauvegardée.')) return;
-  await saveProgress();
-  await initPack(p);
-}
-
-async function initPack(p){
+function initPack(p){
   stopTimer();
-  currentPack=p; questions=[...p.questions];
-  completed=[]; score=0; angle=0; selLeft=null; matched=[]; curQ=-1;
+  currentPack=p;questions=[...p.questions];
+  completed=[];score=0;angle=0;selLeft=null;matched=[];curQ=-1;
   sessionStart=Date.now();
   document.getElementById('scoreDisp').textContent='0';
   document.getElementById('idleMsg').style.display='flex';
   document.getElementById('chContent').style.display='none';
-  document.getElementById('metierBox').innerHTML='<div><div class="mh">Tourne la roue pour découvrir ton métier !</div></div>';
+  document.getElementById('metierBox').innerHTML='<div class="mh">Tourne la roue pour découvrir ton métier !</div>';
   document.getElementById('spinBtn').disabled=false;
   document.getElementById('timerWrap').style.display='none';
   document.getElementById('packCompleteBanner').className='pack-complete';
   document.getElementById('resumeBanner').className='resume-banner';
-  buildPackBar(); updateProg(); drawWheel(0);
+  buildPackBar();updateProg();drawWheel(0);
 
-  // Check for saved progress
-  if(!p.unlocked||p.questions.length===0) return;
-  const saved=await loadProgress(p.id);
+  if(!p.unlocked||!p.questions.length)return;
+  const saved=loadProgress(p.id);
   if(saved&&saved.completed&&saved.completed.length>0&&saved.completed.length<p.questions.length){
-    document.getElementById('resumeDesc').textContent=
-      saved.completed.length+' / '+p.questions.length+' défis complétés — Score: '+saved.score+' pts';
+    window._savedProg=saved;
+    document.getElementById('resumeDesc').textContent=saved.completed.length+'/'+p.questions.length+' défis — Score: '+saved.score+' pts';
     document.getElementById('resumeBanner').className='resume-banner show';
-    // Store saved data for resume
-    window._savedProgress=saved;
   }
 }
 
-async function resumeSession(){
-  const saved=window._savedProgress; if(!saved) return;
-  completed=saved.completed||[]; score=saved.score||0; angle=saved.angle||0;
+function resumeSession(){
+  const s=window._savedProg;if(!s)return;
+  completed=s.completed||[];score=s.score||0;angle=s.angle||0;
   document.getElementById('scoreDisp').textContent=score;
   document.getElementById('resumeBanner').className='resume-banner';
-  updateProg(); drawWheel(angle);
+  updateProg();drawWheel(angle);
   toast('▶ Progression restaurée ! '+completed.length+' défis complétés.');
 }
 
-async function freshStart(){
-  await clearProgress(currentPack.id);
+function freshStart(){
+  clearProgress(currentPack.id);
   document.getElementById('resumeBanner').className='resume-banner';
-  window._savedProgress=null;
-  completed=[]; score=0; angle=0;
+  window._savedProg=null;
+  completed=[];score=0;angle=0;
   document.getElementById('scoreDisp').textContent='0';
-  updateProg(); drawWheel(0);
-  toast('🔄 Nouvelle partie lancée !');
+  updateProg();drawWheel(0);
+  toast('🔄 Nouvelle partie !');
 }
 
 // ═══════════════════════════════════════════════
-//  WHEEL
+// WHEEL
 // ═══════════════════════════════════════════════
 function drawWheel(rot){
   ctx.clearRect(0,0,W,H);
@@ -649,7 +566,7 @@ function drawWheel(rot){
 }
 
 function spinWheel(){
-  if(spinning) return;
+  if(spinning)return;
   if(questions.every((_,i)=>completed.includes(i))){endGame();return;}
   spinning=true;stopTimer();document.getElementById('spinBtn').disabled=true;
   document.getElementById('idleMsg').style.display='none';
@@ -672,14 +589,14 @@ function showMetier(i){
 }
 
 // ═══════════════════════════════════════════════
-//  TIMER
+// TIMER
 // ═══════════════════════════════════════════════
-function startTimer(seconds){
-  stopTimer();timerLeft=seconds;timerMax=seconds;challengeAnswered=false;
+function startTimer(s){
+  stopTimer();timerLeft=s;timerMax=s;challengeAnswered=false;
   const wrap=document.getElementById('timerWrap'),num=document.getElementById('timerNum'),bar=document.getElementById('timerBar');
-  wrap.style.display='block';num.textContent=timerLeft;bar.style.width='100%';bar.className='timer-bar ok';
+  wrap.style.display='block';num.textContent=s;bar.style.width='100%';bar.className='timer-bar ok';
   timerInterval=setInterval(()=>{
-    timerLeft--;const pct=Math.round((timerLeft/timerMax)*100);
+    timerLeft--;const pct=Math.round(timerLeft/timerMax*100);
     num.textContent=timerLeft;bar.style.width=pct+'%';
     if(pct>50)bar.className='timer-bar ok';else if(pct>25)bar.className='timer-bar warn';else bar.className='timer-bar danger';
     if(timerLeft<=0){stopTimer();if(!challengeAnswered)onTimeout();}
@@ -689,16 +606,16 @@ function stopTimer(){clearInterval(timerInterval);timerInterval=null;}
 function onTimeout(){
   challengeAnswered=true;
   document.querySelectorAll('.mcq-btn').forEach(b=>b.disabled=true);
-  document.querySelectorAll('.mi').forEach(b=>{b.style.pointerEvents='none';});
+  document.querySelectorAll('.mi').forEach(b=>b.style.pointerEvents='none');
   const m=questions[curQ];
-  if(m.type==='mcq'){const btns=document.querySelectorAll('.mcq-btn');if(btns[m.correct])btns[m.correct].classList.add('correct');}
+  if(m.type==='mcq'){const bs=document.querySelectorAll('.mcq-btn');if(bs[m.correct])bs[m.correct].classList.add('correct');}
   showFb(false,'⏱️ Temps écoulé ! '+m.explanation);
-  const card=document.getElementById('ccard');const flash=document.createElement('div');flash.className='timeout-flash';card.style.position='relative';card.appendChild(flash);setTimeout(()=>flash.remove(),500);
+  const card=document.getElementById('ccard'),fl=document.createElement('div');fl.className='timeout-flash';card.style.position='relative';card.appendChild(fl);setTimeout(()=>fl.remove(),500);
   doneChallenge();
 }
 
 // ═══════════════════════════════════════════════
-//  CHALLENGES
+// CHALLENGES
 // ═══════════════════════════════════════════════
 function showChallenge(i){
   const m=questions[i];challengeAnswered=false;
@@ -751,10 +668,8 @@ function buildMatch(m,c){
   ro.forEach(ri=>{
     const el=document.createElement('div');el.className='mi';el.textContent=m.right[ri];el.dataset.ri=ri;
     el.onclick=()=>{
-      if(selLeft===null||el.classList.contains('correct')||el.classList.contains('wrong'))return;
-      if(challengeAnswered)return;
-      const cor=m.pairs[selLeft];
-      const sEl=document.querySelector('.mi[data-li="'+selLeft+'"]');
+      if(selLeft===null||el.classList.contains('correct')||el.classList.contains('wrong')||challengeAnswered)return;
+      const cor=m.pairs[selLeft],sEl=document.querySelector('.mi[data-li="'+selLeft+'"]');
       if(ri===cor){
         el.classList.add('correct');if(sEl)sEl.classList.add('correct');
         matched.push(selLeft);confetti();
@@ -774,14 +689,13 @@ function buildMatch(m,c){
   g.appendChild(lc);g.appendChild(rc);c.appendChild(g);
 }
 
-function calcPts(){const r=timerLeft/timerMax;if(r>0.6)return 15;if(r>0.3)return 10;return 5;}
+function calcPts(){const r=timerLeft/timerMax;return r>0.6?15:r>0.3?10:5;}
 function showFb(ok,msg){const fb=document.getElementById('fbBar');fb.className='fb show '+(ok?'good':'bad');fb.innerHTML=(ok?'🎉 ':'💡 ')+msg;}
 function addPts(n){score+=n;document.getElementById('scoreDisp').textContent=score;confetti();}
 
-async function doneChallenge(){
+function doneChallenge(){
   if(!completed.includes(curQ))completed.push(curQ);
-  updateProg();drawWheel(angle);
-  await saveProgress(); // auto-save after each challenge
+  updateProg();drawWheel(angle);saveProgress();
   const nb=document.getElementById('nxtBtn');nb.className='nxtbtn show';
   if(completed.length===questions.length)nb.textContent='🏆 VOIR MON SCORE FINAL';
 }
@@ -791,21 +705,19 @@ function nextChallenge(){
   document.getElementById('chContent').style.display='none';
   document.getElementById('idleMsg').style.display='flex';
   document.getElementById('timerWrap').style.display='none';
-  document.getElementById('metierBox').innerHTML='<div><div class="mh">Tourne la roue pour le prochain défi !</div></div>';
+  document.getElementById('metierBox').innerHTML='<div class="mh">Tourne la roue pour le prochain défi !</div>';
   document.getElementById('spinBtn').disabled=false;
 }
 
 // ═══════════════════════════════════════════════
-//  END GAME
+// END GAME
 // ═══════════════════════════════════════════════
-async function endGame(){
+function endGame(){
   stopTimer();
   const dur=Math.round((Date.now()-sessionStart)/1000);
   const min=Math.floor(dur/60),sec=dur%60;
-  const entry={name:currentUser.name,packId:currentPack.id,packLabel:currentPack.label,score,dur,completed:questions.length};
-  if(!currentUser.isGuest) await addToLB(entry);
-  await clearProgress(currentPack.id); // Clear saved progress now that pack is complete
-
+  addToLB({packId:currentPack.id,packLabel:currentPack.label,score,dur,completed:questions.length});
+  clearProgress(currentPack.id);
   const banner=document.getElementById('packCompleteBanner');
   document.getElementById('packCompleteMsg').textContent='Score final : '+score+' pts — '+questions.length+'/'+questions.length+' défis en '+(min>0?min+'min ':'')+sec+'s !';
   const btns=document.getElementById('nextPackBtns');btns.innerHTML='';
@@ -823,36 +735,25 @@ async function endGame(){
 function restartGame(){show('sGame');initPack(currentPack);}
 
 // ═══════════════════════════════════════════════
-//  LEADERBOARD
+// LEADERBOARD
 // ═══════════════════════════════════════════════
 let lbFilter='all';
-async function showLB(){buildLB(lbFilter);show('sLB');}
+function showLB(){buildLB(lbFilter);show('sLB');}
 
-async function buildLB(filter){
+function buildLB(filter){
   lbFilter=filter;
-  document.getElementById('lbLoading').style.display='flex';
-  document.getElementById('lbList').innerHTML='';
   const tabs=document.getElementById('lbTabs');tabs.innerHTML='';
   const filters=[{id:'all',label:'🌍 Tous'},...PACKS.filter(p=>p.unlocked&&p.questions.length>0).map(p=>({id:p.id,label:p.label}))];
   filters.forEach(f=>{
     const t=document.createElement('div');t.className='lb-tab'+(f.id===filter?' active':'');
     t.textContent=f.label;t.onclick=()=>buildLB(f.id);tabs.appendChild(t);
   });
-
-  // Fetch all LB entries (shared storage)
-  let allKeys=[];
-  try{const r=await window.storage.list('lb:',true);allKeys=r?r.keys:[];}catch{}
-  const filterKeys=filter==='all'?allKeys:allKeys.filter(k=>k.startsWith('lb:'+filter+':'));
-  const rows=[];
-  for(const k of filterKeys){
-    try{const r=await window.storage.get(k,true);if(r)rows.push(JSON.parse(r.value));}catch{}
-  }
+  let rows=getLB();
+  if(filter!=='all')rows=rows.filter(e=>e.packId===filter);
   rows.sort((a,b)=>b.score-a.score);
-
-  document.getElementById('lbLoading').style.display='none';
-  document.getElementById('lbSub').textContent=rows.length+' score'+(rows.length!==1?'s':'')+(filter!=='all'?' — '+(PACKS.find(p=>p.id===filter)?.label||filter):'');
+  document.getElementById('lbSub').textContent=rows.length+' score'+(rows.length!==1?'s':'')+(filter!=='all'?' — '+(PACKS.find(p=>p.id===filter)?.label||''):'');
   const list=document.getElementById('lbList');list.innerHTML='';
-  if(rows.length===0){list.innerHTML='<div class="lb-empty">Aucun score encore ! Sois le premier 🎯</div>';return;}
+  if(!rows.length){list.innerHTML='<div class="lb-empty">Aucun score encore !<br>Sois le premier à jouer 🎯</div>';return;}
   rows.forEach((e,i)=>{
     const row=document.createElement('div');
     row.className='lb-row'+(e.name===currentUser?.name?' me':'');
@@ -862,14 +763,14 @@ async function buildLB(filter){
     row.innerHTML='<div class="lb-rank">'+(i+1)+'</div>'
       +'<div class="lb-av">'+(e.name||'?')[0].toUpperCase()+'</div>'
       +'<div class="lb-info"><div class="lb-name">'+(e.name||'Anonyme')+(e.name===currentUser?.name?' 👈':'')+'</div>'
-      +'<div class="lb-detail">'+(pack?pack.label:e.packId||'')+'  ·  '+dt+'  ·  '+(min>0?min+'min ':'')+sec+'s</div></div>'
+      +'<div class="lb-detail">'+(pack?pack.label:'')+'  ·  '+dt+'  ·  '+(min>0?min+'min ':'')+sec+'s</div></div>'
       +'<div class="lb-pts">'+e.score+'</div>';
     list.appendChild(row);
   });
 }
 
 // ═══════════════════════════════════════════════
-//  UTILS
+// UTILS
 // ═══════════════════════════════════════════════
 function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
 
@@ -879,7 +780,7 @@ function updateProg(){
   document.getElementById('pfill').style.width=(tot?Math.round(n/tot*100):0)+'%';
   document.getElementById('plbl').textContent=n+' / '+tot+' défis';
   const steps=document.getElementById('psteps');steps.innerHTML='';
-  for(let i=0;i<tot;i++){const d=document.createElement('div');d.className='sd'+(i<n?' done':(i===n?' cur':''));steps.appendChild(d);}
+  for(let i=0;i<tot;i++){const d=document.createElement('div');d.className='sd'+(i<n?' done':i===n?' cur':'');steps.appendChild(d);}
 }
 
 function confetti(){
@@ -887,9 +788,7 @@ function confetti(){
   const cols=['#FFEB00','#FFFFFF','#000000','#FFD700','#C9B800'];
   for(let i=0;i<35;i++){
     const c=document.createElement('div');c.className='cnf';
-    c.style.left=Math.random()*100+'vw';c.style.animationDelay=Math.random()*.6+'s';
-    c.style.animationDuration=(1+Math.random()*.8)+'s';c.style.background=cols[Math.floor(Math.random()*cols.length)];
-    c.style.borderRadius=Math.random()>.5?'50%':'2px';c.style.width=(6+Math.random()*10)+'px';c.style.height=(6+Math.random()*10)+'px';
+    c.style.cssText='left:'+Math.random()*100+'vw;animation-delay:'+Math.random()*.6+'s;animation-duration:'+(1+Math.random()*.8)+'s;background:'+cols[Math.floor(Math.random()*cols.length)]+';border-radius:'+(Math.random()>.5?'50%':'2px')+';width:'+(6+Math.random()*10)+'px;height:'+(6+Math.random()*10)+'px;';
     wrap.appendChild(c);setTimeout(()=>c.remove(),2500);
   }
 }
