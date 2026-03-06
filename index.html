@@ -11,7 +11,8 @@
 body{background:var(--bk);color:var(--w);font-family:'Barlow',sans-serif;min-height:100vh;overflow-x:hidden;}
 .screen{display:none;min-height:100vh;}
 .screen.active{display:flex;flex-direction:column;}
-#sTrophy,#sLB{align-items:center;justify-content:center;}
+#sLogin,#sTrophy,#sLB{align-items:center;justify-content:center;}
+#sLogin{background:radial-gradient(ellipse at 50% 30%,#1a1700,var(--bk) 70%);}
 #sTrophy{background:radial-gradient(ellipse at 50% 30%,#1a1700,var(--bk) 70%);}
 #sLB{background:radial-gradient(ellipse at 50% 30%,#1a1700,var(--bk) 70%);}
 
@@ -20,27 +21,42 @@ body{background:var(--bk);color:var(--w);font-family:'Barlow',sans-serif;min-hei
 .moverlay.hidden{display:none;}
 @keyframes fi{from{opacity:0}to{opacity:1}}
 .mbox{background:var(--bs);border:2px solid var(--y);border-radius:20px;width:min(720px,96vw);max-height:92vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 0 80px rgba(255,235,0,.18);animation:su .35s ease;}
-@keyframes su{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:none}}
 .mhd{background:var(--bk);border-bottom:2px solid var(--y);padding:16px 22px;display:flex;align-items:center;gap:14px;flex-shrink:0;}
-.mhd .lb{background:#000;border:2px solid var(--w);border-radius:8px;padding:6px 10px;font-family:'Bebas Neue',sans-serif;font-size:11px;color:var(--w);text-align:center;line-height:1.3;letter-spacing:1px;flex-shrink:0;}
-.mhd .lb span{display:block;font-size:8px;color:var(--y);letter-spacing:2px;margin-top:2px;}
 .mhd-t h2{font-family:'Bebas Neue',sans-serif;font-size:1.55rem;color:var(--y);letter-spacing:2px;}
 .mhd-t p{font-size:.78rem;color:var(--gr);font-family:'Barlow Condensed',sans-serif;letter-spacing:2px;}
 .mbody{flex:1;overflow:hidden;}
-.mbody iframe{width:100%;height:500px;border:none;display:block;}
 .mft{background:var(--bk);border-top:1px solid #2a2a2a;padding:13px 22px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-shrink:0;}
-.mft p{font-size:.76rem;color:var(--gr);line-height:1.4;max-width:320px;}
-.mft p strong{color:var(--y);}
 .btn-play{background:var(--bk);color:var(--y);border:2px solid var(--y);border-radius:50px;font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:3px;padding:11px 32px;cursor:pointer;transition:all .2s;white-space:nowrap;}
 .btn-play:hover{background:var(--y);color:var(--bk);box-shadow:0 0 25px rgba(255,235,0,.3);}
 .skip{color:#444;font-size:.73rem;cursor:pointer;text-decoration:underline;margin-left:10px;}
 .skip:hover{color:var(--gr);}
+/* ── LOGIN ── */
+.login-card{background:var(--bs);border:2px solid var(--y);border-radius:24px;padding:44px 40px;max-width:460px;width:92%;box-shadow:0 0 80px rgba(255,235,0,.12);animation:su .5s ease;}
+.login-logo{display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:28px;}
+.logo-b{background:#000;border:2px solid var(--w);border-radius:10px;padding:7px 11px;font-family:'Bebas Neue',sans-serif;font-size:12px;color:var(--w);text-align:center;line-height:1.3;letter-spacing:1px;}
+.logo-b span{display:block;font-size:8px;color:var(--y);letter-spacing:2px;margin-top:2px;}
+.login-card h2{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:var(--y);letter-spacing:3px;text-align:center;margin-bottom:6px;}
+.login-card .sub{text-align:center;color:var(--gr);font-size:.78rem;letter-spacing:2px;font-family:'Barlow Condensed',sans-serif;text-transform:uppercase;margin-bottom:28px;}
+.tab-row{display:flex;background:#111;border-radius:12px;padding:3px;margin-bottom:24px;gap:3px;}
+.tab-btn{flex:1;background:transparent;border:none;border-radius:10px;font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:2px;color:var(--gr);padding:9px;cursor:pointer;transition:all .2s;}
+.tab-btn.active{background:var(--y);color:var(--bk);}
+.field{margin-bottom:14px;}
+.field label{display:block;font-family:'Barlow Condensed',sans-serif;font-size:.72rem;letter-spacing:2px;color:var(--gr);text-transform:uppercase;margin-bottom:6px;}
+.field input{width:100%;background:#111;border:2px solid #2a2a2a;border-radius:10px;padding:11px 14px;color:var(--w);font-size:.93rem;font-family:'Barlow',sans-serif;outline:none;transition:border .2s;}
+.field input:focus{border-color:var(--y);}
+.field input::placeholder{color:#444;}
+.login-btn{width:100%;background:var(--bk);color:var(--y);border:2px solid var(--y);border-radius:50px;font-family:'Bebas Neue',sans-serif;font-size:1.35rem;letter-spacing:3px;padding:13px;cursor:pointer;transition:all .2s;margin-top:8px;}
+.login-btn:hover{background:var(--y);color:var(--bk);box-shadow:0 0 30px rgba(255,235,0,.25);}
+.login-err{background:rgba(231,76,60,.1);border:2px solid var(--rd);border-radius:10px;padding:10px 14px;font-size:.84rem;color:var(--rd);text-align:center;margin-top:10px;display:none;}
+.login-err.show{display:block;}
+.login-info{text-align:center;color:#444;font-size:.75rem;margin-top:14px;line-height:1.5;}
+.login-info strong{color:var(--gr);}
+.guest-btn{background:transparent;border:2px solid #2a2a2a;border-radius:50px;color:#555;font-family:'Bebas Neue',sans-serif;font-size:.9rem;letter-spacing:2px;padding:9px 24px;cursor:pointer;transition:all .2s;width:100%;margin-top:10px;}
+.guest-btn:hover{border-color:#555;color:var(--gr);}
 
 /* ── HEADER ── */
 header{background:var(--bk);border-bottom:3px solid var(--y);padding:12px 28px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
 .logo-z{display:flex;align-items:center;gap:14px;}
-.logo-b{background:#000;border:2px solid var(--w);border-radius:10px;padding:7px 11px;font-family:'Bebas Neue',sans-serif;font-size:12px;color:var(--w);text-align:center;line-height:1.3;letter-spacing:1px;}
-.logo-b span{display:block;font-size:8px;color:var(--y);letter-spacing:2px;margin-top:2px;}
 .hd-t h1{font-family:'Bebas Neue',sans-serif;font-size:1.9rem;color:var(--y);letter-spacing:3px;line-height:1;}
 .hd-t p{font-family:'Barlow Condensed',sans-serif;font-size:.72rem;color:var(--gr);letter-spacing:3px;text-transform:uppercase;}
 .hdr{display:flex;align-items:center;gap:12px;}
@@ -49,6 +65,9 @@ header{background:var(--bk);border-bottom:3px solid var(--y);padding:12px 28px;d
 .slbl{font-size:.63rem;letter-spacing:3px;color:var(--gr);text-transform:uppercase;}
 .btn-sm{background:transparent;border:2px solid #333;border-radius:10px;color:var(--gr);font-family:'Barlow Condensed',sans-serif;font-size:.7rem;letter-spacing:2px;text-transform:uppercase;padding:8px 13px;cursor:pointer;transition:all .2s;}
 .btn-sm:hover{border-color:var(--y);color:var(--y);}
+.user-chip{background:#111;border:2px solid #2a2a2a;border-radius:20px;padding:5px 12px;font-family:'Barlow Condensed',sans-serif;font-size:.75rem;color:var(--gr);display:flex;align-items:center;gap:8px;}
+.user-chip .av{background:var(--y);color:var(--bk);border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:.75rem;flex-shrink:0;}
+.user-chip .name{color:var(--w);font-weight:600;}
 
 /* ── PROG HEADER ── */
 .phd{display:flex;align-items:center;justify-content:space-between;padding:8px 28px;background:#0e0e0e;border-bottom:1px solid #1e1e1e;font-family:'Barlow Condensed',sans-serif;font-size:.72rem;letter-spacing:2px;color:var(--gr);text-transform:uppercase;flex-shrink:0;}
@@ -124,12 +143,23 @@ header{background:var(--bk);border-bottom:3px solid var(--y);padding:12px 28px;d
 .idle-icon{font-size:3.8rem;margin-bottom:12px;opacity:.5;}
 .idle-msg h3{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:2px;color:#333;margin-bottom:8px;}
 
-/* ── PACK COMPLETE BANNER ── */
+/* ── RESUME BANNER ── */
+.resume-banner{background:linear-gradient(135deg,#1a1700,#2a2200);border:2px solid var(--y);border-radius:14px;padding:18px 22px;margin-bottom:0;display:none;animation:su .4s ease;}
+.resume-banner.show{display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+.resume-banner .rb-txt h4{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;color:var(--y);letter-spacing:2px;margin-bottom:3px;}
+.resume-banner .rb-txt p{font-size:.8rem;color:var(--gr);}
+.rb-btns{display:flex;gap:8px;margin-left:auto;}
+.rb-btn{background:var(--y);color:var(--bk);border:none;font-family:'Bebas Neue',sans-serif;font-size:.95rem;letter-spacing:2px;padding:8px 18px;border-radius:8px;cursor:pointer;transition:all .2s;}
+.rb-btn:hover{background:var(--yd);}
+.rb-btn2{background:transparent;color:#555;border:2px solid #2a2a2a;font-family:'Bebas Neue',sans-serif;font-size:.85rem;letter-spacing:2px;padding:8px 14px;border-radius:8px;cursor:pointer;transition:all .2s;}
+.rb-btn2:hover{border-color:#555;color:var(--gr);}
+
+/* ── PACK COMPLETE ── */
 .pack-complete{background:linear-gradient(135deg,#1a1700,#2a2200);border:2px solid var(--y);border-radius:14px;padding:22px;text-align:center;margin-bottom:12px;display:none;animation:su .4s ease;}
 .pack-complete.show{display:block;}
 .pack-complete h3{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:var(--y);letter-spacing:3px;margin-bottom:6px;}
 .pack-complete p{color:var(--gr);font-size:.88rem;margin-bottom:14px;}
-.pack-complete .next-pack-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+.next-pack-btns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
 .npbtn{background:var(--bk);color:var(--y);border:2px solid var(--y);border-radius:50px;font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:2px;padding:10px 24px;cursor:pointer;transition:all .2s;}
 .npbtn:hover{background:var(--y);color:var(--bk);}
 
@@ -175,22 +205,29 @@ header{background:var(--bk);border-bottom:3px solid var(--y);padding:12px 28px;d
 .lb-empty{text-align:center;padding:40px;color:#333;font-family:'Barlow Condensed',sans-serif;letter-spacing:2px;font-size:.88rem;}
 .lb-back{margin-top:20px;display:flex;justify-content:center;}
 
-/* ── CONFETTI ── */
+/* ── TOASTS ── */
+.toast-wrap{position:fixed;bottom:24px;right:24px;display:flex;flex-direction:column;gap:10px;z-index:9999;}
+.toast{background:var(--bs);border:2px solid var(--y);border-radius:12px;padding:12px 18px;font-size:.85rem;color:var(--w);animation:toast-in .3s ease;box-shadow:0 8px 32px rgba(0,0,0,.5);max-width:300px;}
+@keyframes toast-in{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:none}}
+
+/* ── MISC ── */
 .cnfwrap{position:fixed;inset:0;pointer-events:none;z-index:999;overflow:hidden;}
 .cnf{position:absolute;opacity:0;animation:fall 1.5s ease-in forwards;}
 @keyframes fall{0%{opacity:1;top:-10px;transform:rotate(0)}100%{opacity:0;top:100vh;transform:rotate(720deg) translateX(60px)}}
 @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
 @keyframes su{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
-
-/* ── TIMEOUT OVERLAY ── */
 .timeout-flash{position:absolute;inset:0;background:rgba(231,76,60,.18);border-radius:18px;pointer-events:none;animation:flash .4s ease;z-index:5;}
 @keyframes flash{from{opacity:1}to{opacity:0}}
+.loading{display:flex;align-items:center;justify-content:center;gap:10px;color:var(--gr);font-family:'Barlow Condensed',sans-serif;letter-spacing:2px;font-size:.85rem;padding:20px;}
+.spinner{width:18px;height:18px;border:3px solid #333;border-top-color:var(--y);border-radius:50%;animation:spin .7s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
 
 @media(max-width:920px){
   .gwrap{grid-template-columns:1fr;}
   .wcont{width:300px;height:300px;}
   header,.phd,.pack-bar{padding-left:16px;padding-right:16px;}
   .gwrap{padding:16px;}
+  .lb-card{padding:28px 20px;}
 }
 </style>
 </head>
@@ -209,28 +246,65 @@ header{background:var(--bk);border-bottom:3px solid var(--y);padding:12px 28px;d
     <div class="mbody">
       <iframe
         src="https://forms.office.com/Pages/ResponsePage.aspx?id=LyQ3FHr2WUOpr3mlWBAEFr6A7BpL9cBCoSJpGDkJBiRUNlpTWDhJRDgwRFQ3M1dDRk9SUFZJSVMzTi4u&embed=true"
-        title="Inscription BTP CFA CVDL" allowfullscreen loading="lazy"></iframe>
+        title="Inscription BTP CFA CVDL" allowfullscreen loading="lazy" style="width:100%;height:480px;border:none;display:block;"></iframe>
     </div>
     <div class="mft">
-      <p>Données collectées uniquement par <strong>BTP CFA CVDL</strong> dans le cadre de cet événement.</p>
+      <p style="font-size:.76rem;color:var(--gr);line-height:1.4;max-width:320px;">Données collectées uniquement par <strong style="color:var(--y);">BTP CFA CVDL</strong> dans le cadre de cet événement.</p>
       <div style="display:flex;align-items:center;gap:10px;flex-shrink:0;">
-        <button class="btn-play" onclick="launchGame()">🎯 JOUER !</button>
-        <span class="skip" onclick="launchGame()">Passer</span>
+        <button class="btn-play" onclick="closeModal()">🎯 JOUER !</button>
+        <span class="skip" onclick="closeModal()">Passer</span>
       </div>
     </div>
   </div>
 </div>
 
+<!-- ── LOGIN ── -->
+<div id="sLogin" class="screen active">
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="logo-b">BTP<br>CFA<br><span>CVDL</span></div>
+      <div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--y);letter-spacing:3px;line-height:1;">La Roue des Métiers</div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:.72rem;color:var(--gr);letter-spacing:3px;">BTP CFA Centre-Val de Loire</div>
+      </div>
+    </div>
+    <div class="tab-row">
+      <button class="tab-btn active" id="tabLogin" onclick="switchAuthTab('login')">🔑 CONNEXION</button>
+      <button class="tab-btn" id="tabRegister" onclick="switchAuthTab('register')">✨ INSCRIPTION</button>
+    </div>
+    <!-- Login form -->
+    <div id="loginForm">
+      <div class="field"><label>Prénom</label><input type="text" id="loginName" placeholder="Ex: Thomas" autocomplete="given-name"></div>
+      <div class="field"><label>Code PIN (4 chiffres)</label><input type="password" id="loginPin" placeholder="••••" maxlength="4" pattern="[0-9]{4}" inputmode="numeric"></div>
+      <button class="login-btn" onclick="doLogin()">🎯 JOUER !</button>
+      <div class="login-err" id="loginErr"></div>
+      <div class="login-info">Entre ton prénom + code PIN pour retrouver ta progression.<br><strong>Nouvelle visite ? Utilise l'onglet Inscription.</strong></div>
+    </div>
+    <!-- Register form -->
+    <div id="registerForm" style="display:none;">
+      <div class="field"><label>Prénom</label><input type="text" id="regName" placeholder="Ex: Thomas" autocomplete="given-name"></div>
+      <div class="field"><label>Choisir un code PIN (4 chiffres)</label><input type="password" id="regPin" placeholder="••••" maxlength="4" pattern="[0-9]{4}" inputmode="numeric"></div>
+      <div class="field"><label>Confirmer le code PIN</label><input type="password" id="regPin2" placeholder="••••" maxlength="4" pattern="[0-9]{4}" inputmode="numeric"></div>
+      <button class="login-btn" onclick="doRegister()">🚀 CRÉER MON COMPTE</button>
+      <div class="login-err" id="regErr"></div>
+      <div class="login-info">Ton code PIN te permet de <strong>retrouver ton score</strong> et continuer là où tu t'es arrêté(e) !</div>
+    </div>
+    <button class="guest-btn" onclick="doGuest()">Jouer sans compte (score non sauvegardé)</button>
+  </div>
+</div>
+
 <!-- ── GAME ── -->
-<div id="sGame" class="screen active">
+<div id="sGame" class="screen">
   <header>
     <div class="logo-z">
       <div class="logo-b">BTP<br>CFA<br><span>CVDL</span></div>
       <div class="hd-t"><h1>La Roue des Métiers</h1><p>BTP CFA Centre-Val de Loire</p></div>
     </div>
     <div class="hdr">
+      <div class="user-chip" id="userChip"><div class="av" id="userAv">?</div><span class="name" id="userName">Invité</span></div>
       <button class="btn-sm" onclick="showLB()">🏆 Classement</button>
       <div class="score-box"><div class="snum" id="scoreDisp">0</div><div class="slbl">Points</div></div>
+      <button class="btn-sm" onclick="doLogout()">⎋ Quitter</button>
     </div>
   </header>
 
@@ -242,8 +316,19 @@ header{background:var(--bk);border-bottom:3px solid var(--y);padding:12px 28px;d
 
   <div class="pack-bar" id="packBar"></div>
 
+  <!-- Resume banner -->
+  <div class="resume-banner" id="resumeBanner" style="margin:10px 28px 0;">
+    <div class="rb-txt">
+      <h4>🔄 Reprendre la partie ?</h4>
+      <p id="resumeDesc">Tu avais déjà commencé ce pack !</p>
+    </div>
+    <div class="rb-btns">
+      <button class="rb-btn" onclick="resumeSession()">▶ REPRENDRE</button>
+      <button class="rb-btn2" onclick="freshStart()">Recommencer</button>
+    </div>
+  </div>
+
   <div class="gwrap">
-    <!-- ROUE -->
     <div class="wsec">
       <div class="wcont">
         <div class="wptr"></div>
@@ -252,31 +337,24 @@ header{background:var(--bk);border-bottom:3px solid var(--y);padding:12px 28px;d
       </div>
       <button class="spin-btn" id="spinBtn" onclick="spinWheel()">🎯 TOURNER LA ROUE</button>
       <div class="mbox2" id="metierBox"><div><div class="mh">Tourne la roue pour découvrir ton métier !</div></div></div>
-
-      <!-- PROGRESS -->
       <div style="width:100%;max-width:400px;">
         <div style="display:flex;justify-content:space-between;margin-bottom:4px;font-family:'Barlow Condensed',sans-serif;font-size:.7rem;letter-spacing:2px;color:var(--gr);text-transform:uppercase;">
           <span>Progression</span><span id="defCnt">0 / 10</span>
         </div>
         <div class="ptrack"><div class="pfill" id="pfill" style="width:0%"></div></div>
       </div>
-
-      <!-- TIMER -->
       <div class="timer-wrap" id="timerWrap" style="display:none;">
         <div class="timer-top"><span>Temps restant</span><span class="timer-num" id="timerNum">20</span></div>
         <div class="timer-bar-bg"><div class="timer-bar ok" id="timerBar" style="width:100%"></div></div>
       </div>
     </div>
 
-    <!-- DEFI -->
     <div class="csec">
-      <!-- Pack complete banner -->
       <div class="pack-complete" id="packCompleteBanner">
         <h3>🏅 Pack terminé !</h3>
-        <p id="packCompleteMsg">Bravo, tu as complété ce pack !</p>
+        <p id="packCompleteMsg"></p>
         <div class="next-pack-btns" id="nextPackBtns"></div>
       </div>
-
       <div class="ccard" id="ccard">
         <div class="idle-msg" id="idleMsg">
           <div class="idle-icon">⚙️</div>
@@ -307,6 +385,7 @@ header{background:var(--bk);border-bottom:3px solid var(--y);padding:12px 28px;d
     <h2>🏆 Classement</h2>
     <p class="lb-sub" id="lbSub">Tous les joueurs</p>
     <div class="lb-tabs" id="lbTabs"></div>
+    <div id="lbLoading" class="loading" style="display:none;"><div class="spinner"></div>Chargement…</div>
     <div class="lb-list" id="lbList"></div>
     <div class="lb-back"><button class="tbtn" onclick="show('sGame')">← RETOUR AU JEU</button></div>
   </div>
@@ -317,12 +396,11 @@ header{background:var(--bk);border-bottom:3px solid var(--y);padding:12px 28px;d
   <div class="trophy-card">
     <div class="ticon">🏆</div>
     <h2>Félicitations !</h2>
-    <div class="tname" id="tName">Champion(ne) BTP !</div>
+    <div class="tname" id="tName"></div>
     <div class="tscore" id="tScore">0 pts</div>
     <div class="tstats" id="tStats"></div>
     <div class="tcta">
-      <p>Tu as exploré tous les défis du pack !<br>
-      Envie d'en savoir plus sur nos formations ?<br>
+      <p>Tu as exploré tous les défis du pack !<br>Envie d'en savoir plus sur nos formations ?<br>
       <strong>Parle à un conseiller BTP CFA CVDL → sur notre stand !</strong></p>
     </div>
     <button class="tbtn" onclick="restartGame()">🔄 REJOUER</button>
@@ -331,173 +409,181 @@ header{background:var(--bk);border-bottom:3px solid var(--y);padding:12px 28px;d
 </div>
 
 <div class="cnfwrap" id="cnfWrap"></div>
+<div class="toast-wrap" id="toastWrap"></div>
 
 <script>
 // ═══════════════════════════════════════════════
-//  PACKS DE QUESTIONS
+//  PACKS
 // ═══════════════════════════════════════════════
-const PACKS = [
-  { id:'metiers', label:'🧱 Métiers', unlocked:true,
-    questions:[
-      {name:"Maçon",icon:"🧱",sIdx:0,type:"mcq",timer:20,
-       question:"En maçonnerie, comment pose-t-on correctement une brique sur un mur ?",
-       options:["On étale le mortier sur la brique du dessus et on appuie fort.","On pose la brique à sec pour tester l'alignement d'abord.","On pose le mortier sur la brique déjà en place, on pose la nouvelle et on vérifie le niveau.","On humidifie la brique puis on attend 24h sans mortier."],
-       correct:2,explanation:"On applique le mortier sur la brique posée, on place la nouvelle en vérifiant l'horizontalité au niveau à bulle !"},
-      {name:"Électricien",icon:"⚡",sIdx:1,type:"match",timer:30,
-       question:"Associe chaque couleur de câble à sa fonction électrique !",
-       left:["Rouge/Marron","Bleu","Vert-Jaune","Noir"],right:["Phase (courant actif)","Neutre","Terre (sécurité)","Phase secondaire"],pairs:[0,1,2,3],
-       explanation:"Connaître les couleurs de câble est essentiel pour la sécurité électrique !"},
-      {name:"Couvreur",icon:"🏠",sIdx:2,type:"match",timer:30,
-       question:"Relie chaque matériau de toiture à son usage principal !",
-       left:["Ardoise","Tuile terre cuite","Bac acier","Zinc"],right:["Toiture traditionnelle, durable 100 ans","Habitation classique régionale","Hangar industriel","Toiture mansardée & gouttières"],pairs:[0,1,2,3],
-       explanation:"Chaque matériau a ses avantages selon le type de bâtiment !"},
-      {name:"Charpentier",icon:"🪵",sIdx:0,type:"mcq",timer:20,
-       question:"Pour une coupe d'onglet à 45° sur une pièce de bois, quelle machine utilise-t-on ?",
-       options:["La scie circulaire portative","La scie à onglets (ongletteuse)","La défonceuse","Le rabot électrique"],
-       correct:1,explanation:"La scie à onglets est l'outil idéal pour des coupes angulaires précises à 45° !"},
-      {name:"Plombier",icon:"🔧",sIdx:1,type:"match",timer:25,
-       question:"Relie chaque type de tuyau à son usage principal !",
-       left:["PER (polyéthylène)","Cuivre","PVC"],right:["Eau chaude & froide, flexible","Eau chaude sanitaire soudé","Évacuation & eaux usées"],pairs:[0,1,2],
-       explanation:"Bien choisir ses matériaux garantit une installation durable !"},
-      {name:"Peintre",icon:"🎨",sIdx:2,type:"mcq",timer:20,
-       question:"Lors de peinture en spray, quelle protection individuelle est OBLIGATOIRE ?",
-       options:["Lunettes de soleil et gants latex","Masque FFP2/FFP3 et lunettes de protection","Casque de chantier et bouchons d'oreilles","Tablier et chaussures de sécurité uniquement"],
-       correct:1,explanation:"Les aérosols libèrent des particules fines : masque FFP2/FFP3 et lunettes protègent !"},
-      {name:"Cond. d'engins",icon:"🚜",sIdx:0,type:"match",timer:30,
-       question:"Associe chaque engin à sa tâche principale sur chantier !",
-       left:["Pelle hydraulique","Tombereau","Grue à tour","Bulldozer"],right:["Lever & positionner des charges","Terrassement & fouilles","Niveler & déplacer des terres","Transport de matériaux en vrac"],pairs:[1,3,0,2],
-       explanation:"Chaque engin est conçu pour une tâche précise !"},
-      {name:"Chargé d'affaires",icon:"📋",sIdx:1,type:"mcq",timer:20,
-       question:"Dans quel ordre logique se déroulent les grandes phases d'un chantier ?",
-       options:["Finitions → Gros œuvre → Fondations → Second œuvre","Fondations → Gros œuvre → Second œuvre → Finitions","Second œuvre → Fondations → Gros œuvre → Finitions","Gros œuvre → Fondations → Finitions → Second œuvre"],
-       correct:1,explanation:"Fondations → Gros œuvre → Second œuvre → Finitions : la logique de tout chantier !"},
-      {name:"Tech. énergie",icon:"🔋",sIdx:2,type:"match",timer:30,
-       question:"Associe chaque appareil de mesure à ce qu'il mesure !",
-       left:["Multimètre","Thermocouple","Anémomètre","Pyranomètre"],right:["Vitesse du vent","Tension & intensité","Rayonnement solaire","Température"],pairs:[1,3,0,2],
-       explanation:"Les techniciens énergie utilisent des instruments précis !"},
-      {name:"Dessinateur",icon:"📐",sIdx:0,type:"match",timer:30,
-       question:"Relie chaque symbole de plan architectural à sa signification !",
-       left:["Cercle+croix","3 lignes parallèles","Flèche+chiffre","Carré hachuré"],right:["Poteau ou pilier","Paroi en béton armé","Cote (dimension)","Pilier maçonné"],pairs:[0,1,2,3],
-       explanation:"Lire un plan de bâtiment est une compétence clé !"}
-    ]},
-  { id:'securite', label:'⛑️ Sécurité', unlocked:true,
-    questions:[
-      {name:"EPI",icon:"⛑️",sIdx:0,type:"mcq",timer:20,
-       question:"Quels sont les 3 EPI obligatoires sur tout chantier de construction ?",
-       options:["Casque, gants, lunettes","Casque, chaussures de sécurité, gilet haute visibilité","Casque, harnais, masque","Bouchons d'oreilles, lunettes, gants"],
-       correct:1,explanation:"Casque, chaussures de sécurité et gilet haute visibilité sont les 3 EPI de base obligatoires !"},
-      {name:"Hauteur",icon:"🪜",sIdx:1,type:"mcq",timer:20,
-       question:"À partir de quelle hauteur le port du harnais est-il obligatoire ?",
-       options:["1 mètre","2 mètres","3 mètres","5 mètres"],
-       correct:1,explanation:"Le harnais est obligatoire dès 2 mètres — 1ère cause d'accidents graves sur chantier !"},
-      {name:"Électricité",icon:"⚡",sIdx:2,type:"mcq",timer:20,
-       question:"Avant d'intervenir sur un tableau électrique, quelle est la 1ère action obligatoire ?",
-       options:["Prévenir le chef de chantier","Couper le courant et consigner l'installation","Vérifier avec un testeur sous tension","Mettre des gants isolants et travailler normalement"],
-       correct:1,explanation:"Couper et consigner est OBLIGATOIRE avant toute intervention électrique !"},
-      {name:"Produits chimiques",icon:"☠️",sIdx:0,type:"match",timer:30,
-       question:"Associe chaque pictogramme de danger à sa signification !",
-       left:["💀 Tête de mort","🔥 Flamme","⚠️ Point d'exclamation","🌿 Environnement"],right:["Toxique / Mortel","Inflammable","Irritant / Nocif","Dangereux pour l'eau"],pairs:[0,1,2,3],
-       explanation:"Ces pictogrammes GHS/CLP peuvent sauver des vies !"},
-      {name:"Incendie",icon:"🧯",sIdx:1,type:"mcq",timer:20,
-       question:"Quel extincteur utiliser sur un feu électrique actif ?",
-       options:["Eau pulvérisée","CO₂ (dioxyde de carbone)","Poudre ABC","Mousse AFFF"],
-       correct:1,explanation:"Seul le CO₂ est adapté aux feux électriques — l'eau est interdite car conductrice !"},
-      {name:"Manutention",icon:"📦",sIdx:2,type:"mcq",timer:20,
-       question:"Quelle est la charge maximale recommandée pour le port manuel ?",
-       options:["10 kg","25 kg","55 kg","Aucune limite avec ceinture"],
-       correct:1,explanation:"25 kg est la limite recommandée — au-delà, utiliser une aide mécanique !"},
-      {name:"Signalisation",icon:"🚧",sIdx:0,type:"match",timer:25,
-       question:"Relie chaque couleur de signalisation à sa signification !",
-       left:["Rouge","Jaune/Orange","Vert","Bleu"],right:["Obligation / Information","Danger / Avertissement","Sécurité / Premiers secours","Interdiction / Arrêt"],pairs:[3,1,2,0],
-       explanation:"Ces couleurs sont universelles sur tous les chantiers du monde !"},
-      {name:"Fouilles",icon:"⛏️",sIdx:1,type:"mcq",timer:20,
-       question:"Avant de creuser, quelle démarche est OBLIGATOIRE pour repérer les réseaux ?",
-       options:["Appeler son chef","Consulter le plan masse","Faire une DT-DICT auprès des gestionnaires de réseaux","Vérifier avec un détecteur de métaux"],
-       correct:2,explanation:"La DT-DICT est obligatoire avant tout terrassement !"},
-      {name:"Bruit",icon:"🔊",sIdx:2,type:"mcq",timer:15,
-       question:"À partir de quel niveau sonore les bouchons d'oreilles sont-ils obligatoires ?",
-       options:["65 dB","80 dB","95 dB","110 dB"],
-       correct:1,explanation:"80 dB est le seuil d'action — au-delà, les protections auditives sont obligatoires !"},
-      {name:"Premiers secours",icon:"🚑",sIdx:0,type:"match",timer:25,
-       question:"En cas d'accident sur chantier, quel est l'ordre correct d'action ?",
-       left:["1er","2ème","3ème"],right:["Alerter les secours (15/18/112)","Protéger la zone","Secourir la victime"],pairs:[1,0,2],
-       explanation:"Protéger → Alerter → Secourir : le PAS qui sauve des vies !"}
-    ]},
-  { id:'formations', label:'🎓 Formations', unlocked:true,
-    questions:[
-      {name:"CAP",icon:"🎓",sIdx:0,type:"mcq",timer:20,
-       question:"Combien d'années dure un CAP en alternance au BTP CFA ?",
-       options:["1 an","2 ans","3 ans","4 ans"],
-       correct:1,explanation:"Le CAP en alternance se prépare en 2 ans, avec des périodes en entreprise et au CFA !"},
-      {name:"BP",icon:"📜",sIdx:1,type:"mcq",timer:20,
-       question:"Qu'est-ce qu'un Brevet Professionnel (BP) dans le BTP ?",
-       options:["Un diplôme de niveau Bac qui approfondit un CAP","Un diplôme de niveau Bac+2","Une certification optionnelle","Un titre délivré par les entreprises"],
-       correct:0,explanation:"Le BP niveau Bac permet d'accéder à des postes de technicien ou chef d'équipe !"},
-      {name:"Alternance",icon:"🔄",sIdx:2,type:"mcq",timer:20,
-       question:"Dans le cadre de l'alternance, qui prend en charge les frais de formation ?",
-       options:["L'apprenti","Les parents","L'entreprise et l'OPCO","L'État uniquement"],
-       correct:2,explanation:"L'entreprise et l'OPCO financent la formation — l'apprenti reçoit un salaire !"},
-      {name:"BTS",icon:"🏛️",sIdx:0,type:"mcq",timer:20,
-       question:"Quels BTS peut-on préparer au BTP CFA en lien avec la construction ?",
-       options:["BTS Tourisme","BTS Bâtiment et BTS Travaux Publics","BTS Informatique","BTS Commerce"],
-       correct:1,explanation:"BTS Bâtiment et BTS Travaux Publics sont les 2 BTS phares du secteur !"},
-      {name:"Salaire apprenti",icon:"💰",sIdx:1,type:"mcq",timer:20,
-       question:"Quel salaire minimum perçoit un apprenti de 18 ans en 1ère année de CAP ?",
-       options:["Aucun salaire","27% du SMIC","43% du SMIC","100% du SMIC"],
-       correct:2,explanation:"43% du SMIC en 1ère année — et ce taux augmente avec les années !"},
-      {name:"CFA CVDL",icon:"🏫",sIdx:2,type:"match",timer:30,
-       question:"Associe chaque ville à son département BTP CFA CVDL !",
-       left:["Tours","Blois","Orléans","Chartres"],right:["Loiret (45)","Eure-et-Loir (28)","Indre-et-Loire (37)","Loir-et-Cher (41)"],pairs:[2,3,0,1],
-       explanation:"Le BTP CFA CVDL couvre tout le Centre-Val de Loire !"},
-      {name:"Contrat",icon:"📅",sIdx:0,type:"mcq",timer:20,
-       question:"Quelle est la durée minimale d'un contrat d'apprentissage ?",
-       options:["6 mois","1 an","2 ans","La durée du diplôme uniquement"],
-       correct:0,explanation:"Un contrat d'apprentissage peut durer au minimum 6 mois !"},
-      {name:"Titre Pro",icon:"🏅",sIdx:1,type:"mcq",timer:20,
-       question:"Un Titre Professionnel est délivré par quel ministère ?",
-       options:["Ministère de l'Éducation nationale","Ministère du Travail","Ministère de la Construction","Chambre des métiers"],
-       correct:1,explanation:"Les Titres Professionnels sont délivrés par le Ministère du Travail !"},
-      {name:"Rythme",icon:"🗓️",sIdx:2,type:"match",timer:25,
-       question:"Associe chaque rythme d'alternance à sa description !",
-       left:["1 sem / 1 sem","3 jours / 2 jours","1 mois / 1 mois"],right:["Adapté aux entreprises lointaines","Le plus courant en CAP BTP","Bonne alternance théorie/pratique"],pairs:[0,2,1],
-       explanation:"Le rythme 1 sem/1 sem est le plus courant en CAP BTP !"},
-      {name:"Passerelle",icon:"🌉",sIdx:0,type:"mcq",timer:20,
-       question:"Après un CAP, quelle passerelle directe est possible au BTP CFA ?",
-       options:["Aucune, il faut passer par le Bac général","BP, Bac Pro ou Mention Complémentaire","Directement un Master","Un BTS sans conditions"],
-       correct:1,explanation:"Après un CAP : BP, Bac Pro ou Mention Complémentaire en continuant en alternance !"}
-    ]},
-  { id:'culture', label:'🏛️ Culture BTP', unlocked:false, questions:[] },
-  { id:'techniques', label:'🔬 Techniques', unlocked:false, questions:[] }
+const PACKS=[
+  {id:'metiers',label:'🧱 Métiers',unlocked:true,questions:[
+    {name:"Maçon",icon:"🧱",sIdx:0,type:"mcq",timer:20,question:"En maçonnerie, comment pose-t-on correctement une brique sur un mur ?",options:["On étale le mortier sur la brique du dessus et on appuie fort.","On pose la brique à sec pour tester l'alignement d'abord.","On pose le mortier sur la brique déjà en place, on pose la nouvelle et on vérifie le niveau.","On humidifie la brique puis on attend 24h sans mortier."],correct:2,explanation:"On applique le mortier sur la brique posée, on place la nouvelle en vérifiant l'horizontalité au niveau à bulle !"},
+    {name:"Électricien",icon:"⚡",sIdx:1,type:"match",timer:30,question:"Associe chaque couleur de câble à sa fonction électrique !",left:["Rouge/Marron","Bleu","Vert-Jaune","Noir"],right:["Phase (courant actif)","Neutre","Terre (sécurité)","Phase secondaire"],pairs:[0,1,2,3],explanation:"Connaître les couleurs de câble est essentiel pour la sécurité électrique !"},
+    {name:"Couvreur",icon:"🏠",sIdx:2,type:"match",timer:30,question:"Relie chaque matériau de toiture à son usage principal !",left:["Ardoise","Tuile terre cuite","Bac acier","Zinc"],right:["Toiture traditionnelle, durable 100 ans","Habitation classique régionale","Hangar industriel","Toiture mansardée & gouttières"],pairs:[0,1,2,3],explanation:"Chaque matériau a ses avantages selon le type de bâtiment !"},
+    {name:"Charpentier",icon:"🪵",sIdx:0,type:"mcq",timer:20,question:"Pour une coupe d'onglet à 45° sur une pièce de bois, quelle machine utilise-t-on ?",options:["La scie circulaire portative","La scie à onglets (ongletteuse)","La défonceuse","Le rabot électrique"],correct:1,explanation:"La scie à onglets est l'outil idéal pour des coupes angulaires précises à 45° !"},
+    {name:"Plombier",icon:"🔧",sIdx:1,type:"match",timer:25,question:"Relie chaque type de tuyau à son usage principal !",left:["PER (polyéthylène)","Cuivre","PVC"],right:["Eau chaude & froide, flexible","Eau chaude sanitaire soudé","Évacuation & eaux usées"],pairs:[0,1,2],explanation:"Bien choisir ses matériaux garantit une installation durable !"},
+    {name:"Peintre",icon:"🎨",sIdx:2,type:"mcq",timer:20,question:"Lors de peinture en spray, quelle protection individuelle est OBLIGATOIRE ?",options:["Lunettes de soleil et gants latex","Masque FFP2/FFP3 et lunettes de protection","Casque de chantier et bouchons d'oreilles","Tablier et chaussures de sécurité uniquement"],correct:1,explanation:"Les aérosols libèrent des particules fines : masque FFP2/FFP3 et lunettes protègent !"},
+    {name:"Cond. d'engins",icon:"🚜",sIdx:0,type:"match",timer:30,question:"Associe chaque engin à sa tâche principale sur chantier !",left:["Pelle hydraulique","Tombereau","Grue à tour","Bulldozer"],right:["Lever & positionner des charges","Terrassement & fouilles","Niveler & déplacer des terres","Transport de matériaux en vrac"],pairs:[1,3,0,2],explanation:"Chaque engin est conçu pour une tâche précise !"},
+    {name:"Chargé d'affaires",icon:"📋",sIdx:1,type:"mcq",timer:20,question:"Dans quel ordre logique se déroulent les grandes phases d'un chantier ?",options:["Finitions → Gros œuvre → Fondations → Second œuvre","Fondations → Gros œuvre → Second œuvre → Finitions","Second œuvre → Fondations → Gros œuvre → Finitions","Gros œuvre → Fondations → Finitions → Second œuvre"],correct:1,explanation:"Fondations → Gros œuvre → Second œuvre → Finitions : la logique de tout chantier !"},
+    {name:"Tech. énergie",icon:"🔋",sIdx:2,type:"match",timer:30,question:"Associe chaque appareil de mesure à ce qu'il mesure !",left:["Multimètre","Thermocouple","Anémomètre","Pyranomètre"],right:["Vitesse du vent","Tension & intensité","Rayonnement solaire","Température"],pairs:[1,3,0,2],explanation:"Les techniciens énergie utilisent des instruments précis !"},
+    {name:"Dessinateur",icon:"📐",sIdx:0,type:"match",timer:30,question:"Relie chaque symbole de plan architectural à sa signification !",left:["Cercle+croix","3 lignes parallèles","Flèche+chiffre","Carré hachuré"],right:["Poteau ou pilier","Paroi en béton armé","Cote (dimension)","Pilier maçonné"],pairs:[0,1,2,3],explanation:"Lire un plan de bâtiment est une compétence clé !"}
+  ]},
+  {id:'securite',label:'⛑️ Sécurité',unlocked:true,questions:[
+    {name:"EPI",icon:"⛑️",sIdx:0,type:"mcq",timer:20,question:"Quels sont les 3 EPI obligatoires sur tout chantier de construction ?",options:["Casque, gants, lunettes","Casque, chaussures de sécurité, gilet haute visibilité","Casque, harnais, masque","Bouchons d'oreilles, lunettes, gants"],correct:1,explanation:"Casque, chaussures de sécurité et gilet haute visibilité sont les 3 EPI de base !"},
+    {name:"Hauteur",icon:"🪜",sIdx:1,type:"mcq",timer:20,question:"À partir de quelle hauteur le port du harnais est-il obligatoire ?",options:["1 mètre","2 mètres","3 mètres","5 mètres"],correct:1,explanation:"Le harnais est obligatoire dès 2 mètres !"},
+    {name:"Électricité",icon:"⚡",sIdx:2,type:"mcq",timer:20,question:"Avant d'intervenir sur un tableau électrique, quelle est la 1ère action obligatoire ?",options:["Prévenir le chef de chantier","Couper le courant et consigner l'installation","Vérifier avec un testeur sous tension","Mettre des gants isolants et travailler normalement"],correct:1,explanation:"Couper et consigner est OBLIGATOIRE avant toute intervention électrique !"},
+    {name:"Produits chimiques",icon:"☠️",sIdx:0,type:"match",timer:30,question:"Associe chaque pictogramme de danger à sa signification !",left:["💀 Tête de mort","🔥 Flamme","⚠️ Point d'exclamation","🌿 Environnement"],right:["Toxique / Mortel","Inflammable","Irritant / Nocif","Dangereux pour l'eau"],pairs:[0,1,2,3],explanation:"Ces pictogrammes GHS/CLP peuvent sauver des vies !"},
+    {name:"Incendie",icon:"🧯",sIdx:1,type:"mcq",timer:20,question:"Quel extincteur utiliser sur un feu électrique actif ?",options:["Eau pulvérisée","CO₂ (dioxyde de carbone)","Poudre ABC","Mousse AFFF"],correct:1,explanation:"Seul le CO₂ est adapté aux feux électriques !"},
+    {name:"Manutention",icon:"📦",sIdx:2,type:"mcq",timer:20,question:"Quelle est la charge maximale recommandée pour le port manuel ?",options:["10 kg","25 kg","55 kg","Aucune limite avec ceinture"],correct:1,explanation:"25 kg est la limite recommandée !"},
+    {name:"Signalisation",icon:"🚧",sIdx:0,type:"match",timer:25,question:"Relie chaque couleur de signalisation à sa signification !",left:["Rouge","Jaune/Orange","Vert","Bleu"],right:["Obligation / Information","Danger / Avertissement","Sécurité / Premiers secours","Interdiction / Arrêt"],pairs:[3,1,2,0],explanation:"Ces couleurs sont universelles sur tous les chantiers du monde !"},
+    {name:"Fouilles",icon:"⛏️",sIdx:1,type:"mcq",timer:20,question:"Avant de creuser, quelle démarche est OBLIGATOIRE pour repérer les réseaux ?",options:["Appeler son chef","Consulter le plan masse","Faire une DT-DICT auprès des gestionnaires de réseaux","Vérifier avec un détecteur de métaux"],correct:2,explanation:"La DT-DICT est obligatoire avant tout terrassement !"},
+    {name:"Bruit",icon:"🔊",sIdx:2,type:"mcq",timer:15,question:"À partir de quel niveau sonore les bouchons d'oreilles sont-ils obligatoires ?",options:["65 dB","80 dB","95 dB","110 dB"],correct:1,explanation:"80 dB est le seuil d'action !"},
+    {name:"Premiers secours",icon:"🚑",sIdx:0,type:"match",timer:25,question:"En cas d'accident sur chantier, quel est l'ordre correct d'action ?",left:["1er","2ème","3ème"],right:["Alerter les secours (15/18/112)","Protéger la zone","Secourir la victime"],pairs:[1,0,2],explanation:"Protéger → Alerter → Secourir : le PAS qui sauve des vies !"}
+  ]},
+  {id:'formations',label:'🎓 Formations',unlocked:true,questions:[
+    {name:"CAP",icon:"🎓",sIdx:0,type:"mcq",timer:20,question:"Combien d'années dure un CAP en alternance au BTP CFA ?",options:["1 an","2 ans","3 ans","4 ans"],correct:1,explanation:"Le CAP en alternance se prépare en 2 ans !"},
+    {name:"BP",icon:"📜",sIdx:1,type:"mcq",timer:20,question:"Qu'est-ce qu'un Brevet Professionnel (BP) dans le BTP ?",options:["Un diplôme de niveau Bac qui approfondit un CAP","Un diplôme de niveau Bac+2","Une certification optionnelle","Un titre délivré par les entreprises"],correct:0,explanation:"Le BP niveau Bac permet d'accéder à des postes de technicien ou chef d'équipe !"},
+    {name:"Alternance",icon:"🔄",sIdx:2,type:"mcq",timer:20,question:"Dans le cadre de l'alternance, qui prend en charge les frais de formation ?",options:["L'apprenti","Les parents","L'entreprise et l'OPCO","L'État uniquement"],correct:2,explanation:"L'entreprise et l'OPCO financent la formation !"},
+    {name:"BTS",icon:"🏛️",sIdx:0,type:"mcq",timer:20,question:"Quels BTS peut-on préparer au BTP CFA en lien avec la construction ?",options:["BTS Tourisme","BTS Bâtiment et BTS Travaux Publics","BTS Informatique","BTS Commerce"],correct:1,explanation:"BTS Bâtiment et BTS Travaux Publics sont les 2 BTS phares du secteur !"},
+    {name:"Salaire apprenti",icon:"💰",sIdx:1,type:"mcq",timer:20,question:"Quel salaire minimum perçoit un apprenti de 18 ans en 1ère année de CAP ?",options:["Aucun salaire","27% du SMIC","43% du SMIC","100% du SMIC"],correct:2,explanation:"43% du SMIC en 1ère année !"},
+    {name:"CFA CVDL",icon:"🏫",sIdx:2,type:"match",timer:30,question:"Associe chaque ville à son département BTP CFA CVDL !",left:["Tours","Blois","Orléans","Chartres"],right:["Loiret (45)","Eure-et-Loir (28)","Indre-et-Loire (37)","Loir-et-Cher (41)"],pairs:[2,3,0,1],explanation:"Le BTP CFA CVDL couvre tout le Centre-Val de Loire !"},
+    {name:"Contrat",icon:"📅",sIdx:0,type:"mcq",timer:20,question:"Quelle est la durée minimale d'un contrat d'apprentissage ?",options:["6 mois","1 an","2 ans","La durée du diplôme uniquement"],correct:0,explanation:"Un contrat d'apprentissage peut durer au minimum 6 mois !"},
+    {name:"Titre Pro",icon:"🏅",sIdx:1,type:"mcq",timer:20,question:"Un Titre Professionnel est délivré par quel ministère ?",options:["Ministère de l'Éducation nationale","Ministère du Travail","Ministère de la Construction","Chambre des métiers"],correct:1,explanation:"Les Titres Professionnels sont délivrés par le Ministère du Travail !"},
+    {name:"Rythme",icon:"🗓️",sIdx:2,type:"match",timer:25,question:"Associe chaque rythme d'alternance à sa description !",left:["1 sem / 1 sem","3 jours / 2 jours","1 mois / 1 mois"],right:["Adapté aux entreprises lointaines","Le plus courant en CAP BTP","Bonne alternance théorie/pratique"],pairs:[0,2,1],explanation:"Le rythme 1 sem/1 sem est le plus courant en CAP BTP !"},
+    {name:"Passerelle",icon:"🌉",sIdx:0,type:"mcq",timer:20,question:"Après un CAP, quelle passerelle directe est possible au BTP CFA ?",options:["Aucune, il faut passer par le Bac général","BP, Bac Pro ou Mention Complémentaire","Directement un Master","Un BTS sans conditions"],correct:1,explanation:"Après un CAP : BP, Bac Pro ou Mention Complémentaire !"}
+  ]},
+  {id:'culture',label:'🏛️ Culture BTP',unlocked:false,questions:[]},
+  {id:'techniques',label:'🔬 Techniques',unlocked:false,questions:[]}
 ];
 
 // ═══════════════════════════════════════════════
-//  STORAGE
+//  STORAGE HELPERS (persistent via window.storage)
 // ═══════════════════════════════════════════════
-const LB_KEY = 'btpcfa_lb_v3';
-function getLB(){ try{ return JSON.parse(localStorage.getItem(LB_KEY)||'[]'); }catch(e){return [];} }
-function saveLB(d){ try{ localStorage.setItem(LB_KEY,JSON.stringify(d)); }catch(e){} }
-function addToLB(e){ const lb=getLB(); lb.push({...e,ts:Date.now()}); lb.sort((a,b)=>b.score-a.score); saveLB(lb.slice(0,100)); }
+const S={
+  async get(k){try{const r=await window.storage.get(k);return r?JSON.parse(r.value):null;}catch{return null;}},
+  async set(k,v){try{await window.storage.set(k,JSON.stringify(v));}catch(e){console.warn('storage set fail',e);}},
+  async list(pfx){try{const r=await window.storage.list(pfx);return r?r.keys:[];}catch{return[];}}
+};
 
 // ═══════════════════════════════════════════════
-//  STATE
+//  AUTH
+// ═══════════════════════════════════════════════
+let currentUser=null; // {name, pin, isGuest}
+
+function switchAuthTab(t){
+  document.getElementById('tabLogin').classList.toggle('active',t==='login');
+  document.getElementById('tabRegister').classList.toggle('active',t==='register');
+  document.getElementById('loginForm').style.display=t==='login'?'':'none';
+  document.getElementById('registerForm').style.display=t==='register'?'':'none';
+}
+
+async function doRegister(){
+  const name=document.getElementById('regName').value.trim();
+  const pin=document.getElementById('regPin').value.trim();
+  const pin2=document.getElementById('regPin2').value.trim();
+  const err=document.getElementById('regErr');
+  err.className='login-err';
+  if(!name||name.length<2){err.textContent='Entre un prénom valide (2 caractères min).';err.className='login-err show';return;}
+  if(!/^\d{4}$/.test(pin)){err.textContent='Le code PIN doit contenir exactement 4 chiffres.';err.className='login-err show';return;}
+  if(pin!==pin2){err.textContent='Les deux codes PIN ne correspondent pas.';err.className='login-err show';return;}
+  const key='user:'+name.toLowerCase();
+  const existing=await S.get(key);
+  if(existing){err.textContent='Ce prénom est déjà pris. Choisis-en un autre ou connecte-toi.';err.className='login-err show';return;}
+  await S.set(key,{name,pin,createdAt:Date.now()});
+  toast('🎉 Compte créé ! Bienvenue '+name+' !');
+  currentUser={name,pin};
+  startSession();
+}
+
+async function doLogin(){
+  const name=document.getElementById('loginName').value.trim();
+  const pin=document.getElementById('loginPin').value.trim();
+  const err=document.getElementById('loginErr');
+  err.className='login-err';
+  if(!name||!pin){err.textContent='Entre ton prénom et ton code PIN.';err.className='login-err show';return;}
+  const key='user:'+name.toLowerCase();
+  const u=await S.get(key);
+  if(!u){err.textContent='Prénom inconnu. Inscris-toi d\'abord !';err.className='login-err show';return;}
+  if(u.pin!==pin){err.textContent='Code PIN incorrect.';err.className='login-err show';return;}
+  currentUser={name:u.name,pin};
+  toast('👋 Bon retour '+u.name+' !');
+  startSession();
+}
+
+function doGuest(){
+  currentUser={name:'Invité',isGuest:true};
+  startSession();
+}
+
+function doLogout(){
+  if(confirm('Quitter la partie ? Ta progression est sauvegardée.')){
+    stopTimer();
+    currentUser=null;
+    document.getElementById('sGame').classList.remove('active');
+    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+    document.getElementById('sLogin').classList.add('active');
+  }
+}
+
+function closeModal(){
+  document.getElementById('modalForms').classList.add('hidden');
+}
+
+// ═══════════════════════════════════════════════
+//  SESSION
+// ═══════════════════════════════════════════════
+async function startSession(){
+  document.getElementById('userAv').textContent=currentUser.name[0].toUpperCase();
+  document.getElementById('userName').textContent=currentUser.name;
+  show('sGame');
+  await initPack(PACKS[0]);
+}
+
+// ═══════════════════════════════════════════════
+//  GAME STATE
 // ═══════════════════════════════════════════════
 const SCOLS=[{bg:'#000000',text:'#FFEB00',border:'rgba(255,235,0,.5)'},{bg:'#FFEB00',text:'#000000',border:'rgba(0,0,0,.3)'},{bg:'#FFFFFF',text:'#000000',border:'rgba(0,0,0,.2)'}];
 let currentPack=PACKS[0], questions=[], completed=[], score=0;
 let angle=0, spinning=false, selLeft=null, matched=[], curQ=-1;
-let sessionStart=Date.now();
-// Timer
-let timerInterval=null, timerLeft=0, timerMax=0, challengeAnswered=false;
+let sessionStart=Date.now(), timerInterval=null, timerLeft=0, timerMax=0, challengeAnswered=false;
 
-const canvas=document.getElementById('wcanvas'), ctx=canvas.getContext('2d');
-const W=canvas.width, H=canvas.height;
+const canvas=document.getElementById('wcanvas'),ctx=canvas.getContext('2d');
+const W=canvas.width,H=canvas.height;
 
-// ═══════════════════════════════════════════════
-//  LAUNCH
-// ═══════════════════════════════════════════════
-function launchGame(){
-  document.getElementById('modalForms').classList.add('hidden');
-  initPack(PACKS[0]);
-  drawWheel(0);
+// ── Save & Load progress per user/pack ──
+function saveKey(packId){ return currentUser&&!currentUser.isGuest?'progress:'+currentUser.name.toLowerCase()+':'+packId:null; }
+
+async function saveProgress(){
+  const k=saveKey(currentPack.id); if(!k) return;
+  await S.set(k,{completed,score,angle,ts:Date.now()});
+}
+
+async function loadProgress(packId){
+  const k=saveKey(packId); if(!k) return null;
+  return await S.get(k);
+}
+
+async function clearProgress(packId){
+  const k=saveKey(packId); if(!k) return;
+  try{await window.storage.delete(k);}catch{}
+}
+
+// ── LB ──
+async function addToLB(entry){
+  const k='lb:'+currentPack.id+':'+Date.now();
+  await S.set(k,{...entry,ts:Date.now()},true); // shared=true so all users see it
+}
+
+async function getLB(packId){
+  const pfx='lb:'+(packId==='all'?'':packId);
+  const keys=await S.list(pfx);
+  const rows=await Promise.all(keys.map(k=>S.get(k.replace(/^[^:]*:/,'lb:'))||window.storage.get(k).then(r=>r?JSON.parse(r.value):null).catch(()=>null)));
+  // fetch via direct key
+  const results=[];
+  for(const k of keys){
+    try{const r=await window.storage.get(k,true);if(r)results.push(JSON.parse(r.value));}catch{}
+  }
+  return results.sort((a,b)=>b.score-a.score);
 }
 
 // ═══════════════════════════════════════════════
@@ -507,23 +593,21 @@ function buildPackBar(){
   const bar=document.getElementById('packBar'); bar.innerHTML='';
   PACKS.forEach(p=>{
     const chip=document.createElement('div');
-    const done=isPackDone(p.id);
     chip.className='pack-chip'+(p.id===currentPack.id?' active':'')+(p.unlocked?'':' locked');
-    chip.innerHTML=p.label+(done?' <span class="ck">✓</span>':'')+(p.unlocked?'':'  🔒');
-    if(p.unlocked) chip.onclick=()=>switchPack(p);
+    chip.innerHTML=p.label+(p.unlocked?'':'  🔒');
+    if(p.unlocked) chip.onclick=()=>confirmSwitchPack(p);
     bar.appendChild(chip);
   });
 }
 
-function isPackDone(packId){ const lb=getLB(); return lb.some(e=>e.packId===packId); }
-
-function switchPack(p){
-  if(!p.unlocked||p.id===currentPack.id) return;
-  if(completed.length>0&&!confirm('Changer de pack réinitialisera ta progression actuelle. Continuer ?')) return;
-  initPack(p);
+async function confirmSwitchPack(p){
+  if(p.id===currentPack.id) return;
+  if(completed.length>0&&!confirm('Changer de pack ? Ta progression est sauvegardée.')) return;
+  await saveProgress();
+  await initPack(p);
 }
 
-function initPack(p){
+async function initPack(p){
   stopTimer();
   currentPack=p; questions=[...p.questions];
   completed=[]; score=0; angle=0; selLeft=null; matched=[]; curQ=-1;
@@ -535,7 +619,38 @@ function initPack(p){
   document.getElementById('spinBtn').disabled=false;
   document.getElementById('timerWrap').style.display='none';
   document.getElementById('packCompleteBanner').className='pack-complete';
+  document.getElementById('resumeBanner').className='resume-banner';
   buildPackBar(); updateProg(); drawWheel(0);
+
+  // Check for saved progress
+  if(!p.unlocked||p.questions.length===0) return;
+  const saved=await loadProgress(p.id);
+  if(saved&&saved.completed&&saved.completed.length>0&&saved.completed.length<p.questions.length){
+    document.getElementById('resumeDesc').textContent=
+      saved.completed.length+' / '+p.questions.length+' défis complétés — Score: '+saved.score+' pts';
+    document.getElementById('resumeBanner').className='resume-banner show';
+    // Store saved data for resume
+    window._savedProgress=saved;
+  }
+}
+
+async function resumeSession(){
+  const saved=window._savedProgress; if(!saved) return;
+  completed=saved.completed||[]; score=saved.score||0; angle=saved.angle||0;
+  document.getElementById('scoreDisp').textContent=score;
+  document.getElementById('resumeBanner').className='resume-banner';
+  updateProg(); drawWheel(angle);
+  toast('▶ Progression restaurée ! '+completed.length+' défis complétés.');
+}
+
+async function freshStart(){
+  await clearProgress(currentPack.id);
+  document.getElementById('resumeBanner').className='resume-banner';
+  window._savedProgress=null;
+  completed=[]; score=0; angle=0;
+  document.getElementById('scoreDisp').textContent='0';
+  updateProg(); drawWheel(0);
+  toast('🔄 Nouvelle partie lancée !');
 }
 
 // ═══════════════════════════════════════════════
@@ -547,39 +662,39 @@ function drawWheel(rot){
   for(let i=0;i<N;i++){
     const sa=rot+i*arc-Math.PI/2,ea=sa+arc;
     const m=questions[i],col=SCOLS[m.sIdx],done=completed.includes(i);
-    ctx.beginPath(); ctx.moveTo(cx,cy); ctx.arc(cx,cy,r,sa,ea); ctx.closePath();
-    ctx.fillStyle=done?'#151515':col.bg; ctx.fill();
-    ctx.strokeStyle=done?'#2a2a2a':col.border; ctx.lineWidth=2; ctx.stroke();
-    ctx.save(); ctx.translate(cx,cy); ctx.rotate(sa+arc/2);
+    ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,r,sa,ea);ctx.closePath();
+    ctx.fillStyle=done?'#151515':col.bg;ctx.fill();
+    ctx.strokeStyle=done?'#2a2a2a':col.border;ctx.lineWidth=2;ctx.stroke();
+    ctx.save();ctx.translate(cx,cy);ctx.rotate(sa+arc/2);
     if(!done){
-      ctx.font='15px serif'; ctx.textAlign='right'; ctx.fillStyle=col.text; ctx.fillText(m.icon,r-8,-6);
+      ctx.font='15px serif';ctx.textAlign='right';ctx.fillStyle=col.text;ctx.fillText(m.icon,r-8,-6);
       const pts=m.name.split(' ');
-      ctx.font='bold 8.5px Barlow Condensed,Arial Narrow,sans-serif'; ctx.fillStyle=col.text; ctx.textAlign='right';
-      if(pts.length<=1||m.name.length<=9){ ctx.fillText(m.name.toUpperCase(),r-8,8); }
-      else{ const mid=Math.ceil(pts.length/2); ctx.fillText(pts.slice(0,mid).join(' ').toUpperCase(),r-8,4); ctx.fillText(pts.slice(mid).join(' ').toUpperCase(),r-8,14); }
+      ctx.font='bold 8.5px Barlow Condensed,Arial Narrow,sans-serif';ctx.fillStyle=col.text;ctx.textAlign='right';
+      if(pts.length<=1||m.name.length<=9){ctx.fillText(m.name.toUpperCase(),r-8,8);}
+      else{const mid=Math.ceil(pts.length/2);ctx.fillText(pts.slice(0,mid).join(' ').toUpperCase(),r-8,4);ctx.fillText(pts.slice(mid).join(' ').toUpperCase(),r-8,14);}
     } else {
-      ctx.font='13px serif'; ctx.textAlign='right'; ctx.fillStyle='#FFEB00'; ctx.fillText('✓ '+m.name.split(' ')[0].toUpperCase(),r-8,6);
+      ctx.font='13px serif';ctx.textAlign='right';ctx.fillStyle='#FFEB00';ctx.fillText('✓ '+m.name.split(' ')[0].toUpperCase(),r-8,6);
     }
     ctx.restore();
   }
-  ctx.beginPath(); ctx.arc(cx,cy,r,0,2*Math.PI); ctx.strokeStyle='rgba(255,235,0,.5)'; ctx.lineWidth=5; ctx.stroke();
-  ctx.beginPath(); ctx.arc(cx,cy,r,0,2*Math.PI); ctx.strokeStyle='rgba(0,0,0,.6)'; ctx.lineWidth=2; ctx.stroke();
+  ctx.beginPath();ctx.arc(cx,cy,r,0,2*Math.PI);ctx.strokeStyle='rgba(255,235,0,.5)';ctx.lineWidth=5;ctx.stroke();
 }
 
 function spinWheel(){
   if(spinning) return;
-  if(questions.every((_,i)=>completed.includes(i))){ endGame(); return; }
-  spinning=true; stopTimer(); document.getElementById('spinBtn').disabled=true;
+  if(questions.every((_,i)=>completed.includes(i))){endGame();return;}
+  spinning=true;stopTimer();document.getElementById('spinBtn').disabled=true;
   document.getElementById('idleMsg').style.display='none';
   document.getElementById('chContent').style.display='none';
   document.getElementById('timerWrap').style.display='none';
+  document.getElementById('resumeBanner').className='resume-banner';
   const avail=questions.map((_,i)=>i).filter(i=>!completed.includes(i));
   const target=avail[Math.floor(Math.random()*avail.length)];
-  const N=questions.length, arc=(2*Math.PI)/N;
+  const N=questions.length,arc=(2*Math.PI)/N;
   const tc=-(target*arc)+Math.PI/2-arc/2;
   const total=tc+Math.PI*2*(4+Math.floor(Math.random()*3));
-  const st=angle, dur=4000; let t0=null;
-  const anim=ts=>{ if(!t0)t0=ts; const p=Math.min((ts-t0)/dur,1); const e=1-Math.pow(1-p,4); angle=st+total*e; drawWheel(angle); if(p<1)requestAnimationFrame(anim); else{ spinning=false; curQ=target; showMetier(target); showChallenge(target); } };
+  const st=angle,dur=4000;let t0=null;
+  const anim=ts=>{if(!t0)t0=ts;const p=Math.min((ts-t0)/dur,1);const e=1-Math.pow(1-p,4);angle=st+total*e;drawWheel(angle);if(p<1)requestAnimationFrame(anim);else{spinning=false;curQ=target;showMetier(target);showChallenge(target);}};
   requestAnimationFrame(anim);
 }
 
@@ -592,43 +707,25 @@ function showMetier(i){
 //  TIMER
 // ═══════════════════════════════════════════════
 function startTimer(seconds){
-  stopTimer();
-  timerLeft=seconds; timerMax=seconds; challengeAnswered=false;
-  const wrap=document.getElementById('timerWrap');
-  const num=document.getElementById('timerNum');
-  const bar=document.getElementById('timerBar');
-  wrap.style.display='block';
-  num.textContent=timerLeft;
-  bar.style.width='100%'; bar.className='timer-bar ok';
+  stopTimer();timerLeft=seconds;timerMax=seconds;challengeAnswered=false;
+  const wrap=document.getElementById('timerWrap'),num=document.getElementById('timerNum'),bar=document.getElementById('timerBar');
+  wrap.style.display='block';num.textContent=timerLeft;bar.style.width='100%';bar.className='timer-bar ok';
   timerInterval=setInterval(()=>{
-    timerLeft--;
-    const pct=Math.round((timerLeft/timerMax)*100);
-    num.textContent=timerLeft;
-    bar.style.width=pct+'%';
-    if(pct>50) bar.className='timer-bar ok';
-    else if(pct>25) bar.className='timer-bar warn';
-    else bar.className='timer-bar danger';
-    if(timerLeft<=0){ stopTimer(); if(!challengeAnswered) onTimeout(); }
+    timerLeft--;const pct=Math.round((timerLeft/timerMax)*100);
+    num.textContent=timerLeft;bar.style.width=pct+'%';
+    if(pct>50)bar.className='timer-bar ok';else if(pct>25)bar.className='timer-bar warn';else bar.className='timer-bar danger';
+    if(timerLeft<=0){stopTimer();if(!challengeAnswered)onTimeout();}
   },1000);
 }
-
-function stopTimer(){ clearInterval(timerInterval); timerInterval=null; }
-
+function stopTimer(){clearInterval(timerInterval);timerInterval=null;}
 function onTimeout(){
   challengeAnswered=true;
-  // Disable all inputs
   document.querySelectorAll('.mcq-btn').forEach(b=>b.disabled=true);
-  document.querySelectorAll('.mi').forEach(b=>{ b.style.pointerEvents='none'; });
-  // Show correct for MCQ
+  document.querySelectorAll('.mi').forEach(b=>{b.style.pointerEvents='none';});
   const m=questions[curQ];
-  if(m.type==='mcq'){
-    const btns=document.querySelectorAll('.mcq-btn');
-    if(btns[m.correct]) btns[m.correct].classList.add('correct');
-  }
+  if(m.type==='mcq'){const btns=document.querySelectorAll('.mcq-btn');if(btns[m.correct])btns[m.correct].classList.add('correct');}
   showFb(false,'⏱️ Temps écoulé ! '+m.explanation);
-  // Flash card red
-  const card=document.getElementById('ccard');
-  const flash=document.createElement('div'); flash.className='timeout-flash'; card.style.position='relative'; card.appendChild(flash); setTimeout(()=>flash.remove(),500);
+  const card=document.getElementById('ccard');const flash=document.createElement('div');flash.className='timeout-flash';card.style.position='relative';card.appendChild(flash);setTimeout(()=>flash.remove(),500);
   doneChallenge();
 }
 
@@ -636,7 +733,7 @@ function onTimeout(){
 //  CHALLENGES
 // ═══════════════════════════════════════════════
 function showChallenge(i){
-  const m=questions[i]; challengeAnswered=false;
+  const m=questions[i];challengeAnswered=false;
   document.getElementById('chContent').style.display='flex';
   document.getElementById('chIcon').textContent=m.icon;
   document.getElementById('chTitle').textContent='Défi '+m.name;
@@ -644,24 +741,23 @@ function showChallenge(i){
   document.getElementById('fbBar').className='fb';
   document.getElementById('nxtBtn').className='nxtbtn';
   document.getElementById('spinBtn').disabled=true;
-  selLeft=null; matched=[];
-  const opts=document.getElementById('chOpts'); opts.innerHTML='';
-  if(m.type==='mcq') buildMCQ(m,opts); else buildMatch(m,opts);
+  selLeft=null;matched=[];
+  const opts=document.getElementById('chOpts');opts.innerHTML='';
+  if(m.type==='mcq')buildMCQ(m,opts);else buildMatch(m,opts);
   startTimer(m.timer||20);
 }
 
 function buildMCQ(m,c){
-  const d=document.createElement('div'); d.className='mcq-opts';
+  const d=document.createElement('div');d.className='mcq-opts';
   m.options.forEach((o,i)=>{
-    const b=document.createElement('button'); b.className='mcq-btn';
+    const b=document.createElement('button');b.className='mcq-btn';
     b.innerHTML='<strong style="color:var(--y);margin-right:8px;">'+String.fromCharCode(65+i)+'.</strong>'+o;
     b.onclick=()=>{
-      if(challengeAnswered) return;
-      challengeAnswered=true; stopTimer();
+      if(challengeAnswered)return;challengeAnswered=true;stopTimer();
       document.getElementById('timerWrap').style.display='none';
       d.querySelectorAll('.mcq-btn').forEach(x=>x.disabled=true);
-      if(i===m.correct){ b.classList.add('correct'); showFb(true,m.explanation); addPts(calcPts()); }
-      else{ b.classList.add('wrong'); d.querySelectorAll('.mcq-btn')[m.correct].classList.add('correct'); showFb(false,m.explanation); }
+      if(i===m.correct){b.classList.add('correct');showFb(true,m.explanation);addPts(calcPts());}
+      else{b.classList.add('wrong');d.querySelectorAll('.mcq-btn')[m.correct].classList.add('correct');showFb(false,m.explanation);}
       doneChallenge();
     };
     d.appendChild(b);
@@ -670,72 +766,60 @@ function buildMCQ(m,c){
 }
 
 function buildMatch(m,c){
-  const g=document.createElement('div'); g.className='mgrid';
-  const lc=document.createElement('div'); lc.className='mcol'; lc.innerHTML='<div class="mcolt">Éléments</div>';
-  const rc=document.createElement('div'); rc.className='mcol'; rc.innerHTML='<div class="mcolt">Correspondances</div>';
+  const g=document.createElement('div');g.className='mgrid';
+  const lc=document.createElement('div');lc.className='mcol';lc.innerHTML='<div class="mcolt">Éléments</div>';
+  const rc=document.createElement('div');rc.className='mcol';rc.innerHTML='<div class="mcolt">Correspondances</div>';
   const ro=m.right.map((_,i)=>i);
-  for(let i=ro.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [ro[i],ro[j]]=[ro[j],ro[i]]; }
+  for(let i=ro.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[ro[i],ro[j]]=[ro[j],ro[i]];}
   m.left.forEach((lbl,i)=>{
-    const el=document.createElement('div'); el.className='mi'; el.textContent=lbl; el.dataset.li=i;
+    const el=document.createElement('div');el.className='mi';el.textContent=lbl;el.dataset.li=i;
     el.onclick=()=>{
       if(el.classList.contains('correct')||el.classList.contains('wrong'))return;
       document.querySelectorAll('.mi[data-li]').forEach(x=>x.classList.remove('sel'));
-      el.classList.add('sel'); selLeft=i;
+      el.classList.add('sel');selLeft=i;
     };
     lc.appendChild(el);
   });
   ro.forEach(ri=>{
-    const el=document.createElement('div'); el.className='mi'; el.textContent=m.right[ri]; el.dataset.ri=ri;
+    const el=document.createElement('div');el.className='mi';el.textContent=m.right[ri];el.dataset.ri=ri;
     el.onclick=()=>{
       if(selLeft===null||el.classList.contains('correct')||el.classList.contains('wrong'))return;
-      if(challengeAnswered) return;
+      if(challengeAnswered)return;
       const cor=m.pairs[selLeft];
       const sEl=document.querySelector('.mi[data-li="'+selLeft+'"]');
       if(ri===cor){
-        el.classList.add('correct'); if(sEl)sEl.classList.add('correct');
-        matched.push(selLeft); confetti();
+        el.classList.add('correct');if(sEl)sEl.classList.add('correct');
+        matched.push(selLeft);confetti();
         if(matched.length===m.left.length){
-          challengeAnswered=true; stopTimer();
-          document.getElementById('timerWrap').style.display='none';
-          showFb(true,m.explanation); addPts(calcPts()); doneChallenge();
+          challengeAnswered=true;stopTimer();document.getElementById('timerWrap').style.display='none';
+          showFb(true,m.explanation);addPts(calcPts());doneChallenge();
         }
       } else {
-        el.classList.add('wrong'); if(sEl)sEl.classList.add('wrong');
-        setTimeout(()=>{ el.classList.remove('wrong'); if(sEl)sEl.classList.remove('wrong','sel'); },700);
+        el.classList.add('wrong');if(sEl)sEl.classList.add('wrong');
+        setTimeout(()=>{el.classList.remove('wrong');if(sEl)sEl.classList.remove('wrong','sel');},700);
         showFb(false,'Pas tout à fait… Essaie encore !');
       }
-      selLeft=null; document.querySelectorAll('.mi[data-li]').forEach(x=>x.classList.remove('sel'));
+      selLeft=null;document.querySelectorAll('.mi[data-li]').forEach(x=>x.classList.remove('sel'));
     };
     rc.appendChild(el);
   });
-  g.appendChild(lc); g.appendChild(rc); c.appendChild(g);
+  g.appendChild(lc);g.appendChild(rc);c.appendChild(g);
 }
 
-// Points bonus selon temps restant
-function calcPts(){
-  const ratio=timerLeft/timerMax;
-  if(ratio>0.6) return 15;   // rapide → bonus
-  if(ratio>0.3) return 10;   // normal
-  return 5;                  // juste à temps
-}
+function calcPts(){const r=timerLeft/timerMax;if(r>0.6)return 15;if(r>0.3)return 10;return 5;}
+function showFb(ok,msg){const fb=document.getElementById('fbBar');fb.className='fb show '+(ok?'good':'bad');fb.innerHTML=(ok?'🎉 ':'💡 ')+msg;}
+function addPts(n){score+=n;document.getElementById('scoreDisp').textContent=score;confetti();}
 
-function showFb(ok,msg){
-  const fb=document.getElementById('fbBar');
-  fb.className='fb show '+(ok?'good':'bad');
-  fb.innerHTML=(ok?'🎉 ':'💡 ')+msg;
-}
-function addPts(n){ score+=n; document.getElementById('scoreDisp').textContent=score; confetti(); }
-
-function doneChallenge(){
-  if(!completed.includes(curQ)) completed.push(curQ);
-  updateProg();
-  drawWheel(angle);
-  const nb=document.getElementById('nxtBtn'); nb.className='nxtbtn show';
-  if(completed.length===questions.length) nb.textContent='🏆 VOIR MON SCORE FINAL';
+async function doneChallenge(){
+  if(!completed.includes(curQ))completed.push(curQ);
+  updateProg();drawWheel(angle);
+  await saveProgress(); // auto-save after each challenge
+  const nb=document.getElementById('nxtBtn');nb.className='nxtbtn show';
+  if(completed.length===questions.length)nb.textContent='🏆 VOIR MON SCORE FINAL';
 }
 
 function nextChallenge(){
-  if(completed.length===questions.length){ endGame(); return; }
+  if(completed.length===questions.length){endGame();return;}
   document.getElementById('chContent').style.display='none';
   document.getElementById('idleMsg').style.display='flex';
   document.getElementById('timerWrap').style.display='none';
@@ -746,69 +830,72 @@ function nextChallenge(){
 // ═══════════════════════════════════════════════
 //  END GAME
 // ═══════════════════════════════════════════════
-function endGame(){
+async function endGame(){
   stopTimer();
   const dur=Math.round((Date.now()-sessionStart)/1000);
-  const min=Math.floor(dur/60), sec=dur%60;
-  addToLB({packId:currentPack.id,packLabel:currentPack.label,score,dur,completed:questions.length,ts:Date.now()});
-  // Show pack complete banner with next pack options
+  const min=Math.floor(dur/60),sec=dur%60;
+  const entry={name:currentUser.name,packId:currentPack.id,packLabel:currentPack.label,score,dur,completed:questions.length};
+  if(!currentUser.isGuest) await addToLB(entry);
+  await clearProgress(currentPack.id); // Clear saved progress now that pack is complete
+
   const banner=document.getElementById('packCompleteBanner');
   document.getElementById('packCompleteMsg').textContent='Score final : '+score+' pts — '+questions.length+'/'+questions.length+' défis en '+(min>0?min+'min ':'')+sec+'s !';
-  const btns=document.getElementById('nextPackBtns'); btns.innerHTML='';
+  const btns=document.getElementById('nextPackBtns');btns.innerHTML='';
   PACKS.filter(p=>p.unlocked&&p.id!==currentPack.id&&p.questions.length>0).forEach(p=>{
-    const b=document.createElement('button'); b.className='npbtn';
-    b.textContent='Jouer '+p.label; b.onclick=()=>{ banner.className='pack-complete'; initPack(p); };
-    btns.appendChild(b);
+    const b=document.createElement('button');b.className='npbtn';b.textContent='Jouer '+p.label;b.onclick=()=>{banner.className='pack-complete';initPack(p);};btns.appendChild(b);
   });
-  const bRestart=document.createElement('button'); bRestart.className='npbtn'; bRestart.style.borderColor='#555'; bRestart.style.color=bRestart.style.background=''; 
-  bRestart.textContent='🔄 Rejouer ce pack'; bRestart.onclick=()=>{ banner.className='pack-complete'; initPack(currentPack); };
-  btns.appendChild(bRestart);
+  const br=document.createElement('button');br.className='npbtn';br.style.borderColor='#555';br.textContent='🔄 Rejouer';br.onclick=()=>{banner.className='pack-complete';initPack(currentPack);};btns.appendChild(br);
   banner.className='pack-complete show';
   document.getElementById('chContent').style.display='none';
   document.getElementById('idleMsg').style.display='none';
   document.getElementById('spinBtn').disabled=true;
-  confetti(); setTimeout(confetti,600); setTimeout(confetti,1200);
+  confetti();setTimeout(confetti,600);setTimeout(confetti,1200);
 }
 
-function restartGame(){ show('sGame'); initPack(currentPack); }
+function restartGame(){show('sGame');initPack(currentPack);}
 
 // ═══════════════════════════════════════════════
 //  LEADERBOARD
 // ═══════════════════════════════════════════════
 let lbFilter='all';
-function showLB(){
-  buildLB(lbFilter); show('sLB');
-}
+async function showLB(){buildLB(lbFilter);show('sLB');}
 
-function buildLB(filter){
+async function buildLB(filter){
   lbFilter=filter;
-  const lb=getLB();
-  // Tabs
-  const tabs=document.getElementById('lbTabs'); tabs.innerHTML='';
+  document.getElementById('lbLoading').style.display='flex';
+  document.getElementById('lbList').innerHTML='';
+  const tabs=document.getElementById('lbTabs');tabs.innerHTML='';
   const filters=[{id:'all',label:'🌍 Tous'},...PACKS.filter(p=>p.unlocked&&p.questions.length>0).map(p=>({id:p.id,label:p.label}))];
   filters.forEach(f=>{
-    const t=document.createElement('div'); t.className='lb-tab'+(f.id===filter?' active':'');
-    t.textContent=f.label; t.onclick=()=>buildLB(f.id); tabs.appendChild(t);
+    const t=document.createElement('div');t.className='lb-tab'+(f.id===filter?' active':'');
+    t.textContent=f.label;t.onclick=()=>buildLB(f.id);tabs.appendChild(t);
   });
-  const data=filter==='all'?lb:lb.filter(e=>e.packId===filter);
-  const sorted=[...data].sort((a,b)=>b.score-a.score);
-  document.getElementById('lbSub').textContent=sorted.length+' score'+(sorted.length!==1?'s':'')+(filter!=='all'?' — '+PACKS.find(p=>p.id===filter)?.label:'');
-  const list=document.getElementById('lbList'); list.innerHTML='';
-  if(sorted.length===0){
-    list.innerHTML='<div class="lb-empty">Aucun score enregistré !<br>Sois le premier à jouer 🎯</div>';
-    return;
+
+  // Fetch all LB entries (shared storage)
+  let allKeys=[];
+  try{const r=await window.storage.list('lb:',true);allKeys=r?r.keys:[];}catch{}
+  const filterKeys=filter==='all'?allKeys:allKeys.filter(k=>k.startsWith('lb:'+filter+':'));
+  const rows=[];
+  for(const k of filterKeys){
+    try{const r=await window.storage.get(k,true);if(r)rows.push(JSON.parse(r.value));}catch{}
   }
-  sorted.forEach((e,i)=>{
-    const row=document.createElement('div'); row.className='lb-row';
-    const min=Math.floor((e.dur||0)/60), sec=(e.dur||0)%60;
+  rows.sort((a,b)=>b.score-a.score);
+
+  document.getElementById('lbLoading').style.display='none';
+  document.getElementById('lbSub').textContent=rows.length+' score'+(rows.length!==1?'s':'')+(filter!=='all'?' — '+(PACKS.find(p=>p.id===filter)?.label||filter):'');
+  const list=document.getElementById('lbList');list.innerHTML='';
+  if(rows.length===0){list.innerHTML='<div class="lb-empty">Aucun score encore ! Sois le premier 🎯</div>';return;}
+  rows.forEach((e,i)=>{
+    const row=document.createElement('div');
+    row.className='lb-row'+(e.name===currentUser?.name?' me':'');
+    const min=Math.floor((e.dur||0)/60),sec=(e.dur||0)%60;
     const pack=PACKS.find(p=>p.id===e.packId);
     const dt=e.ts?new Date(e.ts).toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}):'';
-    const initials='J'+(i+1);
     row.innerHTML='<div class="lb-rank">'+(i+1)+'</div>'
-      +'<div class="lb-av">'+initials+'</div>'
-      +'<div class="lb-info"><div class="lb-name">'+(pack?pack.label:e.packId||'')+'</div>'
-      +'<div class="lb-detail">'+dt+'  ·  '+(min>0?min+'min ':'')+sec+'s  ·  '+(e.completed||0)+' défis</div></div>'
-      +'<div class="lb-pts">'+e.score+' pts</div>';
+      +'<div class="lb-av">'+(e.name||'?')[0].toUpperCase()+'</div>'
+      +'<div class="lb-info"><div class="lb-name">'+(e.name||'Anonyme')+(e.name===currentUser?.name?' 👈':'')+'</div>'
+      +'<div class="lb-detail">'+(pack?pack.label:e.packId||'')+'  ·  '+dt+'  ·  '+(min>0?min+'min ':'')+sec+'s</div></div>'
+      +'<div class="lb-pts">'+e.score+'</div>';
     list.appendChild(row);
   });
 }
@@ -816,33 +903,36 @@ function buildLB(filter){
 // ═══════════════════════════════════════════════
 //  UTILS
 // ═══════════════════════════════════════════════
-function show(id){ document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active')); document.getElementById(id).classList.add('active'); }
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
 
 function updateProg(){
-  const n=completed.length, tot=questions.length;
+  const n=completed.length,tot=questions.length;
   document.getElementById('defCnt').textContent=n+' / '+tot;
   document.getElementById('pfill').style.width=(tot?Math.round(n/tot*100):0)+'%';
   document.getElementById('plbl').textContent=n+' / '+tot+' défis';
-  const steps=document.getElementById('psteps'); steps.innerHTML='';
-  for(let i=0;i<tot;i++){
-    const d=document.createElement('div'); d.className='sd'+(i<n?' done':(i===n?' cur':'')); steps.appendChild(d);
-  }
+  const steps=document.getElementById('psteps');steps.innerHTML='';
+  for(let i=0;i<tot;i++){const d=document.createElement('div');d.className='sd'+(i<n?' done':(i===n?' cur':''));steps.appendChild(d);}
 }
 
 function confetti(){
   const wrap=document.getElementById('cnfWrap');
   const cols=['#FFEB00','#FFFFFF','#000000','#FFD700','#C9B800'];
   for(let i=0;i<35;i++){
-    const c=document.createElement('div'); c.className='cnf';
-    c.style.left=Math.random()*100+'vw'; c.style.animationDelay=Math.random()*.6+'s';
-    c.style.animationDuration=(1+Math.random()*.8)+'s'; c.style.background=cols[Math.floor(Math.random()*cols.length)];
-    c.style.borderRadius=Math.random()>.5?'50%':'2px'; c.style.width=(6+Math.random()*10)+'px'; c.style.height=(6+Math.random()*10)+'px';
-    wrap.appendChild(c); setTimeout(()=>c.remove(),2500);
+    const c=document.createElement('div');c.className='cnf';
+    c.style.left=Math.random()*100+'vw';c.style.animationDelay=Math.random()*.6+'s';
+    c.style.animationDuration=(1+Math.random()*.8)+'s';c.style.background=cols[Math.floor(Math.random()*cols.length)];
+    c.style.borderRadius=Math.random()>.5?'50%':'2px';c.style.width=(6+Math.random()*10)+'px';c.style.height=(6+Math.random()*10)+'px';
+    wrap.appendChild(c);setTimeout(()=>c.remove(),2500);
   }
 }
 
-// Init
-updateProg(); drawWheel(0);
+function toast(msg){
+  const wrap=document.getElementById('toastWrap');
+  const el=document.createElement('div');el.className='toast';el.textContent=msg;
+  wrap.appendChild(el);setTimeout(()=>el.remove(),3500);
+}
+
+drawWheel(0);
 </script>
 </body>
 </html>
