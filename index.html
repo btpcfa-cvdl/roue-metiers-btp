@@ -14,7 +14,7 @@
 body{background:var(--bk);color:var(--w);font-family:'Barlow',sans-serif;min-height:100vh;overflow-x:hidden;}
 .screen{display:none;min-height:100vh;}
 .screen.active{display:flex;flex-direction:column;}
-#sLogin,#sTrophy,#sLB{align-items:center;justify-content:center;background:radial-gradient(ellipse at 50% 30%,#1a1700,var(--bk) 70%);}
+#sLogin,#sTrophy,#sLB,#sReseaux{align-items:center;justify-content:center;background:radial-gradient(ellipse at 50% 30%,#1a1700,var(--bk) 70%);}
 
 /* ── LOGIN ── */
 .login-card{background:var(--bs);border:2px solid var(--y);border-radius:24px;padding:44px 40px;max-width:460px;width:92%;box-shadow:0 0 80px rgba(255,235,0,.12);}
@@ -430,9 +430,68 @@ header{background:var(--bk);border-bottom:3px solid var(--y);padding:10px 20px;d
   .mi { font-size: .74rem; padding: 7px 6px; }
   .mgrid { gap: 5px; }
 }
+
+/* ── POPUP FORMULAIRE ── */
+.popup-overlay{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:9000;display:flex;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(4px);}
+.popup-overlay.hidden{display:none;}
+.popup-box{background:var(--bs);border:2px solid var(--y);border-radius:24px;padding:38px 36px;max-width:500px;width:100%;text-align:center;box-shadow:0 0 80px rgba(255,235,0,.15);animation:popIn .35s ease;}
+@keyframes popIn{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
+.popup-title{font-family:'Bebas Neue',sans-serif;font-size:1.75rem;color:var(--y);letter-spacing:3px;line-height:1.15;margin-bottom:6px;}
+.popup-sub{font-family:'Barlow Condensed',sans-serif;font-size:.78rem;color:var(--gr);letter-spacing:2px;text-transform:uppercase;margin-bottom:20px;}
+.popup-desc{font-size:.88rem;color:#bbb;line-height:1.65;margin-bottom:24px;background:#111;border-radius:12px;padding:14px 16px;border:1px solid #2a2a2a;text-align:left;}
+.popup-desc strong{color:var(--y);}
+.popup-btn-primary{display:block;width:100%;background:var(--y);color:var(--bk);border:none;border-radius:50px;font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:3px;padding:14px;cursor:pointer;transition:all .2s;margin-bottom:10px;text-decoration:none;}
+.popup-btn-primary:hover{background:var(--yd);box-shadow:0 0 28px rgba(255,235,0,.35);}
+.popup-btn-skip{background:transparent;border:2px solid #2a2a2a;border-radius:50px;color:#555;font-family:'Bebas Neue',sans-serif;font-size:.88rem;letter-spacing:2px;padding:10px 24px;cursor:pointer;width:100%;transition:all .2s;}
+.popup-btn-skip:hover{border-color:#555;color:var(--gr);}
+
+/* ── ÉCRAN RÉSEAUX SOCIAUX ── */
+#sReseaux{background:radial-gradient(ellipse at 50% 30%,#1a1700,var(--bk) 70%);padding:30px 16px;overflow-y:auto;align-items:flex-start;justify-content:center;}
+.reseaux-wrap{max-width:640px;width:100%;margin:0 auto;}
+.reseaux-header{text-align:center;margin-bottom:26px;}
+.reseaux-header h2{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:var(--y);letter-spacing:3px;margin-bottom:6px;}
+.reseaux-header p{font-family:'Barlow Condensed',sans-serif;font-size:.78rem;color:var(--gr);letter-spacing:2px;text-transform:uppercase;}
+.cfa-card{background:var(--bs);border:2px solid #2a2a2a;border-radius:16px;padding:16px 20px;margin-bottom:10px;transition:border-color .2s;}
+.cfa-card:hover{border-color:rgba(255,235,0,.3);}
+.cfa-name{font-family:'Bebas Neue',sans-serif;font-size:1.15rem;color:var(--y);letter-spacing:2px;margin-bottom:10px;}
+.cfa-btns{display:flex;gap:10px;flex-wrap:wrap;}
+.cfa-btn{display:flex;align-items:center;gap:8px;padding:9px 18px;border-radius:50px;font-family:'Bebas Neue',sans-serif;font-size:.9rem;letter-spacing:2px;cursor:pointer;text-decoration:none;transition:all .2s;}
+.cfa-btn-ig{background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);color:#fff;}
+.cfa-btn-ig:hover{opacity:.85;transform:translateY(-1px);}
+.cfa-btn-fb{background:#1877F2;color:#fff;}
+.cfa-btn-fb:hover{background:#1465d0;transform:translateY(-1px);}
+.reseaux-back{text-align:center;margin-top:22px;padding-bottom:20px;}
+
+@media(max-width:640px){
+  .popup-box{padding:26px 20px;}
+  .popup-title{font-size:1.4rem;}
+  .reseaux-header h2{font-size:1.7rem;}
+  .cfa-btns{flex-direction:column;}
+  .cfa-btn{justify-content:center;}
+}
 </style>
 </head>
 <body>
+
+<!-- POPUP FORMULAIRE (affiché en premier) -->
+<div class="popup-overlay" id="popupFormulaire">
+  <div class="popup-box">
+    <div style="display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:18px;">
+      <div class="logo-b">BTP<br>CFA<br><span>CVDL</span></div>
+      <div style="text-align:left;">
+        <div class="popup-title">Jeu interactif<br>La Roue des Métiers</div>
+        <div class="popup-sub">BTP CFA Centre-Val de Loire</div>
+      </div>
+    </div>
+    <div class="popup-desc">
+      🎓 <strong>Envie de tenter ta chance ?</strong><br><br>
+      Avant de jouer, inscris-toi à notre formulaire pour recevoir plus d'informations sur les <strong>formations BTP CFA CVDL</strong> et les <strong>métiers du bâtiment</strong> !<br><br>
+      ⏱️ Moins d'une minute, et tu joues ensuite !
+    </div>
+    <a class="popup-btn-primary" href="https://forms.office.com/Pages/ResponsePage.aspx?id=LyQ3FHr2WUOpr3mlWBAEFr6A7BpL9cBCoSJpGDkJBiRUNlpTWDhJRDgwRFQ3M1dDRk9SUFZJSVMzTi4u" target="_blank" id="popupFormBtn">📋 REMPLIR LE FORMULAIRE</a>
+    <button class="popup-btn-skip" id="popupSkipBtn">Continuer sans s'inscrire →</button>
+  </div>
+</div>
 
 <!-- LOGIN -->
 <div id="sLogin" class="screen active">
@@ -566,6 +625,70 @@ header{background:var(--bk);border-bottom:3px solid var(--y);padding:10px 20px;d
     <div style="margin-top:18px;">
       <button class="tbtn" id="replayBtn">🔄 REJOUER</button>
       <button class="tbtn2" id="lbTrophyBtn">🏆 CLASSEMENT</button>
+      <button class="tbtn" id="reseauxBtn" style="background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);border-color:transparent;color:#fff;margin-top:8px;">📱 SUIVEZ-NOUS !</button>
+    </div>
+  </div>
+</div>
+
+<!-- RÉSEAUX SOCIAUX -->
+<div id="sReseaux" class="screen">
+  <div class="reseaux-wrap">
+    <div class="reseaux-header">
+      <h2>📱 Retrouvez-nous en ligne !</h2>
+      <p>Suivez nos actualités sur les réseaux sociaux</p>
+    </div>
+
+    <div class="cfa-card">
+      <div class="cfa-name">🏗️ BTP CFA CVDL — Centre-Val de Loire</div>
+      <div class="cfa-btns">
+        <a class="cfa-btn cfa-btn-ig" href="https://www.instagram.com/btp.cfa.cvdl/" target="_blank">📸 Instagram</a>
+        <a class="cfa-btn cfa-btn-fb" href="https://www.facebook.com/BTPCFACENTRE/" target="_blank">👍 Facebook</a>
+      </div>
+    </div>
+
+    <div class="cfa-card">
+      <div class="cfa-name">🏗️ BTP CFA 28 — Eure-et-Loir</div>
+      <div class="cfa-btns">
+        <a class="cfa-btn cfa-btn-ig" href="https://www.instagram.com/btp.cfa.28/" target="_blank">📸 Instagram</a>
+        <a class="cfa-btn cfa-btn-fb" href="https://www.facebook.com/profile.php?id=61575013467215" target="_blank">👍 Facebook</a>
+      </div>
+    </div>
+
+    <div class="cfa-card">
+      <div class="cfa-name">🏗️ BTP CFA 36 — Indre</div>
+      <div class="cfa-btns">
+        <a class="cfa-btn cfa-btn-ig" href="https://www.instagram.com/btp.cfa.36/" target="_blank">📸 Instagram</a>
+        <a class="cfa-btn cfa-btn-fb" href="https://www.facebook.com/profile.php?id=61574877453404" target="_blank">👍 Facebook</a>
+      </div>
+    </div>
+
+    <div class="cfa-card">
+      <div class="cfa-name">🏗️ BTP CFA 37 — Indre-et-Loire</div>
+      <div class="cfa-btns">
+        <a class="cfa-btn cfa-btn-ig" href="https://www.instagram.com/btp.cfa.37/" target="_blank">📸 Instagram</a>
+        <a class="cfa-btn cfa-btn-fb" href="https://www.facebook.com/profile.php?id=61574599577674" target="_blank">👍 Facebook</a>
+      </div>
+    </div>
+
+    <div class="cfa-card">
+      <div class="cfa-name">🏗️ BTP CFA 41 — Loir-et-Cher</div>
+      <div class="cfa-btns">
+        <a class="cfa-btn cfa-btn-ig" href="https://www.instagram.com/btp.cfa.41/" target="_blank">📸 Instagram</a>
+        <a class="cfa-btn cfa-btn-fb" href="https://www.facebook.com/profile.php?id=61575144920708" target="_blank">👍 Facebook</a>
+      </div>
+    </div>
+
+    <div class="cfa-card">
+      <div class="cfa-name">🏗️ BTP CFA 45 — Loiret</div>
+      <div class="cfa-btns">
+        <a class="cfa-btn cfa-btn-ig" href="https://www.instagram.com/btp.cfa.45/" target="_blank">📸 Instagram</a>
+        <a class="cfa-btn cfa-btn-fb" href="https://www.facebook.com/profile.php?id=61574660114455" target="_blank">👍 Facebook</a>
+      </div>
+    </div>
+
+    <div class="reseaux-back">
+      <button class="tbtn" id="reseauxReplayBtn">🔄 REJOUER</button>
+      <button class="tbtn2" id="reseauxLbBtn" style="margin-left:8px;">🏆 CLASSEMENT</button>
     </div>
   </div>
 </div>
@@ -733,19 +856,26 @@ async function getLB(){
 async function addToLB(e){
   if(currentUser.isGuest)return;
   try{
+    const payload={
+      name:currentUser.name,
+      score:e.score,
+      pack_id:e.packId,
+      pack_label:e.packLabel,
+      dur:e.dur,
+      ts:Date.now()
+    };
+    console.log('📤 Supabase insert payload:',JSON.stringify(payload));
     const res=await fetch(SUPA_URL+'/rest/v1/leaderboard',{
       method:'POST',
       headers:{...SUPA_HEADERS,'Prefer':'return=minimal'},
-      body:JSON.stringify({
-        name:currentUser.name,
-        score:e.score,
-        pack_id:e.packId,
-        pack_label:e.packLabel,
-        dur:e.dur,
-        ts:Date.now()
-      })
+      body:JSON.stringify(payload)
     });
-    if(!res.ok)throw new Error('Supabase insert error '+res.status);
+    if(!res.ok){
+      const errText=await res.text();
+      console.error('❌ Supabase insert error',res.status,':',errText);
+      throw new Error('Supabase insert error '+res.status+' — '+errText);
+    }
+    console.log('✅ Supabase insert OK');
   }catch(err){
     console.warn('Supabase addToLB error:',err);
   }
@@ -1168,6 +1298,20 @@ function toast(msg){
 // INIT
 // ═══════════════════════════════════
 window.addEventListener('load',function(){
+  // Popup formulaire
+  document.getElementById('popupFormBtn').addEventListener('click',()=>{
+    // Ouvre le formulaire dans un nouvel onglet, puis ferme le popup après 1s
+    setTimeout(()=>document.getElementById('popupFormulaire').classList.add('hidden'),800);
+  });
+  document.getElementById('popupSkipBtn').addEventListener('click',()=>{
+    document.getElementById('popupFormulaire').classList.add('hidden');
+  });
+
+  // Boutons réseaux sociaux (depuis trophy)
+  document.getElementById('reseauxBtn').addEventListener('click',()=>show('sReseaux'));
+  document.getElementById('reseauxReplayBtn').addEventListener('click',restartGame);
+  document.getElementById('reseauxLbBtn').addEventListener('click',showLB);
+
   document.getElementById('tabLogin').addEventListener('click',()=>switchAuthTab('login'));
   document.getElementById('tabRegister').addEventListener('click',()=>switchAuthTab('register'));
   document.getElementById('loginBtn').addEventListener('click',doLogin);
