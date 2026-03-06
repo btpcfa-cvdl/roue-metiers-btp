@@ -16,20 +16,6 @@ body{background:var(--bk);color:var(--w);font-family:'Barlow',sans-serif;min-hei
 #sTrophy{background:radial-gradient(ellipse at 50% 30%,#1a1700,var(--bk) 70%);}
 #sLB{background:radial-gradient(ellipse at 50% 30%,#1a1700,var(--bk) 70%);}
 
-/* ── MODAL FORMS ── */
-.moverlay{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:3000;display:flex;align-items:center;justify-content:center;animation:fi .3s ease;}
-.moverlay.hidden{display:none;}
-@keyframes fi{from{opacity:0}to{opacity:1}}
-.mbox{background:var(--bs);border:2px solid var(--y);border-radius:20px;width:min(720px,96vw);max-height:92vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 0 80px rgba(255,235,0,.18);animation:su .35s ease;}
-.mhd{background:var(--bk);border-bottom:2px solid var(--y);padding:16px 22px;display:flex;align-items:center;gap:14px;flex-shrink:0;}
-.mhd-t h2{font-family:'Bebas Neue',sans-serif;font-size:1.55rem;color:var(--y);letter-spacing:2px;}
-.mhd-t p{font-size:.78rem;color:var(--gr);font-family:'Barlow Condensed',sans-serif;letter-spacing:2px;}
-.mbody{flex:1;overflow:hidden;}
-.mft{background:var(--bk);border-top:1px solid #2a2a2a;padding:13px 22px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-shrink:0;}
-.btn-play{background:var(--bk);color:var(--y);border:2px solid var(--y);border-radius:50px;font-family:'Bebas Neue',sans-serif;font-size:1.25rem;letter-spacing:3px;padding:11px 32px;cursor:pointer;transition:all .2s;white-space:nowrap;}
-.btn-play:hover{background:var(--y);color:var(--bk);box-shadow:0 0 25px rgba(255,235,0,.3);}
-.skip{color:#444;font-size:.73rem;cursor:pointer;text-decoration:underline;margin-left:10px;}
-.skip:hover{color:var(--gr);}
 /* ── LOGIN ── */
 .login-card{background:var(--bs);border:2px solid var(--y);border-radius:24px;padding:44px 40px;max-width:460px;width:92%;box-shadow:0 0 80px rgba(255,235,0,.12);animation:su .5s ease;}
 .login-logo{display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:28px;}
@@ -232,31 +218,6 @@ header{background:var(--bk);border-bottom:3px solid var(--y);padding:12px 28px;d
 </style>
 </head>
 <body>
-
-<!-- ── MODAL MICROSOFT FORMS ── -->
-<div class="moverlay" id="modalForms">
-  <div class="mbox">
-    <div class="mhd">
-      <div class="lb">BTP<br>CFA<br><span>CVDL</span></div>
-      <div class="mhd-t">
-        <h2>📋 Inscription rapide</h2>
-        <p>30 secondes avant de jouer !</p>
-      </div>
-    </div>
-    <div class="mbody">
-      <iframe
-        src="https://forms.office.com/Pages/ResponsePage.aspx?id=LyQ3FHr2WUOpr3mlWBAEFr6A7BpL9cBCoSJpGDkJBiRUNlpTWDhJRDgwRFQ3M1dDRk9SUFZJSVMzTi4u&embed=true"
-        title="Inscription BTP CFA CVDL" allowfullscreen loading="lazy" style="width:100%;height:480px;border:none;display:block;"></iframe>
-    </div>
-    <div class="mft">
-      <p style="font-size:.76rem;color:var(--gr);line-height:1.4;max-width:320px;">Données collectées uniquement par <strong style="color:var(--y);">BTP CFA CVDL</strong> dans le cadre de cet événement.</p>
-      <div style="display:flex;align-items:center;gap:10px;flex-shrink:0;">
-        <button class="btn-play" onclick="closeModal()">🎯 JOUER !</button>
-        <span class="skip" onclick="closeModal()">Passer</span>
-      </div>
-    </div>
-  </div>
-</div>
 
 <!-- ── LOGIN ── -->
 <div id="sLogin" class="screen active">
@@ -487,9 +448,12 @@ async function doRegister(){
   if(!/^\d{4}$/.test(pin)){err.textContent='Le code PIN doit contenir exactement 4 chiffres.';err.className='login-err show';return;}
   if(pin!==pin2){err.textContent='Les deux codes PIN ne correspondent pas.';err.className='login-err show';return;}
   const key='user:'+name.toLowerCase();
-  const existing=await S.get(key);
+  // Check in SHARED storage so all devices see existing accounts
+  let existing=null;
+  try{const r=await window.storage.get(key,true);if(r)existing=JSON.parse(r.value);}catch{}
   if(existing){err.textContent='Ce prénom est déjà pris. Choisis-en un autre ou connecte-toi.';err.className='login-err show';return;}
-  await S.set(key,{name,pin,createdAt:Date.now()});
+  // Save account in SHARED storage
+  try{await window.storage.set(key,JSON.stringify({name,pin,createdAt:Date.now()}),true);}catch(e){err.textContent='Erreur de sauvegarde : '+e;err.className='login-err show';return;}
   toast('🎉 Compte créé ! Bienvenue '+name+' !');
   currentUser={name,pin};
   startSession();
@@ -502,7 +466,9 @@ async function doLogin(){
   err.className='login-err';
   if(!name||!pin){err.textContent='Entre ton prénom et ton code PIN.';err.className='login-err show';return;}
   const key='user:'+name.toLowerCase();
-  const u=await S.get(key);
+  // Read from SHARED storage
+  let u=null;
+  try{const r=await window.storage.get(key,true);if(r)u=JSON.parse(r.value);}catch{}
   if(!u){err.textContent='Prénom inconnu. Inscris-toi d\'abord !';err.className='login-err show';return;}
   if(u.pin!==pin){err.textContent='Code PIN incorrect.';err.className='login-err show';return;}
   currentUser={name:u.name,pin};
@@ -517,16 +483,8 @@ function doGuest(){
 
 function doLogout(){
   if(confirm('Quitter la partie ? Ta progression est sauvegardée.')){
-    stopTimer();
-    currentUser=null;
-    document.getElementById('sGame').classList.remove('active');
-    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-    document.getElementById('sLogin').classList.add('active');
+    currentUser=null; show('sLogin');
   }
-}
-
-function closeModal(){
-  document.getElementById('modalForms').classList.add('hidden');
 }
 
 // ═══════════════════════════════════════════════
@@ -570,8 +528,8 @@ async function clearProgress(packId){
 
 // ── LB ──
 async function addToLB(entry){
-  const k='lb:'+currentPack.id+':'+Date.now();
-  await S.set(k,{...entry,ts:Date.now()},true); // shared=true so all users see it
+  const k='lb:'+currentPack.id+':'+currentUser.name.toLowerCase()+':'+Date.now();
+  try{await window.storage.set(k,JSON.stringify({...entry,ts:Date.now()}),true);}catch(e){console.warn('LB save failed',e);}
 }
 
 async function getLB(packId){
