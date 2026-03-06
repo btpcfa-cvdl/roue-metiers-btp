@@ -421,9 +421,21 @@ const PACKS=[
 //  STORAGE HELPERS (persistent via window.storage)
 // ═══════════════════════════════════════════════
 const S={
-  async get(k){try{const r=await window.storage.get(k);return r?JSON.parse(r.value):null;}catch{return null;}},
-  async set(k,v){try{await window.storage.set(k,JSON.stringify(v));}catch(e){console.warn('storage set fail',e);}},
-  async list(pfx){try{const r=await window.storage.list(pfx);return r?r.keys:[];}catch{return[];}}
+  async get(k,shared=false){
+    try{const r=await window.storage.get(k,shared);return(r&&r.value!=null)?JSON.parse(r.value):null;}
+    catch{return null;}
+  },
+  async set(k,v,shared=false){
+    try{await window.storage.set(k,JSON.stringify(v),shared);}
+    catch(e){console.warn('storage set fail',e);}
+  },
+  async del(k,shared=false){
+    try{await window.storage.delete(k,shared);}catch{}
+  },
+  async list(pfx,shared=false){
+    try{const r=await window.storage.list(pfx,shared);return r?r.keys:[];}
+    catch{return[];}
+  }
 };
 
 // ═══════════════════════════════════════════════
@@ -448,12 +460,12 @@ async function doRegister(){
   if(!/^\d{4}$/.test(pin)){err.textContent='Le code PIN doit contenir exactement 4 chiffres.';err.className='login-err show';return;}
   if(pin!==pin2){err.textContent='Les deux codes PIN ne correspondent pas.';err.className='login-err show';return;}
   const key='user:'+name.toLowerCase();
-  // Check in SHARED storage so all devices see existing accounts
-  let existing=null;
-  try{const r=await window.storage.get(key,true);if(r)existing=JSON.parse(r.value);}catch{}
+  const existing=await S.get(key,true);
   if(existing){err.textContent='Ce prénom est déjà pris. Choisis-en un autre ou connecte-toi.';err.className='login-err show';return;}
-  // Save account in SHARED storage
-  try{await window.storage.set(key,JSON.stringify({name,pin,createdAt:Date.now()}),true);}catch(e){err.textContent='Erreur de sauvegarde : '+e;err.className='login-err show';return;}
+  await S.set(key,{name,pin,createdAt:Date.now()},true);
+  // Verify write succeeded
+  const check=await S.get(key,true);
+  if(!check){err.textContent='Erreur de sauvegarde du compte. Réessaie.';err.className='login-err show';return;}
   toast('🎉 Compte créé ! Bienvenue '+name+' !');
   currentUser={name,pin};
   startSession();
@@ -466,9 +478,7 @@ async function doLogin(){
   err.className='login-err';
   if(!name||!pin){err.textContent='Entre ton prénom et ton code PIN.';err.className='login-err show';return;}
   const key='user:'+name.toLowerCase();
-  // Read from SHARED storage
-  let u=null;
-  try{const r=await window.storage.get(key,true);if(r)u=JSON.parse(r.value);}catch{}
+  const u=await S.get(key,true);
   if(!u){err.textContent='Prénom inconnu. Inscris-toi d\'abord !';err.className='login-err show';return;}
   if(u.pin!==pin){err.textContent='Code PIN incorrect.';err.className='login-err show';return;}
   currentUser={name:u.name,pin};
@@ -513,17 +523,17 @@ function saveKey(packId){ return currentUser&&!currentUser.isGuest?'progress:'+c
 
 async function saveProgress(){
   const k=saveKey(currentPack.id); if(!k) return;
-  await S.set(k,{completed,score,angle,ts:Date.now()});
+  await S.set(k,{completed,score,angle,ts:Date.now()},false); // personal storage
 }
 
 async function loadProgress(packId){
   const k=saveKey(packId); if(!k) return null;
-  return await S.get(k);
+  return await S.get(k,false); // personal storage
 }
 
 async function clearProgress(packId){
   const k=saveKey(packId); if(!k) return;
-  try{await window.storage.delete(k);}catch{}
+  await S.del(k,false);
 }
 
 // ── LB ──
