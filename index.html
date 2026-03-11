@@ -8,7 +8,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500&display=swap');
 :root{
   --y:#FFEB00;--yd:#C9B800;--bk:#0A0A0A;--bs:#1C1C1C;--w:#FFF;--gr:#888;--gn:#2ECC71;--rd:#E74C3C;
-  --wheel-size: 400px;
+  --wheel-size: 440px;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:var(--bk);color:var(--w);font-family:'Barlow',sans-serif;min-height:100vh;overflow-x:hidden;}
@@ -606,7 +606,7 @@ header{background:var(--bk);border-bottom:3px solid var(--y);padding:10px 20px;d
     <div class="wsec">
       <div class="wcont">
         <div class="wptr"></div>
-        <canvas id="wcanvas" width="400" height="400"></canvas>
+        <canvas id="wcanvas" width="500" height="500"></canvas>
         <div class="whub">BTP<br>CFA</div>
       </div>
       <button class="spin-btn" id="spinBtn">🎯 TOURNER LA ROUE</button>
@@ -1062,25 +1062,102 @@ function freshStart(){
 function drawWheel(rot){
   ctx.clearRect(0,0,W,H);
   const cx=W/2,cy=H/2,r=W/2-6,N=questions.length,arc=(2*Math.PI)/N;
+
+  // ── Séparateurs + fond de chaque portion ──
   for(let i=0;i<N;i++){
     const sa=rot+i*arc-Math.PI/2,ea=sa+arc;
     const m=questions[i],col=SCOLS[m.sIdx],done=completed.includes(i);
+
+    // Fond de la portion
     ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,r,sa,ea);ctx.closePath();
     ctx.fillStyle=done?'#151515':col.bg;ctx.fill();
-    ctx.strokeStyle=done?'#2a2a2a':col.border;ctx.lineWidth=2;ctx.stroke();
-    ctx.save();ctx.translate(cx,cy);ctx.rotate(sa+arc/2);
-    if(!done){
-      ctx.font='15px serif';ctx.textAlign='right';ctx.fillStyle=col.text;ctx.fillText(m.icon,r-8,-6);
-      const pts=m.name.split(' ');
-      ctx.font='bold 8.5px Barlow Condensed,Arial Narrow,sans-serif';ctx.fillStyle=col.text;ctx.textAlign='right';
-      if(pts.length<=1||m.name.length<=9)ctx.fillText(m.name.toUpperCase(),r-8,8);
-      else{const mid=Math.ceil(pts.length/2);ctx.fillText(pts.slice(0,mid).join(' ').toUpperCase(),r-8,4);ctx.fillText(pts.slice(mid).join(' ').toUpperCase(),r-8,14);}
+
+    // Séparateur entre portions
+    ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,r,sa,ea);ctx.closePath();
+    ctx.strokeStyle=done?'#2a2a2a':(col.bg==='#FFFFFF'?'rgba(0,0,0,.15)':'rgba(255,235,0,.25)');
+    ctx.lineWidth=2;ctx.stroke();
+  }
+
+  // ── Contenu texte de chaque portion ──
+  for(let i=0;i<N;i++){
+    const sa=rot+i*arc-Math.PI/2,ea=sa+arc;
+    const mid=sa+arc/2; // angle central de la portion
+    const m=questions[i],col=SCOLS[m.sIdx],done=completed.includes(i);
+
+    ctx.save();
+    ctx.translate(cx,cy);
+    ctx.rotate(mid); // on pointe vers le centre de la portion
+
+    if(done){
+      // Portion terminée : coche + nom court
+      const textR=r*0.62; // milieu radial du texte
+      ctx.textAlign='center';ctx.textBaseline='middle';
+      ctx.font='bold 11px Arial,sans-serif';
+      ctx.fillStyle='#FFEB00';
+      ctx.fillText('✓',textR,0);
+      ctx.font='bold 9px Arial Narrow,Arial,sans-serif';
+      ctx.fillStyle='rgba(255,235,0,.6)';
+      ctx.fillText(m.name.split(' ')[0].toUpperCase(),textR,11);
     } else {
-      ctx.font='13px serif';ctx.textAlign='right';ctx.fillStyle='#FFEB00';ctx.fillText('✓ '+m.name.split(' ')[0].toUpperCase(),r-8,6);
+      // Calcul dynamique de la taille de police selon l'espace disponible
+      const chordW=2*r*Math.sin(arc/2)*0.72; // largeur disponible dans la portion
+      const textR=r*0.64; // point de placement radial (milieu entre hub et bord)
+
+      ctx.textAlign='center';
+      ctx.textBaseline='middle';
+
+      // ── Icône ──
+      const iconSize=Math.max(14,Math.min(22,Math.round(chordW*0.38)));
+      ctx.font=iconSize+'px serif';
+      ctx.fillStyle=col.text;
+      ctx.fillText(m.icon,textR,-iconSize*0.7);
+
+      // ── Nom du métier : découpe intelligente en 1 ou 2 lignes ──
+      const words=m.name.split(' ');
+      const maxFontSize=Math.max(8,Math.min(13,Math.round(chordW*0.19)));
+      ctx.font=`bold ${maxFontSize}px Arial Narrow,Arial,sans-serif`;
+      ctx.fillStyle=col.text;
+
+      // Ajouter un halo pour lisibilité sur fond blanc/jaune
+      if(col.bg==='#FFFFFF'||col.bg==='#FFEB00'){
+        ctx.shadowColor='rgba(0,0,0,.25)';
+        ctx.shadowBlur=2;
+      }
+
+      const lineH=maxFontSize+2;
+      let lines=[];
+      if(words.length===1||m.name.length<=8){
+        lines=[m.name.toUpperCase()];
+      } else {
+        // Coupe à la moitié des mots pour équilibrer les lignes
+        const split=Math.ceil(words.length/2);
+        lines=[
+          words.slice(0,split).join(' ').toUpperCase(),
+          words.slice(split).join(' ').toUpperCase()
+        ];
+      }
+
+      // Décalage vertical pour centrer les lignes sous l'icône
+      const totalH=(lines.length-1)*lineH;
+      const startY=iconSize*0.55;
+      lines.forEach((line,li)=>{
+        ctx.fillText(line,textR,startY+li*lineH-totalH/2);
+      });
+
+      ctx.shadowBlur=0;ctx.shadowColor='transparent';
     }
+
     ctx.restore();
   }
-  ctx.beginPath();ctx.arc(cx,cy,r,0,2*Math.PI);ctx.strokeStyle='rgba(255,235,0,.5)';ctx.lineWidth=5;ctx.stroke();
+
+  // ── Bordure extérieure dorée ──
+  ctx.beginPath();ctx.arc(cx,cy,r,0,2*Math.PI);
+  ctx.strokeStyle='rgba(255,235,0,.6)';ctx.lineWidth=5;ctx.stroke();
+
+  // ── Cercle hub central (pour masquer les pointes des portions) ──
+  ctx.beginPath();ctx.arc(cx,cy,32,0,2*Math.PI);
+  ctx.fillStyle='#0A0A0A';ctx.fill();
+  ctx.strokeStyle='rgba(255,235,0,.7)';ctx.lineWidth=3;ctx.stroke();
 }
 
 function spinWheel(){
