@@ -70,6 +70,26 @@ header{background:var(--bk);border-bottom:3px solid var(--y);padding:10px 20px;d
 .pack-chip:hover:not(.locked){border-color:#555;color:var(--w);}
 .pack-chip.active{border-color:var(--y);color:var(--y);background:rgba(255,235,0,.08);}
 .pack-chip.locked{opacity:.45;cursor:default;}
+.pack-chip.completed{border-color:#2ECC71;color:#2ECC71;}
+
+/* ── MODE BAR ── */
+.mode-bar{display:flex;align-items:center;gap:8px;padding:7px 20px;background:#080808;border-bottom:1px solid #161616;flex-shrink:0;overflow-x:auto;}
+.mode-label{font-family:'Barlow Condensed',sans-serif;font-size:.65rem;letter-spacing:2px;color:#555;text-transform:uppercase;white-space:nowrap;}
+.mode-chip{background:#111;border:2px solid #2a2a2a;border-radius:20px;padding:5px 14px;font-family:'Barlow Condensed',sans-serif;font-size:.75rem;letter-spacing:1px;color:var(--gr);cursor:pointer;white-space:nowrap;transition:all .2s;}
+.mode-chip:hover{border-color:#555;color:var(--w);}
+.mode-chip.active{border-color:var(--y);color:var(--y);background:rgba(255,235,0,.08);}
+.mode-chip.mode-fast{border-color:#E74C3C;color:#E74C3C;}
+.mode-chip.mode-fast.active{background:rgba(231,76,60,.1);}
+.mode-chip.mode-medium{border-color:#f39c12;color:#f39c12;}
+.mode-chip.mode-medium.active{background:rgba(243,156,18,.1);}
+
+/* ── PENALTY INDICATOR ── */
+.penalty-wrap{padding:4px 20px;background:#0a0505;border-bottom:1px solid #1a0a0a;flex-shrink:0;display:none;align-items:center;gap:8px;}
+.penalty-wrap.show{display:flex;}
+.penalty-label{font-family:'Barlow Condensed',sans-serif;font-size:.65rem;letter-spacing:2px;color:#E74C3C;text-transform:uppercase;}
+.penalty-dots{display:flex;gap:4px;}
+.pdot{width:10px;height:10px;border-radius:50%;background:#2a2a2a;border:1px solid #333;transition:all .3s;}
+.pdot.active{background:#E74C3C;border-color:#E74C3C;box-shadow:0 0 6px rgba(231,76,60,.5);}
 
 /* ── RESUME BANNER ── */
 .resume-banner{background:linear-gradient(135deg,#1a1700,#2a2200);border:2px solid var(--y);border-radius:14px;padding:14px 18px;margin:8px 16px 0;display:none;}
@@ -81,7 +101,7 @@ header{background:var(--bk);border-bottom:3px solid var(--y);padding:10px 20px;d
 .rb-btn2{background:transparent;color:#555;border:2px solid #2a2a2a;font-family:'Bebas Neue',sans-serif;font-size:.82rem;letter-spacing:2px;padding:8px 12px;border-radius:8px;cursor:pointer;}
 
 /* ══════════════════════════════════════
-   GAME LAYOUT — Desktop first
+   GAME LAYOUT
 ═══════════════════════════════════════*/
 .gwrap{
   display:grid;
@@ -91,85 +111,22 @@ header{background:var(--bk);border-bottom:3px solid var(--y);padding:10px 20px;d
   flex:1;
   min-height:0;
 }
-
-/* Wheel section */
-.wsec{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:14px;
-}
-
-/* Canvas container — scales with CSS variable */
-.wcont{
-  position:relative;
-  width:var(--wheel-size);
-  height:var(--wheel-size);
-  flex-shrink:0;
-}
-#wcanvas{
-  width:100%;
-  height:100%;
-  border-radius:50%;
-  filter:drop-shadow(0 0 40px rgba(255,235,0,.22));
-}
-.wptr{
-  position:absolute;
-  top:-16px;
-  left:50%;
-  transform:translateX(-50%);
-  width:0;height:0;
-  border-left:14px solid transparent;
-  border-right:14px solid transparent;
-  border-top:34px solid var(--y);
-  filter:drop-shadow(0 4px 8px rgba(255,235,0,.5));
-  z-index:10;
-}
-.wptr::after{
-  content:'';position:absolute;
-  top:-36px;left:-8px;
-  width:16px;height:16px;
-  background:#fff;border-radius:50%;
-}
-.whub{
-  position:absolute;top:50%;left:50%;
-  transform:translate(-50%,-50%);
-  width:56px;height:56px;
-  background:var(--bk);border-radius:50%;
-  border:4px solid var(--y);
-  display:flex;align-items:center;justify-content:center;
-  font-family:'Bebas Neue',sans-serif;font-size:8px;color:var(--y);
-  text-align:center;z-index:10;letter-spacing:1px;line-height:1.3;
-}
-
-/* Spin button */
-.spin-btn{
-  background:var(--bk);color:var(--w);
-  border:2px solid var(--y);border-radius:50px;
-  font-family:'Bebas Neue',sans-serif;font-size:1.45rem;letter-spacing:3px;
-  padding:12px 44px;cursor:pointer;transition:all .2s;
-  width:100%;max-width:var(--wheel-size);
-}
+.wsec{display:flex;flex-direction:column;align-items:center;gap:14px;}
+.wcont{position:relative;width:var(--wheel-size);height:var(--wheel-size);flex-shrink:0;}
+#wcanvas{width:100%;height:100%;border-radius:50%;filter:drop-shadow(0 0 40px rgba(255,235,0,.22));}
+.wptr{position:absolute;top:-16px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:14px solid transparent;border-right:14px solid transparent;border-top:34px solid var(--y);filter:drop-shadow(0 4px 8px rgba(255,235,0,.5));z-index:10;}
+.wptr::after{content:'';position:absolute;top:-36px;left:-8px;width:16px;height:16px;background:#fff;border-radius:50%;}
+.whub{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:56px;height:56px;background:var(--bk);border-radius:50%;border:4px solid var(--y);display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:8px;color:var(--y);text-align:center;z-index:10;letter-spacing:1px;line-height:1.3;}
+.spin-btn{background:var(--bk);color:var(--w);border:2px solid var(--y);border-radius:50px;font-family:'Bebas Neue',sans-serif;font-size:1.45rem;letter-spacing:3px;padding:12px 44px;cursor:pointer;transition:all .2s;width:100%;max-width:var(--wheel-size);}
 .spin-btn:hover:not(:disabled){background:var(--y);color:var(--bk);box-shadow:0 0 30px rgba(255,235,0,.3);}
 .spin-btn:disabled{opacity:.4;cursor:not-allowed;}
 .spin-btn:active:not(:disabled){transform:scale(.97);}
-
-/* Metier box */
-.mbox2{
-  background:var(--bs);border:2px solid rgba(255,235,0,.22);border-radius:14px;
-  padding:11px 18px;text-align:center;
-  width:100%;max-width:var(--wheel-size);
-  min-height:52px;display:flex;align-items:center;justify-content:center;
-}
+.mbox2{background:var(--bs);border:2px solid rgba(255,235,0,.22);border-radius:14px;padding:11px 18px;text-align:center;width:100%;max-width:var(--wheel-size);min-height:52px;display:flex;align-items:center;justify-content:center;}
 .mn{font-family:'Bebas Neue',sans-serif;font-size:1.7rem;color:var(--y);letter-spacing:3px;}
 .mh{font-size:.85rem;color:var(--gr);font-family:'Barlow Condensed',sans-serif;}
-
-/* Progress track */
 .prog-wrap{width:100%;max-width:var(--wheel-size);}
 .ptrack{background:#1a1a1a;border-radius:50px;height:6px;margin-top:4px;overflow:hidden;}
 .pfill{height:100%;background:linear-gradient(90deg,var(--yd),var(--y));border-radius:50px;transition:width .5s ease;}
-
-/* Timer */
 .timer-wrap{width:100%;max-width:var(--wheel-size);}
 .timer-top{display:flex;justify-content:space-between;margin-bottom:5px;font-family:'Barlow Condensed',sans-serif;font-size:.7rem;letter-spacing:2px;color:var(--gr);text-transform:uppercase;}
 .timer-num{font-family:'Bebas Neue',sans-serif;font-size:1.05rem;color:var(--y);}
@@ -178,6 +135,15 @@ header{background:var(--bk);border-bottom:3px solid var(--y);padding:10px 20px;d
 .timer-bar.ok{background:linear-gradient(90deg,#27ae60,var(--gn));}
 .timer-bar.warn{background:linear-gradient(90deg,#e67e22,#f39c12);}
 .timer-bar.danger{background:linear-gradient(90deg,#c0392b,var(--rd));}
+
+/* ── GLOBAL SCORE BAR ── */
+.global-score-bar{display:flex;align-items:center;gap:14px;padding:7px 20px;background:#0d0d0d;border-bottom:1px solid #1a1a1a;flex-shrink:0;flex-wrap:wrap;}
+.gs-item{display:flex;align-items:center;gap:6px;font-family:'Barlow Condensed',sans-serif;font-size:.72rem;letter-spacing:1px;color:var(--gr);}
+.gs-item .gs-icon{font-size:.85rem;}
+.gs-item .gs-pts{font-family:'Bebas Neue',sans-serif;font-size:1rem;color:var(--y);}
+.gs-item.active .gs-pts{color:var(--w);}
+.gs-total{margin-left:auto;font-family:'Bebas Neue',sans-serif;font-size:1.2rem;color:var(--y);letter-spacing:2px;}
+.gs-total-label{font-size:.6rem;letter-spacing:2px;color:var(--gr);text-transform:uppercase;margin-right:4px;}
 
 /* ── CHALLENGE CARD ── */
 .csec{display:flex;flex-direction:column;gap:12px;}
@@ -202,6 +168,7 @@ header{background:var(--bk);border-bottom:3px solid var(--y);padding:10px 20px;d
 .mi.sel{border-color:var(--y);background:rgba(255,235,0,.12);color:var(--y);}
 .mi.correct{border-color:var(--gn);background:rgba(46,204,113,.12);color:var(--gn);cursor:default;}
 .mi.wrong{border-color:var(--rd);background:rgba(231,76,60,.12);color:var(--rd);animation:shake .3s;cursor:default;}
+.mi.disabled{opacity:.5;cursor:not-allowed;pointer-events:none;}
 .fb{margin-top:12px;padding:11px 14px;border-radius:10px;font-size:.85rem;font-weight:500;display:none;line-height:1.4;}
 .fb.show{display:block;}
 .fb.good{background:rgba(46,204,113,.1);border:2px solid var(--gn);color:var(--gn);}
@@ -235,6 +202,19 @@ header{background:var(--bk);border-bottom:3px solid var(--y);padding:10px 20px;d
 .tbtn:hover{background:var(--y);color:var(--bk);}
 .tbtn2{background:transparent;color:var(--gr);border:2px solid #333;font-family:'Bebas Neue',sans-serif;font-size:.95rem;letter-spacing:2px;padding:10px 22px;border-radius:50px;cursor:pointer;margin:4px;}
 .tbtn2:hover{border-color:var(--y);color:var(--y);}
+
+/* ── SHARE BUTTONS ── */
+.share-row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:12px 0;}
+.share-btn{display:flex;align-items:center;gap:6px;padding:8px 16px;border-radius:50px;font-family:'Bebas Neue',sans-serif;font-size:.9rem;letter-spacing:2px;cursor:pointer;border:none;transition:all .2s;}
+.share-btn-tw{background:#1DA1F2;color:#fff;}
+.share-btn-tw:hover{background:#1a91da;}
+.share-btn-fb{background:#1877F2;color:#fff;}
+.share-btn-fb:hover{background:#1465d0;}
+.share-btn-wa{background:#25D366;color:#fff;}
+.share-btn-wa:hover{background:#20b858;}
+.share-btn-cp{background:#333;color:var(--y);border:2px solid #444;}
+.share-btn-cp:hover{border-color:var(--y);}
+.share-title{font-family:'Bebas Neue',sans-serif;font-size:1rem;color:var(--gr);letter-spacing:2px;text-align:center;margin-bottom:8px;text-transform:uppercase;}
 
 /* ── LEADERBOARD ── */
 .lb-card{background:var(--bs);border:2px solid var(--y);border-radius:24px;padding:36px 40px;max-width:640px;width:92%;box-shadow:0 0 80px rgba(255,235,0,.1);}
@@ -273,207 +253,23 @@ header{background:var(--bk);border-bottom:3px solid var(--y);padding:10px 20px;d
 .timeout-flash{position:absolute;inset:0;background:rgba(231,76,60,.18);border-radius:18px;pointer-events:none;animation:flash .4s ease;z-index:5;}
 @keyframes flash{from{opacity:1}to{opacity:0}}
 
-/* ══════════════════════════════════════
-   RESPONSIVE — TABLETTE (≤ 960px)
-═══════════════════════════════════════*/
-@media (max-width: 960px) {
-  :root { --wheel-size: 340px; }
+/* ── PENALTY FLASH ── */
+@keyframes penaltyFlash{0%{box-shadow:inset 0 0 0 4px #E74C3C}100%{box-shadow:inset 0 0 0 4px transparent}}
+.penalty-active{animation:penaltyFlash .5s ease !important;}
 
-  .gwrap {
-    grid-template-columns: 1fr;
-    gap: 14px;
-    padding: 14px 16px;
-  }
+/* ── UNLOCK BANNER ── */
+.unlock-banner{background:linear-gradient(135deg,#0a2200,#1a3400);border:2px solid #2ECC71;border-radius:14px;padding:16px 20px;margin:8px 16px;display:none;align-items:center;gap:12px;flex-wrap:wrap;}
+.unlock-banner.show{display:flex;}
+.unlock-banner h4{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:#2ECC71;letter-spacing:2px;}
+.unlock-banner p{font-size:.8rem;color:var(--gr);}
 
-  /* Wheel section becomes a horizontal flex on tablet */
-  .wsec {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 14px;
-  }
-
-  /* Stack wheel + controls vertically inside wsec */
-  .wheel-col {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-    flex: 1;
-    min-width: var(--wheel-size);
-  }
-
-  .side-col {
-    flex: 1;
-    min-width: 260px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-}
-
-/* ══════════════════════════════════════
-   RESPONSIVE — MOBILE (≤ 640px)
-═══════════════════════════════════════*/
-@media (max-width: 640px) {
-  :root { --wheel-size: min(88vw, 320px); }
-
-  /* Header compact */
-  header {
-    padding: 8px 12px;
-    gap: 6px;
-  }
-  .hd-t h1 { font-size: 1.35rem; letter-spacing: 2px; }
-  .hd-t p { display: none; }
-  .logo-b { display: none; }
-  .user-chip .uname { max-width: 60px; }
-  .btn-sm { padding: 6px 10px; font-size: .62rem; }
-  .score-box { padding: 5px 10px; }
-  .snum { font-size: 1.6rem; }
-
-  /* Progress bar */
-  .phd { padding: 6px 12px; font-size: .62rem; }
-  .sd { width: 14px; height: 4px; }
-
-  /* Pack bar */
-  .pack-bar { padding: 6px 12px; }
-
-  /* Resume banner */
-  .resume-banner { margin: 6px 12px 0; }
-
-  /* Game wrapper — single column, no padding waste */
-  .gwrap {
-    grid-template-columns: 1fr;
-    gap: 12px;
-    padding: 12px 12px;
-  }
-
-  /* Wheel section — vertical, centered */
-  .wsec {
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-  }
-
-  /* Canvas container fills available width */
-  .wcont {
-    width: var(--wheel-size);
-    height: var(--wheel-size);
-  }
-
-  /* Hub scales down */
-  .whub {
-    width: 46px;
-    height: 46px;
-    font-size: 7px;
-  }
-
-  /* Spin button — big tap target, full width */
-  .spin-btn {
-    font-size: 1.25rem;
-    padding: 14px 20px;
-    letter-spacing: 2px;
-    width: 100%;
-    max-width: var(--wheel-size);
-    border-radius: 16px;
-    /* Ensure it sits right under the wheel */
-    margin-top: 0;
-  }
-
-  .mbox2 {
-    padding: 10px 14px;
-    min-height: 46px;
-  }
-  .mn { font-size: 1.45rem; }
-
-  /* Challenge card */
-  .ccard { min-height: auto; border-radius: 14px; }
-  .chd { padding: 10px 14px; }
-  .chd h2 { font-size: 1.1rem; }
-  .cbody { padding: 14px; }
-  .chq { font-size: .9rem; margin-bottom: 12px; }
-  .mcq-btn { padding: 10px 12px; font-size: .82rem; }
-  .mi { padding: 8px 8px; font-size: .78rem; }
-
-  /* Next button full width on mobile */
-  .nxtbtn { width: 100%; text-align: center; padding: 12px; font-size: 1rem; }
-
-  /* Trophy & LB */
-  .trophy-card { padding: 28px 20px; }
-  .trophy-card h2 { font-size: 2rem; }
-  .tscore { font-size: 2.6rem; }
-  .lb-card { padding: 24px 16px; }
-  .lb-card h2 { font-size: 1.7rem; }
-
-  /* Toast on mobile */
-  .toast-wrap { bottom: 14px; right: 10px; left: 10px; }
-  .toast { max-width: 100%; }
-  .badge-popup { right: 10px; left: 10px; max-width: 100%; }
-}
-
-/* ══════════════════════════════════════
-   RESPONSIVE — VERY SMALL (≤ 380px)
-═══════════════════════════════════════*/
-@media (max-width: 380px) {
-  :root { --wheel-size: min(92vw, 280px); }
-
-  .hd-t h1 { font-size: 1.1rem; }
-  .hdr { gap: 5px; }
-  .btn-sm:not(.btn-sm-ig) { display: none; } /* hide LB/Quitter on mobile, keep Suivez-nous */
-  .score-box { padding: 4px 8px; }
-  .snum { font-size: 1.4rem; }
-
-  .spin-btn { font-size: 1.1rem; padding: 13px 16px; }
-  .chq { font-size: .86rem; }
-  .mcq-btn { font-size: .8rem; padding: 9px 10px; }
-  .mi { font-size: .74rem; padding: 7px 6px; }
-  .mgrid { gap: 5px; }
-}
-
-/* ── BOUTON INSTAGRAM HEADER ── */
-.btn-sm-ig{
-  background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045) !important;
-  border-color:transparent !important;
-  color:#fff !important;
-  font-weight:700;
-}
-.btn-sm-ig:hover{opacity:.85;transform:translateY(-1px);}
-
-/* ── BANNIÈRE RÉSEAUX (sous pack-bar) ── */
-.social-banner{
-  display:flex;align-items:center;justify-content:space-between;
-  gap:12px;
-  padding:9px 20px;
-  background:linear-gradient(90deg,#1a0a2e,#2d0a0a,#1a1700);
-  border-bottom:2px solid rgba(255,235,0,.25);
-  flex-shrink:0;
-  flex-wrap:wrap;
-}
-.social-banner-txt{
-  font-family:'Barlow Condensed',sans-serif;
-  font-size:.78rem;letter-spacing:2px;
-  color:#bbb;text-transform:uppercase;
-}
-.social-banner-btn{
-  background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);
-  color:#fff;border:none;border-radius:50px;
-  font-family:'Bebas Neue',sans-serif;
-  font-size:.95rem;letter-spacing:2px;
-  padding:7px 20px;cursor:pointer;
-  white-space:nowrap;
-  transition:opacity .2s,transform .2s;
-  flex-shrink:0;
-}
+/* ── SOCIAL BANNER ── */
+.social-banner{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 20px;background:linear-gradient(90deg,#1a0a2e,#2d0a0a,#1a1700);border-bottom:2px solid rgba(255,235,0,.25);flex-shrink:0;flex-wrap:wrap;}
+.social-banner-txt{font-family:'Barlow Condensed',sans-serif;font-size:.78rem;letter-spacing:2px;color:#bbb;text-transform:uppercase;}
+.social-banner-btn{background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);color:#fff;border:none;border-radius:50px;font-family:'Bebas Neue',sans-serif;font-size:.95rem;letter-spacing:2px;padding:7px 20px;cursor:pointer;white-space:nowrap;transition:opacity .2s,transform .2s;flex-shrink:0;}
 .social-banner-btn:hover{opacity:.85;transform:scale(1.03);}
-.social-banner-btn:active{transform:scale(.97);}
 
-@media(max-width:640px){
-  .social-banner{padding:8px 12px;}
-  .social-banner-txt{font-size:.7rem;}
-}
-
-/* ── POPUP FORMULAIRE ── */
+/* ── POPUP ── */
 .popup-overlay{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:9000;display:flex;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(4px);}
 .popup-overlay.hidden{display:none;}
 .popup-box{background:var(--bs);border:2px solid var(--y);border-radius:24px;padding:38px 36px;max-width:500px;width:100%;text-align:center;box-shadow:0 0 80px rgba(255,235,0,.15);animation:popIn .35s ease;}
@@ -487,7 +283,7 @@ header{background:var(--bk);border-bottom:3px solid var(--y);padding:10px 20px;d
 .popup-btn-skip{background:transparent;border:2px solid #2a2a2a;border-radius:50px;color:#555;font-family:'Bebas Neue',sans-serif;font-size:.88rem;letter-spacing:2px;padding:10px 24px;cursor:pointer;width:100%;transition:all .2s;}
 .popup-btn-skip:hover{border-color:#555;color:var(--gr);}
 
-/* ── ÉCRAN RÉSEAUX SOCIAUX ── */
+/* ── RÉSEAUX SOCIAUX ── */
 #sReseaux{background:radial-gradient(ellipse at 50% 30%,#1a1700,var(--bk) 70%);padding:30px 16px;overflow-y:auto;align-items:flex-start;justify-content:center;}
 .reseaux-wrap{max-width:640px;width:100%;margin:0 auto;}
 .reseaux-header{text-align:center;margin-bottom:26px;}
@@ -504,18 +300,69 @@ header{background:var(--bk);border-bottom:3px solid var(--y);padding:10px 20px;d
 .cfa-btn-fb:hover{background:#1465d0;transform:translateY(-1px);}
 .reseaux-back{text-align:center;margin-top:22px;padding-bottom:20px;}
 
-@media(max-width:640px){
-  .popup-box{padding:26px 20px;}
-  .popup-title{font-size:1.4rem;}
-  .reseaux-header h2{font-size:1.7rem;}
-  .cfa-btns{flex-direction:column;}
-  .cfa-btn{justify-content:center;}
+/* ── RESPONSIVE ── */
+@media (max-width: 960px) {
+  :root { --wheel-size: 340px; }
+  .gwrap { grid-template-columns: 1fr; gap: 14px; padding: 14px 16px; }
+  .wsec { flex-direction: row; flex-wrap: wrap; justify-content: center; align-items: flex-start; gap: 14px; }
+  .wheel-col { display: flex; flex-direction: column; align-items: center; gap: 12px; flex: 1; min-width: var(--wheel-size); }
+  .side-col { flex: 1; min-width: 260px; display: flex; flex-direction: column; gap: 12px; }
 }
+@media (max-width: 640px) {
+  :root { --wheel-size: min(88vw, 320px); }
+  header { padding: 8px 12px; gap: 6px; }
+  .hd-t h1 { font-size: 1.35rem; letter-spacing: 2px; }
+  .hd-t p { display: none; }
+  .logo-b { display: none; }
+  .user-chip .uname { max-width: 60px; }
+  .btn-sm { padding: 6px 10px; font-size: .62rem; }
+  .score-box { padding: 5px 10px; }
+  .snum { font-size: 1.6rem; }
+  .phd { padding: 6px 12px; font-size: .62rem; }
+  .sd { width: 14px; height: 4px; }
+  .pack-bar { padding: 6px 12px; }
+  .gwrap { grid-template-columns: 1fr; gap: 12px; padding: 12px 12px; }
+  .wsec { flex-direction: column; align-items: center; gap: 10px; }
+  .wcont { width: var(--wheel-size); height: var(--wheel-size); }
+  .whub { width: 46px; height: 46px; font-size: 7px; }
+  .spin-btn { font-size: 1.25rem; padding: 14px 20px; letter-spacing: 2px; width: 100%; max-width: var(--wheel-size); border-radius: 16px; margin-top: 0; }
+  .mbox2 { padding: 10px 14px; min-height: 46px; }
+  .mn { font-size: 1.45rem; }
+  .ccard { min-height: auto; border-radius: 14px; }
+  .chd { padding: 10px 14px; }
+  .chd h2 { font-size: 1.1rem; }
+  .cbody { padding: 14px; }
+  .chq { font-size: .9rem; margin-bottom: 12px; }
+  .mcq-btn { padding: 10px 12px; font-size: .82rem; }
+  .mi { padding: 8px 8px; font-size: .78rem; }
+  .nxtbtn { width: 100%; text-align: center; padding: 12px; font-size: 1rem; }
+  .trophy-card { padding: 28px 20px; }
+  .trophy-card h2 { font-size: 2rem; }
+  .tscore { font-size: 2.6rem; }
+  .lb-card { padding: 24px 16px; }
+  .lb-card h2 { font-size: 1.7rem; }
+  .toast-wrap { bottom: 14px; right: 10px; left: 10px; }
+  .toast { max-width: 100%; }
+  .badge-popup { right: 10px; left: 10px; max-width: 100%; }
+  .share-btn { font-size: .78rem; padding: 7px 12px; }
+}
+@media (max-width: 380px) {
+  :root { --wheel-size: min(92vw, 280px); }
+  .hd-t h1 { font-size: 1.1rem; }
+  .hdr { gap: 5px; }
+  .btn-sm:not(.btn-sm-ig) { display: none; }
+  .score-box { padding: 4px 8px; }
+  .snum { font-size: 1.4rem; }
+  .spin-btn { font-size: 1.1rem; padding: 13px 16px; }
+}
+
+.btn-sm-ig{background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045) !important;border-color:transparent !important;color:#fff !important;font-weight:700;}
+.btn-sm-ig:hover{opacity:.85;transform:translateY(-1px);}
 </style>
 </head>
 <body>
 
-<!-- POPUP FORMULAIRE (affiché en premier) -->
+<!-- POPUP FORMULAIRE -->
 <div class="popup-overlay" id="popupFormulaire">
   <div class="popup-box">
     <div style="display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:18px;">
@@ -583,17 +430,52 @@ header{background:var(--bk);border-bottom:3px solid var(--y);padding:10px 20px;d
       <button class="btn-sm" id="logoutBtn">⎋ Quitter</button>
     </div>
   </header>
+
+  <!-- Global score bar -->
+  <div class="global-score-bar" id="globalScoreBar"></div>
+
   <div class="phd">
     <span id="greetLbl">Bienvenue !</span>
     <div class="psteps" id="psteps"></div>
     <span id="plbl">0 / 10 défis</span>
   </div>
   <div class="pack-bar" id="packBar"></div>
-  <!-- Bannière Réseaux — toujours visible -->
+
+  <!-- Mode selection bar -->
+  <div class="mode-bar">
+    <span class="mode-label">⏱️ Mode :</span>
+    <div class="mode-chip active" id="mode20" data-seconds="20">Normal (20s)</div>
+    <div class="mode-chip mode-medium" id="mode10" data-seconds="10">Rapide (10s)</div>
+    <div class="mode-chip mode-fast" id="mode5" data-seconds="5">Éclair (5s) ⚡</div>
+  </div>
+
+  <!-- Penalty bar -->
+  <div class="penalty-wrap" id="penaltyWrap">
+    <span class="penalty-label">⚠️ Malus temps :</span>
+    <div class="penalty-dots" id="penaltyDots">
+      <div class="pdot" id="pd0"></div>
+      <div class="pdot" id="pd1"></div>
+      <div class="pdot" id="pd2"></div>
+      <div class="pdot" id="pd3"></div>
+      <div class="pdot" id="pd4"></div>
+    </div>
+    <span style="font-family:'Barlow Condensed';font-size:.68rem;color:#E74C3C;margin-left:6px;" id="penaltyInfo"></span>
+  </div>
+
+  <!-- Social banner -->
   <div class="social-banner" id="socialBannerGame">
     <span class="social-banner-txt">📱 Suivez le BTP CFA CVDL sur les réseaux !</span>
     <button class="social-banner-btn" id="reseauxBtnBanner">SUIVEZ-NOUS →</button>
   </div>
+
+  <!-- Unlock banner -->
+  <div class="unlock-banner" id="unlockBanner">
+    <div>
+      <h4>🎉 Nouveaux packs débloqués !</h4>
+      <p id="unlockMsg">Tu as débloqué de nouveaux contenus !</p>
+    </div>
+  </div>
+
   <div class="resume-banner" id="resumeBanner">
     <div class="rb-txt"><h4>🔄 Reprendre la partie ?</h4><p id="resumeDesc"></p></div>
     <div class="rb-btns">
@@ -601,6 +483,7 @@ header{background:var(--bk);border-bottom:3px solid var(--y);padding:10px 20px;d
       <button class="rb-btn2" id="freshBtn">Recommencer</button>
     </div>
   </div>
+
   <div class="gwrap">
     <!-- WHEEL SECTION -->
     <div class="wsec">
@@ -670,7 +553,12 @@ header{background:var(--bk);border-bottom:3px solid var(--y);padding:10px 20px;d
     <div class="tstats" id="tStats"></div>
     <div class="tcta"><p>Tu as exploré tous les défis !<br>Envie d'en savoir plus sur nos formations ?<br><strong>Parle à un conseiller BTP CFA CVDL → sur notre stand !</strong></p></div>
     <div id="badgePanelTrophy"></div>
-    <div style="margin-top:18px;">
+    <!-- SHARE SECTION -->
+    <div style="margin-top:16px;">
+      <div class="share-title">📣 Partage ton score !</div>
+      <div class="share-row" id="shareRow"></div>
+    </div>
+    <div style="margin-top:12px;">
       <button class="tbtn" id="replayBtn">🔄 REJOUER</button>
       <button class="tbtn2" id="lbTrophyBtn">🏆 CLASSEMENT</button>
       <button class="tbtn" id="reseauxBtn" style="background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);border-color:transparent;color:#fff;margin-top:8px;">📱 SUIVEZ-NOUS !</button>
@@ -685,55 +573,12 @@ header{background:var(--bk);border-bottom:3px solid var(--y);padding:10px 20px;d
       <h2>📱 Retrouvez-nous en ligne !</h2>
       <p>Suivez nos actualités sur les réseaux sociaux</p>
     </div>
-
-    <div class="cfa-card">
-      <div class="cfa-name">🏗️ BTP CFA CVDL — Centre-Val de Loire</div>
-      <div class="cfa-btns">
-        <a class="cfa-btn cfa-btn-ig" href="https://www.instagram.com/btp.cfa.cvdl/" target="_blank">📸 Instagram</a>
-        <a class="cfa-btn cfa-btn-fb" href="https://www.facebook.com/BTPCFACENTRE/" target="_blank">👍 Facebook</a>
-      </div>
-    </div>
-
-    <div class="cfa-card">
-      <div class="cfa-name">🏗️ BTP CFA 28 — Eure-et-Loir</div>
-      <div class="cfa-btns">
-        <a class="cfa-btn cfa-btn-ig" href="https://www.instagram.com/btp.cfa.28/" target="_blank">📸 Instagram</a>
-        <a class="cfa-btn cfa-btn-fb" href="https://www.facebook.com/profile.php?id=61575013467215" target="_blank">👍 Facebook</a>
-      </div>
-    </div>
-
-    <div class="cfa-card">
-      <div class="cfa-name">🏗️ BTP CFA 36 — Indre</div>
-      <div class="cfa-btns">
-        <a class="cfa-btn cfa-btn-ig" href="https://www.instagram.com/btp.cfa.36/" target="_blank">📸 Instagram</a>
-        <a class="cfa-btn cfa-btn-fb" href="https://www.facebook.com/profile.php?id=61574877453404" target="_blank">👍 Facebook</a>
-      </div>
-    </div>
-
-    <div class="cfa-card">
-      <div class="cfa-name">🏗️ BTP CFA 37 — Indre-et-Loire</div>
-      <div class="cfa-btns">
-        <a class="cfa-btn cfa-btn-ig" href="https://www.instagram.com/btp.cfa.37/" target="_blank">📸 Instagram</a>
-        <a class="cfa-btn cfa-btn-fb" href="https://www.facebook.com/profile.php?id=61574599577674" target="_blank">👍 Facebook</a>
-      </div>
-    </div>
-
-    <div class="cfa-card">
-      <div class="cfa-name">🏗️ BTP CFA 41 — Loir-et-Cher</div>
-      <div class="cfa-btns">
-        <a class="cfa-btn cfa-btn-ig" href="https://www.instagram.com/btp.cfa.41/" target="_blank">📸 Instagram</a>
-        <a class="cfa-btn cfa-btn-fb" href="https://www.facebook.com/profile.php?id=61575144920708" target="_blank">👍 Facebook</a>
-      </div>
-    </div>
-
-    <div class="cfa-card">
-      <div class="cfa-name">🏗️ BTP CFA 45 — Loiret</div>
-      <div class="cfa-btns">
-        <a class="cfa-btn cfa-btn-ig" href="https://www.instagram.com/btp.cfa.45/" target="_blank">📸 Instagram</a>
-        <a class="cfa-btn cfa-btn-fb" href="https://www.facebook.com/profile.php?id=61574660114455" target="_blank">👍 Facebook</a>
-      </div>
-    </div>
-
+    <div class="cfa-card"><div class="cfa-name">🏗️ BTP CFA CVDL — Centre-Val de Loire</div><div class="cfa-btns"><a class="cfa-btn cfa-btn-ig" href="https://www.instagram.com/btp.cfa.cvdl/" target="_blank">📸 Instagram</a><a class="cfa-btn cfa-btn-fb" href="https://www.facebook.com/BTPCFACENTRE/" target="_blank">👍 Facebook</a></div></div>
+    <div class="cfa-card"><div class="cfa-name">🏗️ BTP CFA 28 — Eure-et-Loir</div><div class="cfa-btns"><a class="cfa-btn cfa-btn-ig" href="https://www.instagram.com/btp.cfa.28/" target="_blank">📸 Instagram</a><a class="cfa-btn cfa-btn-fb" href="https://www.facebook.com/profile.php?id=61575013467215" target="_blank">👍 Facebook</a></div></div>
+    <div class="cfa-card"><div class="cfa-name">🏗️ BTP CFA 36 — Indre</div><div class="cfa-btns"><a class="cfa-btn cfa-btn-ig" href="https://www.instagram.com/btp.cfa.36/" target="_blank">📸 Instagram</a><a class="cfa-btn cfa-btn-fb" href="https://www.facebook.com/profile.php?id=61574877453404" target="_blank">👍 Facebook</a></div></div>
+    <div class="cfa-card"><div class="cfa-name">🏗️ BTP CFA 37 — Indre-et-Loire</div><div class="cfa-btns"><a class="cfa-btn cfa-btn-ig" href="https://www.instagram.com/btp.cfa.37/" target="_blank">📸 Instagram</a><a class="cfa-btn cfa-btn-fb" href="https://www.facebook.com/profile.php?id=61574599577674" target="_blank">👍 Facebook</a></div></div>
+    <div class="cfa-card"><div class="cfa-name">🏗️ BTP CFA 41 — Loir-et-Cher</div><div class="cfa-btns"><a class="cfa-btn cfa-btn-ig" href="https://www.instagram.com/btp.cfa.41/" target="_blank">📸 Instagram</a><a class="cfa-btn cfa-btn-fb" href="https://www.facebook.com/profile.php?id=61575144920708" target="_blank">👍 Facebook</a></div></div>
+    <div class="cfa-card"><div class="cfa-name">🏗️ BTP CFA 45 — Loiret</div><div class="cfa-btns"><a class="cfa-btn cfa-btn-ig" href="https://www.instagram.com/btp.cfa.45/" target="_blank">📸 Instagram</a><a class="cfa-btn cfa-btn-fb" href="https://www.facebook.com/profile.php?id=61574660114455" target="_blank">👍 Facebook</a></div></div>
     <div class="reseaux-back">
       <button class="tbtn" id="reseauxReplayBtn">🔄 REJOUER</button>
       <button class="tbtn2" id="reseauxLbBtn" style="margin-left:8px;">🏆 CLASSEMENT</button>
@@ -746,7 +591,7 @@ header{background:var(--bk);border-bottom:3px solid var(--y);padding:10px 20px;d
 
 <script>
 // ═══════════════════════════════════
-// STORAGE (localStorage)
+// STORAGE
 // ═══════════════════════════════════
 const LS={
   get(k){try{const v=localStorage.getItem(k);return v?JSON.parse(v):null;}catch{return null;}},
@@ -755,47 +600,69 @@ const LS={
 };
 
 // ═══════════════════════════════════
-// PACKS
+// PACKS — données complètes
 // ═══════════════════════════════════
 const PACKS=[
   {id:'metiers',label:'🧱 Métiers',unlocked:true,questions:[
-    {name:"Maçon",icon:"🧱",sIdx:0,type:"mcq",timer:20,question:"En maçonnerie, comment pose-t-on correctement une brique sur un mur ?",options:["On étale le mortier sur la brique du dessus et on appuie fort.","On pose la brique à sec pour tester l'alignement d'abord.","On pose le mortier sur la brique déjà en place, on pose la nouvelle et on vérifie le niveau.","On humidifie la brique puis on attend 24h sans mortier."],correct:2,explanation:"On applique le mortier sur la brique posée, on place la nouvelle en vérifiant l'horizontalité au niveau à bulle !"},
-    {name:"Électricien",icon:"⚡",sIdx:1,type:"match",timer:30,question:"Associe chaque couleur de câble à sa fonction électrique !",left:["Rouge/Marron","Bleu","Vert-Jaune","Noir"],right:["Phase (courant actif)","Neutre","Terre (sécurité)","Phase secondaire"],pairs:[0,1,2,3],explanation:"Connaître les couleurs de câble est essentiel pour la sécurité électrique !"},
-    {name:"Couvreur",icon:"🏠",sIdx:2,type:"match",timer:30,question:"Relie chaque matériau de toiture à son usage principal !",left:["Ardoise","Tuile terre cuite","Bac acier","Zinc"],right:["Toiture traditionnelle, durable 100 ans","Habitation classique régionale","Hangar industriel","Toiture mansardée & gouttières"],pairs:[0,1,2,3],explanation:"Chaque matériau a ses avantages selon le type de bâtiment !"},
-    {name:"Charpentier",icon:"🪵",sIdx:0,type:"mcq",timer:20,question:"Pour une coupe d'onglet à 45° sur une pièce de bois, quelle machine utilise-t-on ?",options:["La scie circulaire portative","La scie à onglets (ongletteuse)","La défonceuse","Le rabot électrique"],correct:1,explanation:"La scie à onglets est l'outil idéal pour des coupes angulaires précises à 45° !"},
-    {name:"Plombier",icon:"🔧",sIdx:1,type:"match",timer:25,question:"Relie chaque type de tuyau à son usage principal !",left:["PER (polyéthylène)","Cuivre","PVC"],right:["Eau chaude & froide, flexible","Eau chaude sanitaire soudé","Évacuation & eaux usées"],pairs:[0,1,2],explanation:"Bien choisir ses matériaux garantit une installation durable !"},
-    {name:"Peintre",icon:"🎨",sIdx:2,type:"mcq",timer:20,question:"Lors de peinture en spray, quelle protection individuelle est OBLIGATOIRE ?",options:["Lunettes de soleil et gants latex","Masque FFP2/FFP3 et lunettes de protection","Casque de chantier et bouchons d'oreilles","Tablier et chaussures de sécurité uniquement"],correct:1,explanation:"Les aérosols libèrent des particules fines : masque FFP2/FFP3 et lunettes protègent !"},
-    {name:"Cond. d'engins",icon:"🚜",sIdx:0,type:"match",timer:30,question:"Associe chaque engin à sa tâche principale sur chantier !",left:["Pelle hydraulique","Tombereau","Grue à tour","Bulldozer"],right:["Lever & positionner des charges","Terrassement & fouilles","Niveler & déplacer des terres","Transport de matériaux en vrac"],pairs:[1,3,0,2],explanation:"Chaque engin est conçu pour une tâche précise !"},
-    {name:"Chargé d'affaires",icon:"📋",sIdx:1,type:"mcq",timer:20,question:"Dans quel ordre logique se déroulent les grandes phases d'un chantier ?",options:["Finitions → Gros œuvre → Fondations → Second œuvre","Fondations → Gros œuvre → Second œuvre → Finitions","Second œuvre → Fondations → Gros œuvre → Finitions","Gros œuvre → Fondations → Finitions → Second œuvre"],correct:1,explanation:"Fondations → Gros œuvre → Second œuvre → Finitions : la logique de tout chantier !"},
-    {name:"Tech. énergie",icon:"🔋",sIdx:2,type:"match",timer:30,question:"Associe chaque appareil de mesure à ce qu'il mesure !",left:["Multimètre","Thermocouple","Anémomètre","Pyranomètre"],right:["Vitesse du vent","Tension & intensité","Rayonnement solaire","Température"],pairs:[1,3,0,2],explanation:"Les techniciens énergie utilisent des instruments précis !"},
-    {name:"Dessinateur",icon:"📐",sIdx:0,type:"match",timer:30,question:"Relie chaque symbole de plan architectural à sa signification !",left:["Cercle+croix","3 lignes parallèles","Flèche+chiffre","Carré hachuré"],right:["Poteau ou pilier","Paroi en béton armé","Cote (dimension)","Pilier maçonné"],pairs:[0,1,2,3],explanation:"Lire un plan de bâtiment est une compétence clé !"}
+    {name:"Maçon",icon:"🧱",sIdx:0,type:"mcq",baseTimer:20,question:"En maçonnerie, comment pose-t-on correctement une brique sur un mur ?",options:["On étale le mortier sur la brique du dessus et on appuie fort.","On pose la brique à sec pour tester l'alignement d'abord.","On pose le mortier sur la brique déjà en place, on pose la nouvelle et on vérifie le niveau.","On humidifie la brique puis on attend 24h sans mortier."],correct:2,explanation:"On applique le mortier sur la brique posée, on place la nouvelle en vérifiant l'horizontalité au niveau à bulle !"},
+    {name:"Électricien",icon:"⚡",sIdx:1,type:"match",baseTimer:30,question:"Associe chaque couleur de câble à sa fonction électrique !",left:["Rouge/Marron","Bleu","Vert-Jaune","Noir"],right:["Phase (courant actif)","Neutre","Terre (sécurité)","Phase secondaire"],pairs:[0,1,2,3],explanation:"Connaître les couleurs de câble est essentiel pour la sécurité électrique !"},
+    {name:"Couvreur",icon:"🏠",sIdx:2,type:"match",baseTimer:30,question:"Relie chaque matériau de toiture à son usage principal !",left:["Ardoise","Tuile terre cuite","Bac acier","Zinc"],right:["Toiture traditionnelle, durable 100 ans","Habitation classique régionale","Hangar industriel","Toiture mansardée & gouttières"],pairs:[0,1,2,3],explanation:"Chaque matériau a ses avantages selon le type de bâtiment !"},
+    {name:"Charpentier",icon:"🪵",sIdx:0,type:"mcq",baseTimer:20,question:"Pour une coupe d'onglet à 45° sur une pièce de bois, quelle machine utilise-t-on ?",options:["La scie circulaire portative","La scie à onglets (ongletteuse)","La défonceuse","Le rabot électrique"],correct:1,explanation:"La scie à onglets est l'outil idéal pour des coupes angulaires précises à 45° !"},
+    {name:"Plombier",icon:"🔧",sIdx:1,type:"match",baseTimer:25,question:"Relie chaque type de tuyau à son usage principal !",left:["PER (polyéthylène)","Cuivre","PVC"],right:["Eau chaude & froide, flexible","Eau chaude sanitaire soudé","Évacuation & eaux usées"],pairs:[0,1,2],explanation:"Bien choisir ses matériaux garantit une installation durable !"},
+    {name:"Peintre",icon:"🎨",sIdx:2,type:"mcq",baseTimer:20,question:"Lors de peinture en spray, quelle protection individuelle est OBLIGATOIRE ?",options:["Lunettes de soleil et gants latex","Masque FFP2/FFP3 et lunettes de protection","Casque de chantier et bouchons d'oreilles","Tablier et chaussures de sécurité uniquement"],correct:1,explanation:"Les aérosols libèrent des particules fines : masque FFP2/FFP3 et lunettes protègent !"},
+    {name:"Cond. d'engins",icon:"🚜",sIdx:0,type:"match",baseTimer:30,question:"Associe chaque engin à sa tâche principale sur chantier !",left:["Pelle hydraulique","Tombereau","Grue à tour","Bulldozer"],right:["Lever & positionner des charges","Terrassement & fouilles","Niveler & déplacer des terres","Transport de matériaux en vrac"],pairs:[1,3,0,2],explanation:"Chaque engin est conçu pour une tâche précise !"},
+    {name:"Chargé d'affaires",icon:"📋",sIdx:1,type:"mcq",baseTimer:20,question:"Dans quel ordre logique se déroulent les grandes phases d'un chantier ?",options:["Finitions → Gros œuvre → Fondations → Second œuvre","Fondations → Gros œuvre → Second œuvre → Finitions","Second œuvre → Fondations → Gros œuvre → Finitions","Gros œuvre → Fondations → Finitions → Second œuvre"],correct:1,explanation:"Fondations → Gros œuvre → Second œuvre → Finitions : la logique de tout chantier !"},
+    {name:"Tech. énergie",icon:"🔋",sIdx:2,type:"match",baseTimer:30,question:"Associe chaque appareil de mesure à ce qu'il mesure !",left:["Multimètre","Thermocouple","Anémomètre","Pyranomètre"],right:["Vitesse du vent","Tension & intensité","Rayonnement solaire","Température"],pairs:[1,3,0,2],explanation:"Les techniciens énergie utilisent des instruments précis !"},
+    {name:"Dessinateur",icon:"📐",sIdx:0,type:"match",baseTimer:30,question:"Relie chaque symbole de plan architectural à sa signification !",left:["Cercle+croix","3 lignes parallèles","Flèche+chiffre","Carré hachuré"],right:["Poteau ou pilier","Paroi en béton armé","Cote (dimension)","Pilier maçonné"],pairs:[0,1,2,3],explanation:"Lire un plan de bâtiment est une compétence clé !"}
   ]},
   {id:'securite',label:'⛑️ Sécurité',unlocked:true,questions:[
-    {name:"EPI",icon:"⛑️",sIdx:0,type:"mcq",timer:20,question:"Quels sont les 3 EPI obligatoires sur tout chantier de construction ?",options:["Casque, gants, lunettes","Casque, chaussures de sécurité, gilet haute visibilité","Casque, harnais, masque","Bouchons d'oreilles, lunettes, gants"],correct:1,explanation:"Casque, chaussures de sécurité et gilet haute visibilité sont les 3 EPI de base !"},
-    {name:"Hauteur",icon:"🪜",sIdx:1,type:"mcq",timer:20,question:"À partir de quelle hauteur le port du harnais est-il obligatoire ?",options:["1 mètre","2 mètres","3 mètres","5 mètres"],correct:1,explanation:"Le harnais est obligatoire dès 2 mètres !"},
-    {name:"Électricité",icon:"⚡",sIdx:2,type:"mcq",timer:20,question:"Avant d'intervenir sur un tableau électrique, quelle est la 1ère action obligatoire ?",options:["Prévenir le chef de chantier","Couper le courant et consigner l'installation","Vérifier avec un testeur sous tension","Mettre des gants isolants"],correct:1,explanation:"Couper et consigner est OBLIGATOIRE avant toute intervention électrique !"},
-    {name:"Produits chimiques",icon:"☠️",sIdx:0,type:"match",timer:30,question:"Associe chaque pictogramme de danger à sa signification !",left:["💀 Tête de mort","🔥 Flamme","⚠️ Point d'exclamation","🌿 Environnement"],right:["Toxique / Mortel","Inflammable","Irritant / Nocif","Dangereux pour l'eau"],pairs:[0,1,2,3],explanation:"Ces pictogrammes GHS/CLP peuvent sauver des vies !"},
-    {name:"Incendie",icon:"🧯",sIdx:1,type:"mcq",timer:20,question:"Quel extincteur utiliser sur un feu électrique actif ?",options:["Eau pulvérisée","CO₂ (dioxyde de carbone)","Poudre ABC","Mousse AFFF"],correct:1,explanation:"Seul le CO₂ est adapté aux feux électriques !"},
-    {name:"Manutention",icon:"📦",sIdx:2,type:"mcq",timer:20,question:"Quelle est la charge maximale recommandée pour le port manuel ?",options:["10 kg","25 kg","55 kg","Aucune limite avec ceinture"],correct:1,explanation:"25 kg est la limite recommandée !"},
-    {name:"Signalisation",icon:"🚧",sIdx:0,type:"match",timer:25,question:"Relie chaque couleur de signalisation à sa signification !",left:["Rouge","Jaune/Orange","Vert","Bleu"],right:["Obligation / Information","Danger / Avertissement","Sécurité / Premiers secours","Interdiction / Arrêt"],pairs:[3,1,2,0],explanation:"Ces couleurs sont universelles sur tous les chantiers du monde !"},
-    {name:"Fouilles",icon:"⛏️",sIdx:1,type:"mcq",timer:20,question:"Avant de creuser, quelle démarche est OBLIGATOIRE pour repérer les réseaux ?",options:["Appeler son chef","Consulter le plan masse","Faire une DT-DICT","Vérifier avec un détecteur de métaux"],correct:2,explanation:"La DT-DICT est obligatoire avant tout terrassement !"},
-    {name:"Bruit",icon:"🔊",sIdx:2,type:"mcq",timer:15,question:"À partir de quel niveau sonore les protections auditives sont-elles obligatoires ?",options:["65 dB","80 dB","95 dB","110 dB"],correct:1,explanation:"80 dB est le seuil d'action !"},
-    {name:"Premiers secours",icon:"🚑",sIdx:0,type:"match",timer:25,question:"En cas d'accident sur chantier, quel est l'ordre correct d'action ?",left:["1er","2ème","3ème"],right:["Alerter les secours (15/18/112)","Protéger la zone","Secourir la victime"],pairs:[1,0,2],explanation:"Protéger → Alerter → Secourir : le PAS qui sauve des vies !"}
+    {name:"EPI",icon:"⛑️",sIdx:0,type:"mcq",baseTimer:20,question:"Quels sont les 3 EPI obligatoires sur tout chantier de construction ?",options:["Casque, gants, lunettes","Casque, chaussures de sécurité, gilet haute visibilité","Casque, harnais, masque","Bouchons d'oreilles, lunettes, gants"],correct:1,explanation:"Casque, chaussures de sécurité et gilet haute visibilité sont les 3 EPI de base !"},
+    {name:"Hauteur",icon:"🪜",sIdx:1,type:"mcq",baseTimer:20,question:"À partir de quelle hauteur le port du harnais est-il obligatoire ?",options:["1 mètre","2 mètres","3 mètres","5 mètres"],correct:1,explanation:"Le harnais est obligatoire dès 2 mètres !"},
+    {name:"Électricité",icon:"⚡",sIdx:2,type:"mcq",baseTimer:20,question:"Avant d'intervenir sur un tableau électrique, quelle est la 1ère action obligatoire ?",options:["Prévenir le chef de chantier","Couper le courant et consigner l'installation","Vérifier avec un testeur sous tension","Mettre des gants isolants"],correct:1,explanation:"Couper et consigner est OBLIGATOIRE avant toute intervention électrique !"},
+    {name:"Produits chimiques",icon:"☠️",sIdx:0,type:"match",baseTimer:30,question:"Associe chaque pictogramme de danger à sa signification !",left:["💀 Tête de mort","🔥 Flamme","⚠️ Point d'exclamation","🌿 Environnement"],right:["Toxique / Mortel","Inflammable","Irritant / Nocif","Dangereux pour l'eau"],pairs:[0,1,2,3],explanation:"Ces pictogrammes GHS/CLP peuvent sauver des vies !"},
+    {name:"Incendie",icon:"🧯",sIdx:1,type:"mcq",baseTimer:20,question:"Quel extincteur utiliser sur un feu électrique actif ?",options:["Eau pulvérisée","CO₂ (dioxyde de carbone)","Poudre ABC","Mousse AFFF"],correct:1,explanation:"Seul le CO₂ est adapté aux feux électriques !"},
+    {name:"Manutention",icon:"📦",sIdx:2,type:"mcq",baseTimer:20,question:"Quelle est la charge maximale recommandée pour le port manuel ?",options:["10 kg","25 kg","55 kg","Aucune limite avec ceinture"],correct:1,explanation:"25 kg est la limite recommandée !"},
+    {name:"Signalisation",icon:"🚧",sIdx:0,type:"match",baseTimer:25,question:"Relie chaque couleur de signalisation à sa signification !",left:["Rouge","Jaune/Orange","Vert","Bleu"],right:["Obligation / Information","Danger / Avertissement","Sécurité / Premiers secours","Interdiction / Arrêt"],pairs:[3,1,2,0],explanation:"Ces couleurs sont universelles sur tous les chantiers du monde !"},
+    {name:"Fouilles",icon:"⛏️",sIdx:1,type:"mcq",baseTimer:20,question:"Avant de creuser, quelle démarche est OBLIGATOIRE pour repérer les réseaux ?",options:["Appeler son chef","Consulter le plan masse","Faire une DT-DICT","Vérifier avec un détecteur de métaux"],correct:2,explanation:"La DT-DICT est obligatoire avant tout terrassement !"},
+    {name:"Bruit",icon:"🔊",sIdx:2,type:"mcq",baseTimer:15,question:"À partir de quel niveau sonore les protections auditives sont-elles obligatoires ?",options:["65 dB","80 dB","95 dB","110 dB"],correct:1,explanation:"80 dB est le seuil d'action !"},
+    {name:"Premiers secours",icon:"🚑",sIdx:0,type:"match",baseTimer:25,question:"En cas d'accident sur chantier, quel est l'ordre correct d'action ?",left:["1er","2ème","3ème"],right:["Alerter les secours (15/18/112)","Protéger la zone","Secourir la victime"],pairs:[1,0,2],explanation:"Protéger → Alerter → Secourir : le PAS qui sauve des vies !"}
   ]},
   {id:'formations',label:'🎓 Formations',unlocked:true,questions:[
-    {name:"CAP",icon:"🎓",sIdx:0,type:"mcq",timer:20,question:"Combien d'années dure un CAP en alternance au BTP CFA ?",options:["1 an","2 ans","3 ans","4 ans"],correct:1,explanation:"Le CAP en alternance se prépare en 2 ans !"},
-    {name:"BP",icon:"📜",sIdx:1,type:"mcq",timer:20,question:"Qu'est-ce qu'un Brevet Professionnel (BP) dans le BTP ?",options:["Un diplôme de niveau Bac qui approfondit un CAP","Un diplôme de niveau Bac+2","Une certification optionnelle","Un titre délivré par les entreprises"],correct:0,explanation:"Le BP niveau Bac permet d'accéder à des postes de technicien ou chef d'équipe !"},
-    {name:"Alternance",icon:"🔄",sIdx:2,type:"mcq",timer:20,question:"Dans le cadre de l'alternance, qui prend en charge les frais de formation ?",options:["L'apprenti","Les parents","L'entreprise et l'OPCO","L'État uniquement"],correct:2,explanation:"L'entreprise et l'OPCO financent la formation !"},
-    {name:"BTS",icon:"🏛️",sIdx:0,type:"mcq",timer:20,question:"Quels BTS peut-on préparer au BTP CFA en lien avec la construction ?",options:["BTS Tourisme","BTS Bâtiment et BTS Travaux Publics","BTS Informatique","BTS Commerce"],correct:1,explanation:"BTS Bâtiment et BTS Travaux Publics sont les 2 BTS phares du secteur !"},
-    {name:"Salaire apprenti",icon:"💰",sIdx:1,type:"mcq",timer:20,question:"Quel salaire minimum perçoit un apprenti de 18 ans en 1ère année de CAP ?",options:["Aucun salaire","27% du SMIC","43% du SMIC","100% du SMIC"],correct:2,explanation:"43% du SMIC en 1ère année !"},
-    {name:"CFA CVDL",icon:"🏫",sIdx:2,type:"match",timer:30,question:"Associe chaque ville à son département BTP CFA CVDL !",left:["Tours","Blois","Orléans","Chartres"],right:["Loiret (45)","Eure-et-Loir (28)","Indre-et-Loire (37)","Loir-et-Cher (41)"],pairs:[2,3,0,1],explanation:"Le BTP CFA CVDL couvre tout le Centre-Val de Loire !"},
-    {name:"Contrat",icon:"📅",sIdx:0,type:"mcq",timer:20,question:"Quelle est la durée minimale d'un contrat d'apprentissage ?",options:["6 mois","1 an","2 ans","La durée du diplôme uniquement"],correct:0,explanation:"Un contrat d'apprentissage peut durer au minimum 6 mois !"},
-    {name:"Titre Pro",icon:"🏅",sIdx:1,type:"mcq",timer:20,question:"Un Titre Professionnel est délivré par quel ministère ?",options:["Ministère de l'Éducation nationale","Ministère du Travail","Ministère de la Construction","Chambre des métiers"],correct:1,explanation:"Les Titres Professionnels sont délivrés par le Ministère du Travail !"},
-    {name:"Rythme",icon:"🗓️",sIdx:2,type:"match",timer:25,question:"Associe chaque rythme d'alternance à sa description !",left:["1 sem / 1 sem","3 jours / 2 jours","1 mois / 1 mois"],right:["Adapté aux entreprises lointaines","Le plus courant en CAP BTP","Bonne alternance théorie/pratique"],pairs:[0,2,1],explanation:"Le rythme 1 sem/1 sem est le plus courant en CAP BTP !"},
-    {name:"Passerelle",icon:"🌉",sIdx:0,type:"mcq",timer:20,question:"Après un CAP, quelle passerelle directe est possible au BTP CFA ?",options:["Aucune, il faut passer par le Bac général","BP, Bac Pro ou Mention Complémentaire","Directement un Master","Un BTS sans conditions"],correct:1,explanation:"Après un CAP : BP, Bac Pro ou Mention Complémentaire !"}
+    {name:"CAP",icon:"🎓",sIdx:0,type:"mcq",baseTimer:20,question:"Combien d'années dure un CAP en alternance au BTP CFA ?",options:["1 an","2 ans","3 ans","4 ans"],correct:1,explanation:"Le CAP en alternance se prépare en 2 ans !"},
+    {name:"BP",icon:"📜",sIdx:1,type:"mcq",baseTimer:20,question:"Qu'est-ce qu'un Brevet Professionnel (BP) dans le BTP ?",options:["Un diplôme de niveau Bac qui approfondit un CAP","Un diplôme de niveau Bac+2","Une certification optionnelle","Un titre délivré par les entreprises"],correct:0,explanation:"Le BP niveau Bac permet d'accéder à des postes de technicien ou chef d'équipe !"},
+    {name:"Alternance",icon:"🔄",sIdx:2,type:"mcq",baseTimer:20,question:"Dans le cadre de l'alternance, qui prend en charge les frais de formation ?",options:["L'apprenti","Les parents","L'entreprise et l'OPCO","L'État uniquement"],correct:2,explanation:"L'entreprise et l'OPCO financent la formation !"},
+    {name:"BTS",icon:"🏛️",sIdx:0,type:"mcq",baseTimer:20,question:"Quels BTS peut-on préparer au BTP CFA en lien avec la construction ?",options:["BTS Tourisme","BTS Bâtiment et BTS Travaux Publics","BTS Informatique","BTS Commerce"],correct:1,explanation:"BTS Bâtiment et BTS Travaux Publics sont les 2 BTS phares du secteur !"},
+    {name:"Salaire apprenti",icon:"💰",sIdx:1,type:"mcq",baseTimer:20,question:"Quel salaire minimum perçoit un apprenti de 18 ans en 1ère année de CAP ?",options:["Aucun salaire","27% du SMIC","43% du SMIC","100% du SMIC"],correct:2,explanation:"43% du SMIC en 1ère année !"},
+    {name:"CFA CVDL",icon:"🏫",sIdx:2,type:"match",baseTimer:30,question:"Associe chaque ville à son département BTP CFA CVDL !",left:["Tours","Blois","Orléans","Chartres"],right:["Loiret (45)","Eure-et-Loir (28)","Indre-et-Loire (37)","Loir-et-Cher (41)"],pairs:[2,3,0,1],explanation:"Le BTP CFA CVDL couvre tout le Centre-Val de Loire !"},
+    {name:"Contrat",icon:"📅",sIdx:0,type:"mcq",baseTimer:20,question:"Quelle est la durée minimale d'un contrat d'apprentissage ?",options:["6 mois","1 an","2 ans","La durée du diplôme uniquement"],correct:0,explanation:"Un contrat d'apprentissage peut durer au minimum 6 mois !"},
+    {name:"Titre Pro",icon:"🏅",sIdx:1,type:"mcq",baseTimer:20,question:"Un Titre Professionnel est délivré par quel ministère ?",options:["Ministère de l'Éducation nationale","Ministère du Travail","Ministère de la Construction","Chambre des métiers"],correct:1,explanation:"Les Titres Professionnels sont délivrés par le Ministère du Travail !"},
+    {name:"Rythme",icon:"🗓️",sIdx:2,type:"match",baseTimer:25,question:"Associe chaque rythme d'alternance à sa description !",left:["1 sem / 1 sem","3 jours / 2 jours","1 mois / 1 mois"],right:["Adapté aux entreprises lointaines","Le plus courant en CAP BTP","Bonne alternance théorie/pratique"],pairs:[0,2,1],explanation:"Le rythme 1 sem/1 sem est le plus courant en CAP BTP !"},
+    {name:"Passerelle",icon:"🌉",sIdx:0,type:"mcq",baseTimer:20,question:"Après un CAP, quelle passerelle directe est possible au BTP CFA ?",options:["Aucune, il faut passer par le Bac général","BP, Bac Pro ou Mention Complémentaire","Directement un Master","Un BTS sans conditions"],correct:1,explanation:"Après un CAP : BP, Bac Pro ou Mention Complémentaire !"}
   ]},
-  {id:'culture',label:'🏛️ Culture BTP',unlocked:false,questions:[]},
-  {id:'techniques',label:'🔬 Techniques',unlocked:false,questions:[]}
+  {id:'culture',label:'🏛️ Culture BTP',unlocked:false,questions:[
+    {name:"Histoire",icon:"🏛️",sIdx:0,type:"mcq",baseTimer:20,question:"Quelle est la caractéristique principale du béton armé inventé au XIXe siècle ?",options:["Béton seul, très résistant","Association béton + acier pour résistance compression ET traction","Béton avec fibres de verre","Béton précontraint uniquement"],correct:1,explanation:"Le béton armé combine la résistance en compression du béton et en traction de l'acier !"},
+    {name:"Architecture",icon:"🏗️",sIdx:1,type:"mcq",baseTimer:20,question:"Quel est le style architectural caractérisé par les arcs brisés et les grandes cathédrales ?",options:["Roman","Gothique","Renaissance","Baroque"],correct:1,explanation:"Le style gothique (XIIe-XVIe s.) se reconnaît à ses arcs brisés, voûtes et grandes fenêtres !"},
+    {name:"Matériaux",icon:"🪨",sIdx:2,type:"match",baseTimer:30,question:"Associe chaque matériau ancien à son usage traditionnel !",left:["Torchis","Pierre de taille","Pisé","Bois de colombage"],right:["Ossature visible, maisons normandes","Châteaux & monuments","Murs façonnés en terre crue compactée","Mélange terre-paille sur armature"],pairs:[3,1,2,0],explanation:"Ces matériaux ancestraux font un retour en force pour leur écobilan !"},
+    {name:"Records",icon:"🏆",sIdx:0,type:"mcq",baseTimer:20,question:"Quel est le plus grand barrage en France en termes de hauteur ?",options:["Barrage de Serre-Ponçon","Barrage de Vouglans","Barrage de Grand'Maison","Barrage de la Rance"],correct:2,explanation:"Le barrage de Grand'Maison (Isère) culmine à 160 m de hauteur !"},
+    {name:"BTP & écologie",icon:"🌱",sIdx:1,type:"mcq",baseTimer:20,question:"Qu'est-ce qu'un bâtiment à énergie positive (BEPOS) ?",options:["Un bâtiment qui produit plus d'énergie qu'il n'en consomme","Un bâtiment sans chauffage","Un bâtiment uniquement en bois","Un bâtiment certifié HQE"],correct:0,explanation:"Un BEPOS produit plus d'énergie (panneaux solaires, etc.) qu'il n'en consomme !"},
+    {name:"Chiffres BTP",icon:"📊",sIdx:2,type:"mcq",baseTimer:20,question:"Combien de personnes environ travaillent dans le secteur BTP en France ?",options:["500 000","1,5 million","3 millions","5 millions"],correct:1,explanation:"Le BTP emploie environ 1,5 million de personnes en France !"},
+    {name:"Innovations",icon:"🤖",sIdx:0,type:"match",baseTimer:30,question:"Associe chaque innovation BTP à sa définition !",left:["BIM","Impression 3D béton","Exosquelette","Drones topographie"],right:["Armature portée qui aide le corps","Maquette numérique 3D du bâtiment","Relevé aérien de terrain","Construction couche par couche"],pairs:[1,3,0,2],explanation:"Le BTP se transforme avec ces technologies !"},
+    {name:"Réglementation",icon:"📋",sIdx:1,type:"mcq",baseTimer:20,question:"Que signifie la norme RT 2020 (ou RE 2020) dans la construction ?",options:["Réglementation des chantiers dangereux","Réglementation Environnementale des bâtiments neufs","Règlement de Travaux 2020","Révision des Techniques de pose"],correct:1,explanation:"La RE 2020 fixe les exigences énergétiques et environnementales des bâtiments neufs !"},
+    {name:"Patrimoine",icon:"🗼",sIdx:2,type:"mcq",baseTimer:20,question:"Combien de temps a duré la construction de la cathédrale Notre-Dame de Paris (début à fin) ?",options:["50 ans","100 ans","182 ans","300 ans"],correct:2,explanation:"Notre-Dame a été construite de 1163 à 1345, soit environ 182 ans !"},
+    {name:"Métiers de demain",icon:"🚀",sIdx:0,type:"match",baseTimer:30,question:"Associe chaque métier émergent à son domaine !",left:["Thermicien","Coordinateur BIM","Spécialiste végétalisation","Technicien domotique"],right:["Maisons connectées","Rénovation énergétique","Toitures & façades végétales","Gestion maquette numérique"],pairs:[1,3,2,0],explanation:"Ces métiers d'avenir recrutent massivement dans le BTP !"}
+  ]},
+  {id:'techniques',label:'🔬 Techniques',unlocked:false,questions:[
+    {name:"Calcul",icon:"📐",sIdx:0,type:"mcq",baseTimer:25,question:"Pour un mur de 10m x 2,5m, combien de briques de 22x10x6cm faut-il (joints 1cm) ?",options:["~850 briques","~1 100 briques","~1 350 briques","~1 600 briques"],correct:1,explanation:"Surface = 25m². Brique+joint = 23x11cm. Nombre ≈ 25/(0.23x0.11) ≈ 988 ≈ 1 100 avec pertes !"},
+    {name:"Résistance matériaux",icon:"🧪",sIdx:1,type:"mcq",baseTimer:25,question:"Quelle est la résistance en compression caractéristique d'un béton C25/30 ?",options:["15 MPa","25 MPa","30 MPa","35 MPa"],correct:1,explanation:"C25/30 : 25 MPa sur cylindre (fck) et 30 MPa sur cube. On utilise la valeur cylindrique !"},
+    {name:"Électricité calc.",icon:"⚡",sIdx:2,type:"mcq",baseTimer:25,question:"Un circuit de 230V alimente 10 lampes de 60W. Quelle section de câble minimum ?",options:["1,5mm²","2,5mm²","4mm²","6mm²"],correct:0,explanation:"I = P/U = 600/230 ≈ 2,6A. Section 1,5mm² supporte jusqu'à 16A, largement suffisant !"},
+    {name:"Toiture pente",icon:"🏠",sIdx:0,type:"mcq",baseTimer:20,question:"Un toit de largeur 8m a une hauteur de faîte de 2m. Quelle est sa pente en % ?",options:["25%","50%","75%","100%"],correct:1,explanation:"Pente = hauteur/demi-largeur x 100 = 2/4 x 100 = 50% !"},
+    {name:"Plomberie",icon:"🔧",sIdx:1,type:"mcq",baseTimer:20,question:"Pour une pente correcte d'évacuation des eaux usées, quelle inclinaison minimum ?",options:["0,5%","1%","2%","5%"],correct:2,explanation:"La pente minimum est de 2% (2cm par mètre) pour les évacuations sanitaires !"},
+    {name:"Métrés",icon:"📏",sIdx:2,type:"match",baseTimer:30,question:"Associe chaque unité de mesure à son usage en BTP !",left:["m²","m³","ml","€/T"],right:["Béton coulé, terrassement","Peinture, carrelage, toiture","Prix de l'acier","Longueur de canalisations"],pairs:[1,0,3,2],explanation:"Maîtriser les unités est fondamental pour les métrés et devis !"},
+    {name:"Thermique",icon:"🌡️",sIdx:0,type:"mcq",baseTimer:25,question:"Quelle valeur R (résistance thermique) doit avoir une isolation de toit pour être performante (RE2020) ?",options:["R ≥ 2","R ≥ 4","R ≥ 6","R ≥ 8"],correct:2,explanation:"La RE2020 exige R ≥ 6 m²K/W pour les toitures, soit environ 20cm de laine minérale !"},
+    {name:"Sondages",icon:"⛏️",sIdx:1,type:"mcq",baseTimer:20,question:"Avant de construire, une étude de sol G1 sert à quoi ?",options:["Vérifier la présence d'eau","Identifier la nature des sols et portance","Mesurer la pollution","Calculer la pente"],correct:1,explanation:"L'étude G1 identifie la nature du sol et sa portance pour dimensionner les fondations !"},
+    {name:"Charpente",icon:"🪵",sIdx:2,type:"mcq",baseTimer:25,question:"Pour un chevron de toiture portant 4m, quelle section minimum (douglas) ?",options:["45x70mm","60x120mm","75x150mm","100x200mm"],correct:1,explanation:"Pour 4m de portée, 60x120mm est une section courante et conforme aux règles CB71 !"},
+    {name:"Électro-technique",icon:"🔋",sIdx:0,type:"match",baseTimer:35,question:"Associe chaque composant électrique à sa fonction !",left:["Disjoncteur différentiel","Parafoudre","Tableau divisionnaire","Interrupteur sectionneur"],right:["Protège contre la foudre","Coupe et protège un circuit secondaire","Coupe un circuit sans protection","Protège personnes ET lignes"],pairs:[3,0,1,2],explanation:"Comprendre l'appareillage électrique est essentiel pour la sécurité des installations !"}
+  ]}
 ];
 
 // ═══════════════════════════════════
@@ -857,6 +724,8 @@ function startSession(){
   document.getElementById('userAv').textContent=currentUser.name[0].toUpperCase();
   document.getElementById('userName').textContent=currentUser.name;
   loadUserBadges();
+  // Check unlock state on session start
+  checkAndUnlockPacks();
   show('sGame');
   initPack(PACKS[0]);
 }
@@ -865,85 +734,149 @@ function startSession(){
 // GAME STATE
 // ═══════════════════════════════════
 const SCOLS=[{bg:'#000000',text:'#FFEB00',border:'rgba(255,235,0,.5)'},{bg:'#FFEB00',text:'#000000',border:'rgba(0,0,0,.3)'},{bg:'#FFFFFF',text:'#000000',border:'rgba(0,0,0,.2)'}];
+
 let currentPack=PACKS[0],questions=[],completed=[],score=0;
 let angle=0,spinning=false,selLeft=null,matched=[],curQ=-1;
 let sessionStart=Date.now(),timerInterval=null,timerLeft=0,timerMax=0,challengeAnswered=false;
 let packErrors=0,earnedBadges=[];
 
+// GLOBAL score across all packs (cumulative)
+let globalScore=0;
+
+// Per-pack completed tracking
+let packCompletedMap={};  // {packId: [completed indices]}
+let packScoreMap={};      // {packId: score}
+
+// Timer mode: base seconds multiplied by mode factor
+let timerModeSecs=20; // default
+
+// Consecutive errors penalty
+let consecutiveErrors=0; // resets on correct answer
+const MAX_PENALTY_SHOWN=5;
+const PENALTY_REDUCTION_PER_ERROR=0.15; // -15% per consecutive error, max -60%
+
 const canvas=document.getElementById('wcanvas'),ctx=canvas.getContext('2d');
 const W=canvas.width,H=canvas.height;
 
-// PROGRESS
+// ═══════════════════════════════════
+// PROGRESS STORAGE
+// ═══════════════════════════════════
 function pKey(packId){return currentUser&&!currentUser.isGuest?'btpcfa_prog_'+currentUser.name.toLowerCase()+'_'+packId:null;}
-function saveProgress(){const k=pKey(currentPack.id);if(k)LS.set(k,{completed,score,angle,ts:Date.now()});}
+function gKey(){return currentUser&&!currentUser.isGuest?'btpcfa_global_'+currentUser.name.toLowerCase():null;}
+
+function saveProgress(){
+  const k=pKey(currentPack.id);
+  if(k)LS.set(k,{completed,score,angle,ts:Date.now()});
+  // Save global
+  const gk=gKey();
+  if(gk){
+    packCompletedMap[currentPack.id]=completed;
+    packScoreMap[currentPack.id]=score;
+    LS.set(gk,{packCompletedMap,packScoreMap,globalScore,consecutiveErrors});
+  }
+}
+
 function loadProgress(packId){const k=pKey(packId);return k?LS.get(k):null;}
 function clearProgress(packId){const k=pKey(packId);if(k)LS.del(k);}
 
+function loadGlobalData(){
+  const gk=gKey();
+  if(!gk)return;
+  const d=LS.get(gk);
+  if(d){
+    packCompletedMap=d.packCompletedMap||{};
+    packScoreMap=d.packScoreMap||{};
+    globalScore=d.globalScore||0;
+    consecutiveErrors=d.consecutiveErrors||0;
+  }
+}
+
 // ═══════════════════════════════════
-// SUPABASE — Classement partagé
+// SUPABASE
 // ═══════════════════════════════════
 const SUPA_URL='https://mptbhnwpkoswtahyxsom.supabase.co';
 const SUPA_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1wdGJobndwa29zd3RhaHl4c29tIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI4MDQ0MjcsImV4cCI6MjA4ODM4MDQyN30.i3NtKtEaPTeLwhQwvjPw6ckB0EwJX_Y1wsLMji7r8oA';
-const SUPA_HEADERS={
-  'apikey':SUPA_KEY,
-  'Authorization':'Bearer '+SUPA_KEY,
-  'Content-Type':'application/json'
-};
+const SUPA_HEADERS={'apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY,'Content-Type':'application/json'};
 
 async function getLB(){
-  try{
-    const res=await fetch(SUPA_URL+'/rest/v1/leaderboard?order=score.desc&limit=200',{headers:SUPA_HEADERS});
-    if(!res.ok)throw new Error('Supabase read error '+res.status);
-    return await res.json();
-  }catch(err){
-    console.warn('Supabase getLB error:',err);
-    return[];
-  }
+  try{const res=await fetch(SUPA_URL+'/rest/v1/leaderboard?order=score.desc&limit=200',{headers:SUPA_HEADERS});if(!res.ok)throw new Error();return await res.json();}catch{return[];}
 }
 
 async function addToLB(e){
   if(currentUser.isGuest)return;
   try{
-    const payload={
-      name:currentUser.name,
-      score:e.score,
-      pack_id:e.packId,
-      pack_label:e.packLabel,
-      dur:e.dur,
-      ts:Date.now()
-    };
-    console.log('📤 Supabase insert payload:',JSON.stringify(payload));
-    const res=await fetch(SUPA_URL+'/rest/v1/leaderboard',{
-      method:'POST',
-      headers:{...SUPA_HEADERS,'Prefer':'return=minimal'},
-      body:JSON.stringify(payload)
-    });
-    if(!res.ok){
-      const errText=await res.text();
-      console.error('❌ Supabase insert error',res.status,':',errText);
-      throw new Error('Supabase insert error '+res.status+' — '+errText);
-    }
-    console.log('✅ Supabase insert OK');
-  }catch(err){
-    console.warn('Supabase addToLB error:',err);
-  }
+    const payload={name:currentUser.name,score:e.score,pack_id:e.packId,pack_label:e.packLabel,dur:e.dur,ts:Date.now()};
+    const res=await fetch(SUPA_URL+'/rest/v1/leaderboard',{method:'POST',headers:{...SUPA_HEADERS,'Prefer':'return=minimal'},body:JSON.stringify(payload)});
+    if(!res.ok)throw new Error('insert error '+res.status);
+  }catch(err){console.warn('Supabase addToLB error:',err);}
 }
 
 // ═══════════════════════════════════
-// AUDIO (Web Audio API)
+// AUDIO
 // ═══════════════════════════════════
 let actx=null;
 function getAC(){if(!actx)actx=new(window.AudioContext||window.webkitAudioContext)();return actx;}
-function tone(f,d,t='sine',v=0.18){
-  try{const a=getAC(),o=a.createOscillator(),g=a.createGain();o.connect(g);g.connect(a.destination);o.type=t;o.frequency.setValueAtTime(f,a.currentTime);g.gain.setValueAtTime(v,a.currentTime);g.gain.exponentialRampToValueAtTime(0.001,a.currentTime+d);o.start();o.stop(a.currentTime+d);}catch{}
-}
+function tone(f,d,t='sine',v=0.18){try{const a=getAC(),o=a.createOscillator(),g=a.createGain();o.connect(g);g.connect(a.destination);o.type=t;o.frequency.setValueAtTime(f,a.currentTime);g.gain.setValueAtTime(v,a.currentTime);g.gain.exponentialRampToValueAtTime(0.001,a.currentTime+d);o.start();o.stop(a.currentTime+d);}catch{}}
 function playSuccess(){tone(523,.12,'sine',.2);setTimeout(()=>tone(659,.12,'sine',.2),120);setTimeout(()=>tone(784,.25,'sine',.22),240);}
 function playWrong(){tone(200,.18,'sawtooth',.15);setTimeout(()=>tone(150,.22,'sawtooth',.12),160);}
 function playTimeout(){tone(330,.1,'square',.12);setTimeout(()=>tone(220,.3,'square',.1),100);}
 function playTick(){tone(880,.05,'square',.06);}
 function playVictory(){[523,659,784,1047].forEach((n,i)=>setTimeout(()=>tone(n,.3,'sine',.22),i*180));}
-function playSpin(){
-  try{const a=getAC(),o=a.createOscillator(),g=a.createGain();o.connect(g);g.connect(a.destination);o.type='sine';o.frequency.setValueAtTime(200,a.currentTime);o.frequency.linearRampToValueAtTime(600,a.currentTime+1.5);o.frequency.linearRampToValueAtTime(300,a.currentTime+3.5);g.gain.setValueAtTime(.08,a.currentTime);g.gain.exponentialRampToValueAtTime(.001,a.currentTime+4);o.start();o.stop(a.currentTime+4);}catch{}
+function playSpin(){try{const a=getAC(),o=a.createOscillator(),g=a.createGain();o.connect(g);g.connect(a.destination);o.type='sine';o.frequency.setValueAtTime(200,a.currentTime);o.frequency.linearRampToValueAtTime(600,a.currentTime+1.5);o.frequency.linearRampToValueAtTime(300,a.currentTime+3.5);g.gain.setValueAtTime(.08,a.currentTime);g.gain.exponentialRampToValueAtTime(.001,a.currentTime+4);o.start();o.stop(a.currentTime+4);}catch{}}
+
+// ═══════════════════════════════════
+// TIMER MODE
+// ═══════════════════════════════════
+function setTimerMode(secs){
+  timerModeSecs=secs;
+  document.querySelectorAll('.mode-chip').forEach(c=>{c.classList.remove('active');});
+  const el=document.getElementById('mode'+secs);
+  if(el)el.classList.add('active');
+  toast('⏱️ Mode '+(secs===20?'Normal':secs===10?'Rapide':'Éclair')+' activé ('+secs+'s)');
+}
+
+function getEffectiveTimer(baseTimer){
+  // Scale base timer by mode ratio
+  const modeRatio=timerModeSecs/20;
+  let t=Math.round(baseTimer*modeRatio);
+  // Apply penalty reduction
+  if(consecutiveErrors>0){
+    const reduction=Math.min(consecutiveErrors*PENALTY_REDUCTION_PER_ERROR,0.6);
+    t=Math.max(3,Math.round(t*(1-reduction)));
+  }
+  return t;
+}
+
+// ═══════════════════════════════════
+// PENALTY SYSTEM
+// ═══════════════════════════════════
+function updatePenaltyUI(){
+  const wrap=document.getElementById('penaltyWrap');
+  const info=document.getElementById('penaltyInfo');
+  if(consecutiveErrors===0){
+    wrap.classList.remove('show');
+    return;
+  }
+  wrap.classList.add('show');
+  for(let i=0;i<MAX_PENALTY_SHOWN;i++){
+    document.getElementById('pd'+i).classList.toggle('active',i<consecutiveErrors);
+  }
+  const reduction=Math.min(consecutiveErrors*PENALTY_REDUCTION_PER_ERROR,0.6);
+  info.textContent='-'+Math.round(reduction*100)+'% de temps sur les prochaines questions';
+}
+
+function registerError(){
+  consecutiveErrors=Math.min(consecutiveErrors+1,MAX_PENALTY_SHOWN);
+  updatePenaltyUI();
+  // Flash card red
+  const card=document.getElementById('ccard');
+  card.classList.add('penalty-active');
+  setTimeout(()=>card.classList.remove('penalty-active'),600);
+}
+
+function registerCorrect(){
+  consecutiveErrors=0;
+  updatePenaltyUI();
 }
 
 // ═══════════════════════════════════
@@ -956,6 +889,8 @@ const BADGES=[
   {id:'half_way',   icon:'🌟',name:'À mi-chemin',      desc:'5 défis complétés'},
   {id:'full_pack',  icon:'🎯',name:'Pack Complété',    desc:'Terminer tous les défis'},
   {id:'quick_finish',icon:'🚀',name:'Fusée',           desc:'Finir un pack en moins de 3 min'},
+  {id:'all_packs',  icon:'👑',name:'Maître du BTP',    desc:'Terminer les 3 premiers packs'},
+  {id:'eclair_mode',icon:'⚡',name:'Mode Éclair',      desc:'Terminer un pack en mode 5s'},
 ];
 
 function loadUserBadges(){
@@ -997,26 +932,138 @@ function renderBadgePanel(){
 }
 
 // ═══════════════════════════════════
+// PACK UNLOCK LOGIC
+// ═══════════════════════════════════
+function isPackFullyCompleted(packId){
+  // Check locally
+  const p=PACKS.find(x=>x.id===packId);
+  if(!p)return false;
+  const saved=loadProgress(packId);
+  if(!saved)return false;
+  return saved.completed&&saved.completed.length>=p.questions.length;
+}
+
+function checkAndUnlockPacks(){
+  loadGlobalData();
+  const coreIds=['metiers','securite','formations'];
+  const allCoreDone=coreIds.every(id=>isPackFullyCompleted(id));
+  let unlocked=false;
+  PACKS.forEach(p=>{
+    if(!p.unlocked&&allCoreDone){
+      p.unlocked=true;
+      unlocked=true;
+    }
+  });
+  if(unlocked){
+    const banner=document.getElementById('unlockBanner');
+    document.getElementById('unlockMsg').textContent='Tu as terminé les 3 packs principaux ! Culture BTP & Techniques sont maintenant disponibles 🎉';
+    banner.classList.add('show');
+    setTimeout(()=>banner.classList.remove('show'),6000);
+    awardBadge('all_packs');
+    toast('🔓 Nouveaux packs débloqués : Culture BTP & Techniques !');
+  }
+}
+
+// ═══════════════════════════════════
+// GLOBAL SCORE BAR
+// ═══════════════════════════════════
+function buildGlobalScoreBar(){
+  const bar=document.getElementById('globalScoreBar');
+  bar.innerHTML='';
+  let total=0;
+  PACKS.filter(p=>p.unlocked&&p.questions.length>0).forEach(p=>{
+    const saved=loadProgress(p.id);
+    const pts=saved?saved.score:0;
+    const done=saved&&saved.completed?saved.completed.length:0;
+    total+=pts;
+    const item=document.createElement('div');
+    item.className='gs-item'+(p.id===currentPack.id?' active':'');
+    item.innerHTML='<span class="gs-icon">'+p.label.split(' ')[0]+'</span>'
+      +'<span style="font-size:.72rem;letter-spacing:1px;color:#555;">'+(done>0?done+'/'+p.questions.length+' ✓':'En attente')+'</span>'
+      +'<span class="gs-pts">+'+pts+'</span>';
+    bar.appendChild(item);
+  });
+  // Add current pack live score
+  const totalEl=document.createElement('div');
+  totalEl.innerHTML='<span class="gs-total-label">TOTAL</span><span class="gs-total" id="globalScoreNum">'+total+'</span>';
+  bar.appendChild(totalEl);
+}
+
+function updateGlobalScore(){
+  // Recalculate total from all completed packs + current pack live score
+  let total=0;
+  PACKS.filter(p=>p.unlocked&&p.questions.length>0).forEach(p=>{
+    if(p.id===currentPack.id){
+      total+=score; // live score
+    } else {
+      const saved=loadProgress(p.id);
+      if(saved)total+=saved.score||0;
+    }
+  });
+  const el=document.getElementById('globalScoreNum');
+  if(el)el.textContent=total;
+  return total;
+}
+
+// ═══════════════════════════════════
 // PACK
 // ═══════════════════════════════════
 function buildPackBar(){
   const bar=document.getElementById('packBar');bar.innerHTML='';
   PACKS.forEach(p=>{
+    const saved=loadProgress(p.id);
+    const isCompleted=saved&&saved.completed&&saved.completed.length>=p.questions.length&&p.questions.length>0;
+    let cls='pack-chip';
+    if(p.id===currentPack.id)cls+=' active';
+    if(!p.unlocked)cls+=' locked';
+    if(isCompleted&&p.id!==currentPack.id)cls+=' completed';
     const c=document.createElement('div');
-    c.className='pack-chip'+(p.id===currentPack.id?' active':'')+(p.unlocked?'':' locked');
-    c.textContent=p.label+(p.unlocked?'':'  🔒');
-    if(p.unlocked)c.addEventListener('click',()=>{if(p.id!==currentPack.id){saveProgress();initPack(p);}});
+    c.className=cls;
+    c.textContent=p.label+(p.unlocked?'':(p.questions.length===0?'  🔒':'  🔒'))+(isCompleted?' ✓':'');
+    if(p.unlocked&&p.questions.length>0)c.addEventListener('click',()=>{
+      if(p.id===currentPack.id)return;
+      // Check if pack is already fully completed — block switching back to replay it
+      if(isCompleted){
+        toast('✅ Ce pack est déjà terminé ! Continue sur un autre pack.');
+        return;
+      }
+      saveProgress();initPack(p);
+    });
     bar.appendChild(c);
   });
 }
 
 function initPack(p){
   stopTimer();
-  currentPack=p;questions=[...p.questions];
+  currentPack=p;
+  
+  // Check if pack already fully completed — prevent replay
+  const existing=loadProgress(p.id);
+  const alreadyDone=existing&&existing.completed&&existing.completed.length>=p.questions.length&&p.questions.length>0;
+  if(alreadyDone){
+    toast('✅ Pack "'+p.label+'" déjà complété ! Choisis un autre pack.');
+    // Find first non-completed unlocked pack
+    const next=PACKS.find(x=>x.unlocked&&x.questions.length>0&&x.id!==p.id&&!isPackFullyCompleted(x.id));
+    if(next){initPack(next);}
+    return;
+  }
+
+  questions=[...p.questions];
   completed=[];score=0;angle=0;selLeft=null;matched=[];curQ=-1;
-  packErrors=0;earnedBadges=loadUserBadgesArr();
+  packErrors=0;
   sessionStart=Date.now();
-  document.getElementById('scoreDisp').textContent='0';
+  consecutiveErrors=0;
+  updatePenaltyUI();
+
+  // Load saved progress for this pack
+  if(existing&&existing.completed&&existing.completed.length>0){
+    // Restore from save
+    completed=existing.completed||[];
+    score=existing.score||0;
+    angle=existing.angle||0;
+  }
+
+  document.getElementById('scoreDisp').textContent=score;
   document.getElementById('idleMsg').style.display='flex';
   document.getElementById('chContent').style.display='none';
   document.getElementById('metierBox').innerHTML='<div class="mh">Tourne la roue pour découvrir ton métier !</div>';
@@ -1024,25 +1071,21 @@ function initPack(p){
   document.getElementById('timerWrap').style.display='none';
   document.getElementById('packCompleteBanner').className='pack-complete';
   document.getElementById('resumeBanner').className='resume-banner';
-  buildPackBar();updateProg();drawWheel(0);
+  buildPackBar();
+  updateProg();
+  drawWheel(angle);
+  buildGlobalScoreBar();
+
   if(!p.unlocked||!p.questions.length)return;
-  const saved=loadProgress(p.id);
-  if(saved&&saved.completed&&saved.completed.length>0&&saved.completed.length<p.questions.length){
-    window._savedProg=saved;
-    document.getElementById('resumeDesc').textContent=saved.completed.length+'/'+p.questions.length+' défis — Score: '+saved.score+' pts';
+
+  // Show resume if partial progress
+  if(existing&&existing.completed&&existing.completed.length>0&&existing.completed.length<p.questions.length){
+    document.getElementById('resumeDesc').textContent=existing.completed.length+'/'+p.questions.length+' défis — Score: '+existing.score+' pts';
     document.getElementById('resumeBanner').className='resume-banner show';
   }
 }
 
-function loadUserBadgesArr(){
-  if(!currentUser||currentUser.isGuest)return[];
-  return LS.get('btpcfa_badges_'+currentUser.name.toLowerCase())||[];
-}
-
 function resumeSession(){
-  const s=window._savedProg;if(!s)return;
-  completed=s.completed||[];score=s.score||0;angle=s.angle||0;
-  document.getElementById('scoreDisp').textContent=score;
   document.getElementById('resumeBanner').className='resume-banner';
   updateProg();drawWheel(angle);
   toast('▶ Progression restaurée ! '+completed.length+' défis complétés.');
@@ -1051,9 +1094,10 @@ function resumeSession(){
 function freshStart(){
   clearProgress(currentPack.id);
   document.getElementById('resumeBanner').className='resume-banner';
-  window._savedProg=null;completed=[];score=0;angle=0;
+  completed=[];score=0;angle=0;consecutiveErrors=0;
   document.getElementById('scoreDisp').textContent='0';
-  updateProg();drawWheel(0);toast('🔄 Nouvelle partie !');
+  updateProg();drawWheel(0);updatePenaltyUI();
+  toast('🔄 Nouvelle partie !');
 }
 
 // ═══════════════════════════════════
@@ -1062,102 +1106,49 @@ function freshStart(){
 function drawWheel(rot){
   ctx.clearRect(0,0,W,H);
   const cx=W/2,cy=H/2,r=W/2-6,N=questions.length,arc=(2*Math.PI)/N;
-
-  // ── Séparateurs + fond de chaque portion ──
   for(let i=0;i<N;i++){
     const sa=rot+i*arc-Math.PI/2,ea=sa+arc;
     const m=questions[i],col=SCOLS[m.sIdx],done=completed.includes(i);
-
-    // Fond de la portion
     ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,r,sa,ea);ctx.closePath();
     ctx.fillStyle=done?'#151515':col.bg;ctx.fill();
-
-    // Séparateur entre portions
     ctx.beginPath();ctx.moveTo(cx,cy);ctx.arc(cx,cy,r,sa,ea);ctx.closePath();
     ctx.strokeStyle=done?'#2a2a2a':(col.bg==='#FFFFFF'?'rgba(0,0,0,.15)':'rgba(255,235,0,.25)');
     ctx.lineWidth=2;ctx.stroke();
   }
-
-  // ── Contenu texte de chaque portion ──
   for(let i=0;i<N;i++){
     const sa=rot+i*arc-Math.PI/2,ea=sa+arc;
-    const mid=sa+arc/2; // angle central de la portion
+    const mid=sa+arc/2;
     const m=questions[i],col=SCOLS[m.sIdx],done=completed.includes(i);
-
-    ctx.save();
-    ctx.translate(cx,cy);
-    ctx.rotate(mid); // on pointe vers le centre de la portion
-
+    ctx.save();ctx.translate(cx,cy);ctx.rotate(mid);
     if(done){
-      // Portion terminée : coche + nom court
-      const textR=r*0.62; // milieu radial du texte
+      const textR=r*0.62;
       ctx.textAlign='center';ctx.textBaseline='middle';
-      ctx.font='bold 11px Arial,sans-serif';
-      ctx.fillStyle='#FFEB00';
-      ctx.fillText('✓',textR,0);
-      ctx.font='bold 9px Arial Narrow,Arial,sans-serif';
-      ctx.fillStyle='rgba(255,235,0,.6)';
+      ctx.font='bold 11px Arial,sans-serif';ctx.fillStyle='#FFEB00';ctx.fillText('✓',textR,0);
+      ctx.font='bold 9px Arial Narrow,Arial,sans-serif';ctx.fillStyle='rgba(255,235,0,.6)';
       ctx.fillText(m.name.split(' ')[0].toUpperCase(),textR,11);
     } else {
-      // Calcul dynamique de la taille de police selon l'espace disponible
-      const chordW=2*r*Math.sin(arc/2)*0.72; // largeur disponible dans la portion
-      const textR=r*0.64; // point de placement radial (milieu entre hub et bord)
-
-      ctx.textAlign='center';
-      ctx.textBaseline='middle';
-
-      // ── Icône ──
+      const chordW=2*r*Math.sin(arc/2)*0.72;
+      const textR=r*0.64;
+      ctx.textAlign='center';ctx.textBaseline='middle';
       const iconSize=Math.max(14,Math.min(22,Math.round(chordW*0.38)));
-      ctx.font=iconSize+'px serif';
-      ctx.fillStyle=col.text;
-      ctx.fillText(m.icon,textR,-iconSize*0.7);
-
-      // ── Nom du métier : découpe intelligente en 1 ou 2 lignes ──
+      ctx.font=iconSize+'px serif';ctx.fillStyle=col.text;ctx.fillText(m.icon,textR,-iconSize*0.7);
       const words=m.name.split(' ');
       const maxFontSize=Math.max(8,Math.min(13,Math.round(chordW*0.19)));
-      ctx.font=`bold ${maxFontSize}px Arial Narrow,Arial,sans-serif`;
-      ctx.fillStyle=col.text;
-
-      // Ajouter un halo pour lisibilité sur fond blanc/jaune
-      if(col.bg==='#FFFFFF'||col.bg==='#FFEB00'){
-        ctx.shadowColor='rgba(0,0,0,.25)';
-        ctx.shadowBlur=2;
-      }
-
+      ctx.font=`bold ${maxFontSize}px Arial Narrow,Arial,sans-serif`;ctx.fillStyle=col.text;
+      if(col.bg==='#FFFFFF'||col.bg==='#FFEB00'){ctx.shadowColor='rgba(0,0,0,.25)';ctx.shadowBlur=2;}
       const lineH=maxFontSize+2;
       let lines=[];
-      if(words.length===1||m.name.length<=8){
-        lines=[m.name.toUpperCase()];
-      } else {
-        // Coupe à la moitié des mots pour équilibrer les lignes
-        const split=Math.ceil(words.length/2);
-        lines=[
-          words.slice(0,split).join(' ').toUpperCase(),
-          words.slice(split).join(' ').toUpperCase()
-        ];
-      }
-
-      // Décalage vertical pour centrer les lignes sous l'icône
+      if(words.length===1||m.name.length<=8){lines=[m.name.toUpperCase()];}
+      else{const split=Math.ceil(words.length/2);lines=[words.slice(0,split).join(' ').toUpperCase(),words.slice(split).join(' ').toUpperCase()];}
       const totalH=(lines.length-1)*lineH;
       const startY=iconSize*0.55;
-      lines.forEach((line,li)=>{
-        ctx.fillText(line,textR,startY+li*lineH-totalH/2);
-      });
-
+      lines.forEach((line,li)=>{ctx.fillText(line,textR,startY+li*lineH-totalH/2);});
       ctx.shadowBlur=0;ctx.shadowColor='transparent';
     }
-
     ctx.restore();
   }
-
-  // ── Bordure extérieure dorée ──
-  ctx.beginPath();ctx.arc(cx,cy,r,0,2*Math.PI);
-  ctx.strokeStyle='rgba(255,235,0,.6)';ctx.lineWidth=5;ctx.stroke();
-
-  // ── Cercle hub central (pour masquer les pointes des portions) ──
-  ctx.beginPath();ctx.arc(cx,cy,32,0,2*Math.PI);
-  ctx.fillStyle='#0A0A0A';ctx.fill();
-  ctx.strokeStyle='rgba(255,235,0,.7)';ctx.lineWidth=3;ctx.stroke();
+  ctx.beginPath();ctx.arc(cx,cy,r,0,2*Math.PI);ctx.strokeStyle='rgba(255,235,0,.6)';ctx.lineWidth=5;ctx.stroke();
+  ctx.beginPath();ctx.arc(cx,cy,32,0,2*Math.PI);ctx.fillStyle='#0A0A0A';ctx.fill();ctx.strokeStyle='rgba(255,235,0,.7)';ctx.lineWidth=3;ctx.stroke();
 }
 
 function spinWheel(){
@@ -1194,13 +1185,14 @@ function startTimer(s){
     timerLeft--;const pct=Math.round(timerLeft/timerMax*100);
     num.textContent=timerLeft;bar.style.width=pct+'%';
     if(pct>50)bar.className='timer-bar ok';else if(pct>25)bar.className='timer-bar warn';else bar.className='timer-bar danger';
-    if(timerLeft<=5&&timerLeft>0)playTick();
+    if(timerLeft<=3&&timerLeft>0)playTick();
     if(timerLeft<=0){stopTimer();if(!challengeAnswered)onTimeout();}
   },1000);
 }
 function stopTimer(){clearInterval(timerInterval);timerInterval=null;}
 function onTimeout(){
   challengeAnswered=true;playTimeout();packErrors++;
+  registerError();
   document.querySelectorAll('.mcq-btn').forEach(b=>b.disabled=true);
   document.querySelectorAll('.mi').forEach(b=>b.style.pointerEvents='none');
   const m=questions[curQ];
@@ -1226,15 +1218,18 @@ function showChallenge(i){
   selLeft=null;matched=[];
   const opts=document.getElementById('chOpts');opts.innerHTML='';
   if(m.type==='mcq')buildMCQ(m,opts);else buildMatch(m,opts);
-  startTimer(m.timer||20);
-
-  // On mobile, scroll to challenge card after wheel spins
+  const t=getEffectiveTimer(m.baseTimer||20);
+  document.getElementById('chBadge').textContent='+'+calcPtsForTimer(t,m.baseTimer||20)+' pts max';
+  startTimer(t);
   if(window.innerWidth<=640){
-    setTimeout(()=>{
-      const card=document.getElementById('ccard');
-      if(card)card.scrollIntoView({behavior:'smooth',block:'start'});
-    },300);
+    setTimeout(()=>{const card=document.getElementById('ccard');if(card)card.scrollIntoView({behavior:'smooth',block:'start'});},300);
   }
+}
+
+function calcPtsForTimer(currentT,baseT){
+  // Points scale with timer: shorter timer = more points possible
+  const ratio=currentT/baseT;
+  if(ratio>0.6)return 15;if(ratio>0.3)return 10;return 5;
 }
 
 function buildMCQ(m,c){
@@ -1246,8 +1241,14 @@ function buildMCQ(m,c){
       if(challengeAnswered)return;challengeAnswered=true;stopTimer();
       document.getElementById('timerWrap').style.display='none';
       d.querySelectorAll('.mcq-btn').forEach(x=>x.disabled=true);
-      if(i===m.correct){b.classList.add('correct');showFb(true,m.explanation);addPts(calcPts());playSuccess();checkInGameBadges();}
-      else{b.classList.add('wrong');d.querySelectorAll('.mcq-btn')[m.correct].classList.add('correct');showFb(false,m.explanation);playWrong();packErrors++;}
+      if(i===m.correct){
+        b.classList.add('correct');showFb(true,m.explanation);addPts(calcPts());playSuccess();
+        registerCorrect();checkInGameBadges();
+      } else {
+        b.classList.add('wrong');d.querySelectorAll('.mcq-btn')[m.correct].classList.add('correct');
+        showFb(false,m.explanation);playWrong();packErrors++;
+        registerError();
+      }
       doneChallenge();
     });
     d.appendChild(b);
@@ -1261,33 +1262,60 @@ function buildMatch(m,c){
   const rc=document.createElement('div');rc.className='mcol';rc.innerHTML='<div class="mcolt">Correspondances</div>';
   const ro=m.right.map((_,i)=>i);
   for(let i=ro.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[ro[i],ro[j]]=[ro[j],ro[i]];}
+  let matchErrors=0; // errors on THIS match question
+  let matchFailed=false; // once a wrong answer is given, question fails
+
   m.left.forEach((lbl,i)=>{
     const el=document.createElement('div');el.className='mi';el.textContent=lbl;el.dataset.li=i;
     el.addEventListener('click',()=>{
-      if(el.classList.contains('correct')||el.classList.contains('wrong'))return;
+      if(el.classList.contains('correct')||el.classList.contains('wrong')||matchFailed)return;
       document.querySelectorAll('.mi[data-li]').forEach(x=>x.classList.remove('sel'));
       el.classList.add('sel');selLeft=i;
     });
     lc.appendChild(el);
   });
+
   ro.forEach(ri=>{
     const el=document.createElement('div');el.className='mi';el.textContent=m.right[ri];el.dataset.ri=ri;
     el.addEventListener('click',()=>{
-      if(selLeft===null||el.classList.contains('correct')||el.classList.contains('wrong')||challengeAnswered)return;
+      if(selLeft===null||el.classList.contains('correct')||el.classList.contains('wrong')||challengeAnswered||matchFailed)return;
       const cor=m.pairs[selLeft],sEl=document.querySelector('.mi[data-li="'+selLeft+'"]');
+
       if(ri===cor){
         el.classList.add('correct');if(sEl)sEl.classList.add('correct');
         matched.push(selLeft);confetti();
+        selLeft=null;document.querySelectorAll('.mi[data-li]').forEach(x=>x.classList.remove('sel'));
         if(matched.length===m.left.length){
           challengeAnswered=true;stopTimer();document.getElementById('timerWrap').style.display='none';
-          showFb(true,m.explanation);addPts(calcPts());playSuccess();checkInGameBadges();doneChallenge();
+          if(matchErrors===0){
+            showFb(true,m.explanation);addPts(calcPts());playSuccess();
+            registerCorrect();checkInGameBadges();
+          } else {
+            // All matched but with errors — partial
+            showFb(false,'Tu as fini mais avec des erreurs. '+m.explanation);playWrong();
+          }
+          doneChallenge();
         }
       } else {
+        // WRONG association — immediately fail the match question
+        matchFailed=true;
+        challengeAnswered=true;
+        stopTimer();
+        document.getElementById('timerWrap').style.display='none';
         el.classList.add('wrong');if(sEl)sEl.classList.add('wrong');
-        setTimeout(()=>{el.classList.remove('wrong');if(sEl)sEl.classList.remove('wrong','sel');},700);
-        showFb(false,'Pas tout à fait… Essaie encore !');playWrong();packErrors++;
+        packErrors++;matchErrors++;
+        registerError();
+        // Disable all remaining items
+        document.querySelectorAll('.mi').forEach(x=>{
+          if(!x.classList.contains('correct')&&!x.classList.contains('wrong')){
+            x.classList.add('disabled');
+          }
+        });
+        selLeft=null;
+        showFb(false,'❌ Erreur ! Mauvaise association. '+m.explanation);
+        playWrong();
+        doneChallenge();
       }
-      selLeft=null;document.querySelectorAll('.mi[data-li]').forEach(x=>x.classList.remove('sel'));
     });
     rc.appendChild(el);
   });
@@ -1296,13 +1324,14 @@ function buildMatch(m,c){
 
 function calcPts(){const r=timerLeft/timerMax;return r>0.6?15:r>0.3?10:5;}
 function showFb(ok,msg){const fb=document.getElementById('fbBar');fb.className='fb show '+(ok?'good':'bad');fb.innerHTML=(ok?'🎉 ':'💡 ')+msg;}
-function addPts(n){score+=n;document.getElementById('scoreDisp').textContent=score;confetti();}
+function addPts(n){score+=n;document.getElementById('scoreDisp').textContent=score;confetti();updateGlobalScore();}
 
 function doneChallenge(){
   if(!completed.includes(curQ))completed.push(curQ);
-  updateProg();drawWheel(angle);saveProgress();
+  updateProg();drawWheel(angle);saveProgress();buildGlobalScoreBar();
   const nb=document.getElementById('nxtBtn');nb.className='nxtbtn show';
   if(completed.length===questions.length)nb.textContent='🏆 VOIR MON SCORE FINAL';
+  else nb.textContent='DÉFI SUIVANT →';
 }
 
 function nextChallenge(){
@@ -1312,12 +1341,46 @@ function nextChallenge(){
   document.getElementById('timerWrap').style.display='none';
   document.getElementById('metierBox').innerHTML='<div class="mh">Tourne la roue pour le prochain défi !</div>';
   document.getElementById('spinBtn').disabled=false;
-  // Scroll back to wheel on mobile
   if(window.innerWidth<=640){
-    setTimeout(()=>{
-      document.getElementById('wcanvas').scrollIntoView({behavior:'smooth',block:'center'});
-    },100);
+    setTimeout(()=>{document.getElementById('wcanvas').scrollIntoView({behavior:'smooth',block:'center'});},100);
   }
+}
+
+// ═══════════════════════════════════
+// SHARE FUNCTIONS
+// ═══════════════════════════════════
+function buildShareButtons(finalScore,packLabel){
+  const gameUrl='https://btp-cfa-cvdl.fr'; // replace with actual URL
+  const msg=encodeURIComponent('🏆 J\'ai fait '+finalScore+' pts sur La Roue des Métiers BTP CFA CVDL (pack '+packLabel+') ! Tente ta chance : '+gameUrl+' #BTPCFA #MétiersBTP');
+  const msgWa=encodeURIComponent('🏆 J\'ai fait '+finalScore+' pts sur La Roue des Métiers BTP CFA CVDL ! Pack : '+packLabel+'. Essaie : '+gameUrl);
+  const fbUrl=encodeURIComponent(gameUrl);
+
+  const row=document.getElementById('shareRow');
+  row.innerHTML='';
+
+  const btns=[
+    {cls:'share-btn share-btn-tw',icon:'𝕏',label:'Twitter / X',href:'https://twitter.com/intent/tweet?text='+msg},
+    {cls:'share-btn share-btn-fb',icon:'f',label:'Facebook',href:'https://www.facebook.com/sharer/sharer.php?u='+fbUrl+'&quote='+msg},
+    {cls:'share-btn share-btn-wa',icon:'💬',label:'WhatsApp',href:'https://wa.me/?text='+msgWa},
+  ];
+
+  btns.forEach(b=>{
+    const a=document.createElement('a');
+    a.className=b.cls;a.href=b.href;a.target='_blank';a.rel='noopener';
+    a.innerHTML=b.icon+' '+b.label;
+    row.appendChild(a);
+  });
+
+  // Copy link button
+  const cpBtn=document.createElement('button');
+  cpBtn.className='share-btn share-btn-cp';
+  cpBtn.innerHTML='🔗 Copier le lien';
+  cpBtn.addEventListener('click',()=>{
+    const text='🏆 '+finalScore+' pts sur La Roue des Métiers BTP CFA CVDL ! '+gameUrl;
+    if(navigator.clipboard){navigator.clipboard.writeText(text).then(()=>toast('✅ Lien copié !')).catch(()=>toast('❌ Impossible de copier'));}
+    else{toast('ℹ️ Partage manuel : '+gameUrl);}
+  });
+  row.appendChild(cpBtn);
 }
 
 // ═══════════════════════════════════
@@ -1330,28 +1393,42 @@ async function endGame(){
   if(packErrors===0)awardBadge('perfect_pack');
   awardBadge('full_pack');
   if(dur<180)awardBadge('quick_finish');
-  await addToLB({packId:currentPack.id,packLabel:currentPack.label,score,dur,completed:questions.length});
-  clearProgress(currentPack.id);
-  document.getElementById('tScore').textContent=score+' pts';
-  document.getElementById('tStats').textContent=questions.length+' défis  ·  '+(min>0?min+'min ':'')+sec+'s  ·  '+packErrors+' erreur(s)';
+  if(timerModeSecs===5)awardBadge('eclair_mode');
+
+  const totalScore=updateGlobalScore();
+  await addToLB({packId:currentPack.id,packLabel:currentPack.label,score:totalScore,dur,completed:questions.length});
+
+  // Check for unlocks
+  checkAndUnlockPacks();
+  buildPackBar();
+
+  document.getElementById('tScore').textContent=totalScore+' pts (dont '+score+' ce pack)';
+  document.getElementById('tStats').textContent=questions.length+' défis  ·  '+(min>0?min+'min ':'')+sec+'s  ·  '+packErrors+' erreur(s)  ·  Mode '+timerModeSecs+'s';
   document.getElementById('badgePanelTrophy').innerHTML=renderBadgePanel();
+  buildShareButtons(totalScore,currentPack.label);
+
   const banner=document.getElementById('packCompleteBanner');
-  document.getElementById('packCompleteMsg').textContent='Score final : '+score+' pts — '+questions.length+'/'+questions.length+' défis en '+(min>0?min+'min ':'')+sec+'s !';
+  document.getElementById('packCompleteMsg').textContent='Score ce pack : '+score+' pts — Score total : '+totalScore+' pts !';
   const btns=document.getElementById('nextPackBtns');btns.innerHTML='';
-  PACKS.filter(p=>p.unlocked&&p.id!==currentPack.id&&p.questions.length>0).forEach(p=>{
-    const b=document.createElement('button');b.className='npbtn';b.textContent='Jouer '+p.label;
+
+  // Offer next non-completed packs
+  PACKS.filter(p=>p.unlocked&&p.id!==currentPack.id&&p.questions.length>0&&!isPackFullyCompleted(p.id)).forEach(p=>{
+    const b=document.createElement('button');b.className='npbtn';b.textContent='▶ '+p.label;
     b.addEventListener('click',()=>{banner.className='pack-complete';initPack(p);});btns.appendChild(b);
   });
-  const br=document.createElement('button');br.className='npbtn';br.style.borderColor='#555';br.textContent='🔄 Rejouer';
-  br.addEventListener('click',()=>{banner.className='pack-complete';initPack(currentPack);});btns.appendChild(br);
-  banner.className='pack-complete show';
-  document.getElementById('chContent').style.display='none';
-  document.getElementById('idleMsg').style.display='none';
-  document.getElementById('spinBtn').disabled=true;
+
+  // Show trophy screen
+  show('sTrophy');
   confetti();setTimeout(confetti,600);setTimeout(confetti,1200);
 }
 
-function restartGame(){show('sGame');initPack(currentPack);}
+function restartGame(){
+  // Only clear current pack progress and restart game screen
+  clearProgress(currentPack.id);
+  score=0;completed=[];angle=0;consecutiveErrors=0;
+  show('sGame');
+  initPack(currentPack);
+}
 
 // ═══════════════════════════════════
 // LEADERBOARD
@@ -1366,9 +1443,8 @@ async function buildLB(filter){
     const t=document.createElement('div');t.className='lb-tab'+(f.id===filter?' active':'');
     t.textContent=f.label;t.addEventListener('click',()=>buildLB(f.id));tabs.appendChild(t);
   });
-  // Affiche un loader pendant le chargement
   const list=document.getElementById('lbList');
-  list.innerHTML='<div class="lb-empty" style="color:#555;">⏳ Chargement du classement…</div>';
+  list.innerHTML='<div class="lb-empty" style="color:#555;">⏳ Chargement…</div>';
   let rows=await getLB();
   if(filter!=='all')rows=rows.filter(e=>e.pack_id===filter);
   rows.sort((a,b)=>b.score-a.score);
@@ -1423,23 +1499,20 @@ function toast(msg){
 // INIT
 // ═══════════════════════════════════
 window.addEventListener('load',function(){
-  // Popup formulaire
+  // Popup
   document.getElementById('popupFormBtn').addEventListener('click',()=>{
-    // Ouvre le formulaire dans un nouvel onglet, puis ferme le popup après 1s
     setTimeout(()=>document.getElementById('popupFormulaire').classList.add('hidden'),800);
   });
   document.getElementById('popupSkipBtn').addEventListener('click',()=>{
     document.getElementById('popupFormulaire').classList.add('hidden');
   });
 
-  // Boutons réseaux sociaux (depuis trophy)
-  document.getElementById('reseauxBtn').addEventListener('click',()=>show('sReseaux'));
-  document.getElementById('reseauxReplayBtn').addEventListener('click',restartGame);
-  document.getElementById('reseauxLbBtn').addEventListener('click',showLB);
-  // Boutons réseaux (header + bannière — accessibles pendant le jeu)
-  document.getElementById('reseauxBtnHeader').addEventListener('click',()=>show('sReseaux'));
-  document.getElementById('reseauxBtnBanner').addEventListener('click',()=>show('sReseaux'));
+  // Timer mode chips
+  document.querySelectorAll('.mode-chip').forEach(c=>{
+    c.addEventListener('click',()=>setTimerMode(parseInt(c.dataset.seconds)));
+  });
 
+  // Auth
   document.getElementById('tabLogin').addEventListener('click',()=>switchAuthTab('login'));
   document.getElementById('tabRegister').addEventListener('click',()=>switchAuthTab('register'));
   document.getElementById('loginBtn').addEventListener('click',doLogin);
@@ -1447,15 +1520,29 @@ window.addEventListener('load',function(){
   document.getElementById('guestBtn').addEventListener('click',doGuest);
   ['loginName','loginPin'].forEach(id=>document.getElementById(id).addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();}));
   ['regName','regPin','regPin2'].forEach(id=>document.getElementById(id).addEventListener('keydown',e=>{if(e.key==='Enter')doRegister();}));
+
+  // Game
   document.getElementById('spinBtn').addEventListener('click',spinWheel);
   document.getElementById('lbBtn').addEventListener('click',showLB);
   document.getElementById('logoutBtn').addEventListener('click',doLogout);
   document.getElementById('resumeBtn').addEventListener('click',resumeSession);
   document.getElementById('freshBtn').addEventListener('click',freshStart);
   document.getElementById('nxtBtn').addEventListener('click',nextChallenge);
+
+  // LB
   document.getElementById('lbBackBtn').addEventListener('click',()=>show('sGame'));
+
+  // Trophy
   document.getElementById('replayBtn').addEventListener('click',restartGame);
   document.getElementById('lbTrophyBtn').addEventListener('click',showLB);
+  document.getElementById('reseauxBtn').addEventListener('click',()=>show('sReseaux'));
+
+  // Réseaux
+  document.getElementById('reseauxBtnHeader').addEventListener('click',()=>show('sReseaux'));
+  document.getElementById('reseauxBtnBanner').addEventListener('click',()=>show('sReseaux'));
+  document.getElementById('reseauxReplayBtn').addEventListener('click',restartGame);
+  document.getElementById('reseauxLbBtn').addEventListener('click',showLB);
+
   drawWheel(0);
 });
 </script>
