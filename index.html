@@ -266,10 +266,22 @@ header{background:var(--bk);border-bottom:3px solid var(--y);padding:10px 20px;d
 .unlock-banner p{font-size:.8rem;color:var(--gr);}
 
 /* ── SOCIAL BANNER ── */
-.social-banner{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 20px;background:linear-gradient(90deg,#1a0a2e,#2d0a0a,#1a1700);border-bottom:2px solid rgba(255,235,0,.25);flex-shrink:0;flex-wrap:wrap;}
-.social-banner-txt{font-family:'Barlow Condensed',sans-serif;font-size:.78rem;letter-spacing:2px;color:#bbb;text-transform:uppercase;}
-.social-banner-btn{background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);color:#fff;border:none;border-radius:50px;font-family:'Bebas Neue',sans-serif;font-size:.95rem;letter-spacing:2px;padding:7px 20px;cursor:pointer;white-space:nowrap;transition:opacity .2s,transform .2s;flex-shrink:0;}
-.social-banner-btn:hover{opacity:.85;transform:scale(1.03);}
+.social-banner{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 20px;background:linear-gradient(90deg,#1a0a2e,#2d0a0a,#1a1700);border-bottom:2px solid rgba(255,235,0,.25);flex-shrink:0;overflow-x:auto;}
+.social-banner::-webkit-scrollbar{height:0;}
+.social-banner-txt{font-family:'Barlow Condensed',sans-serif;font-size:.75rem;letter-spacing:2px;color:#bbb;text-transform:uppercase;white-space:nowrap;flex-shrink:0;}
+.social-banner-btn{background:rgba(255,235,0,.12);color:var(--y);border:1px solid rgba(255,235,0,.3);border-radius:50px;font-family:'Bebas Neue',sans-serif;font-size:.85rem;letter-spacing:2px;padding:5px 14px;cursor:pointer;white-space:nowrap;transition:all .2s;flex-shrink:0;}
+.social-banner-btn:hover{background:rgba(255,235,0,.2);border-color:var(--y);}
+.social-inline-btn{display:inline-flex;align-items:center;gap:5px;padding:5px 14px;border-radius:50px;font-family:'Bebas Neue',sans-serif;font-size:.82rem;letter-spacing:1.5px;cursor:pointer;text-decoration:none;transition:all .2s;white-space:nowrap;border:none;flex-shrink:0;}
+.social-inline-ig{background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);color:#fff;}
+.social-inline-ig:hover{opacity:.85;transform:translateY(-1px);}
+.social-inline-fb{background:#1877F2;color:#fff;}
+.social-inline-fb:hover{background:#1465d0;transform:translateY(-1px);}
+@media(max-width:640px){
+  .social-banner{padding:7px 12px;gap:7px;}
+  .social-banner-txt{display:none;}
+  .social-inline-btn{font-size:.74rem;padding:5px 10px;}
+  .social-banner-btn{font-size:.78rem;padding:5px 11px;}
+}
 
 /* ── POPUP ── */
 .popup-overlay{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:9000;display:flex;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(4px);}
@@ -464,10 +476,14 @@ header{background:var(--bk);border-bottom:3px solid var(--y);padding:10px 20px;d
     <span style="font-family:'Barlow Condensed';font-size:.68rem;color:#E74C3C;margin-left:6px;" id="penaltyInfo"></span>
   </div>
 
-  <!-- Social banner -->
+  <!-- Social banner — persistent during game -->
   <div class="social-banner" id="socialBannerGame">
     <span class="social-banner-txt">📱 Suivez le BTP CFA CVDL sur les réseaux !</span>
-    <button class="social-banner-btn" id="reseauxBtnBanner">SUIVEZ-NOUS →</button>
+    <div style="display:flex;gap:8px;align-items:center;flex-shrink:0;">
+      <a class="social-inline-btn social-inline-ig" href="https://www.instagram.com/btp.cfa.cvdl/" target="_blank" rel="noopener">📸 Instagram</a>
+      <a class="social-inline-btn social-inline-fb" href="https://www.facebook.com/BTPCFACENTRE/" target="_blank" rel="noopener">👍 Facebook</a>
+      <button class="social-banner-btn" id="reseauxBtnBanner">Tous les CFA →</button>
+    </div>
   </div>
 
   <!-- Unlock banner -->
@@ -514,6 +530,10 @@ header{background:var(--bk);border-bottom:3px solid var(--y);padding:10px 20px;d
         <h3>🏅 Pack terminé !</h3>
         <p id="packCompleteMsg"></p>
         <div class="next-pack-btns" id="nextPackBtns"></div>
+        <div style="display:flex;gap:10px;justify-content:center;margin-top:10px;flex-wrap:wrap;">
+          <button class="npbtn" id="continuePackBtn" style="background:var(--y);color:var(--bk);border-color:var(--y);">▶ CONTINUER</button>
+          <button class="npbtn" id="quitPackBtn" style="border-color:#555;color:#888;">⎋ Quitter</button>
+        </div>
       </div>
       <div class="ccard" id="ccard">
         <div class="idle-msg" id="idleMsg">
@@ -561,9 +581,10 @@ header{background:var(--bk);border-bottom:3px solid var(--y);padding:10px 20px;d
       <div class="share-row" id="shareRow"></div>
     </div>
     <div style="margin-top:12px;">
-      <button class="tbtn" id="replayBtn">🔄 REJOUER</button>
+      <button class="tbtn" id="replayBtn">▶ CONTINUER</button>
       <button class="tbtn2" id="lbTrophyBtn">🏆 CLASSEMENT</button>
       <button class="tbtn" id="reseauxBtn" style="background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);border-color:transparent;color:#fff;margin-top:8px;">📱 SUIVEZ-NOUS !</button>
+      <br><button class="tbtn2" id="quitTrophyBtn" style="margin-top:8px;">⎋ Quitter le jeu</button>
     </div>
   </div>
 </div>
@@ -937,9 +958,13 @@ function renderBadgePanel(){
 // PACK UNLOCK LOGIC
 // ═══════════════════════════════════
 function isPackFullyCompleted(packId){
-  // Check locally
   const p=PACKS.find(x=>x.id===packId);
-  if(!p)return false;
+  if(!p||!p.questions.length)return false;
+  // Check live state for current pack
+  if(packId===currentPack.id){
+    return completed.length>=p.questions.length;
+  }
+  // Check saved state for other packs
   const saved=loadProgress(packId);
   if(!saved)return false;
   return saved.completed&&saved.completed.length>=p.questions.length;
@@ -1563,12 +1588,23 @@ async function endGame(){
   confetti();setTimeout(confetti,600);setTimeout(confetti,1200);
 }
 
-function restartGame(){
-  // Only clear current pack progress and restart game screen
-  clearProgress(currentPack.id);
-  score=0;completed=[];angle=0;consecutiveErrors=0;
+function continueGame(){
+  // Go to the next non-completed unlocked pack, or back to game screen
+  const next=PACKS.find(p=>p.unlocked&&p.questions.length>0&&!isPackFullyCompleted(p.id));
   show('sGame');
-  initPack(currentPack);
+  if(next){
+    initPack(next);
+  } else {
+    // All packs done — just go back to game
+    initPack(currentPack);
+  }
+}
+
+function quitGame(){
+  if(confirm('Quitter ? Ta progression est sauvegardée.')){
+    currentUser=null;
+    show('sLogin');
+  }
 }
 
 // ═══════════════════════════════════
@@ -1674,14 +1710,22 @@ window.addEventListener('load',function(){
   document.getElementById('lbBackBtn').addEventListener('click',()=>show('sGame'));
 
   // Trophy
-  document.getElementById('replayBtn').addEventListener('click',restartGame);
+  document.getElementById('replayBtn').addEventListener('click',continueGame);
   document.getElementById('lbTrophyBtn').addEventListener('click',showLB);
   document.getElementById('reseauxBtn').addEventListener('click',()=>show('sReseaux'));
+  document.getElementById('quitTrophyBtn').addEventListener('click',quitGame);
+
+  // Pack complete banner buttons
+  document.getElementById('continuePackBtn').addEventListener('click',()=>{
+    document.getElementById('packCompleteBanner').className='pack-complete';
+    continueGame();
+  });
+  document.getElementById('quitPackBtn').addEventListener('click',quitGame);
 
   // Réseaux
   document.getElementById('reseauxBtnHeader').addEventListener('click',()=>show('sReseaux'));
   document.getElementById('reseauxBtnBanner').addEventListener('click',()=>show('sReseaux'));
-  document.getElementById('reseauxReplayBtn').addEventListener('click',restartGame);
+  document.getElementById('reseauxReplayBtn').addEventListener('click',continueGame);
   document.getElementById('reseauxLbBtn').addEventListener('click',showLB);
 
   drawWheel(0);
