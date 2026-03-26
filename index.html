@@ -70,7 +70,8 @@ header{background:var(--bk);border-bottom:3px solid var(--y);padding:10px 20px;d
 .pack-chip:hover:not(.locked){border-color:#555;color:var(--w);}
 .pack-chip.active{border-color:var(--y);color:var(--y);background:rgba(255,235,0,.08);}
 .pack-chip.locked{opacity:.45;cursor:default;}
-.pack-chip.completed{border-color:#2ECC71;color:#2ECC71;}
+.pack-chip.completed{border-color:#2ECC71;color:#2ECC71;background:rgba(46,204,113,.08);cursor:default;}
+.pack-chip.completed:hover{border-color:#2ECC71;color:#2ECC71;}
 
 /* ── MODE BAR ── */
 .mode-bar{display:flex;align-items:center;gap:8px;padding:7px 20px;background:#080808;border-bottom:1px solid #161616;flex-shrink:0;overflow-x:auto;}
@@ -789,7 +790,8 @@ function gKey(){return currentUser&&!currentUser.isGuest?'btpcfa_global_'+curren
 
 function saveProgress(){
   const k=pKey(currentPack.id);
-  if(k)LS.set(k,{completed,score,angle,ts:Date.now()});
+  const isDone=completed.length>=questions.length&&questions.length>0;
+  if(k)LS.set(k,{completed,score,angle,ts:Date.now(),done:isDone});
   // Save global
   const gk=gKey();
   if(gk){
@@ -957,17 +959,28 @@ function renderBadgePanel(){
 // ═══════════════════════════════════
 // PACK UNLOCK LOGIC
 // ═══════════════════════════════════
+// Returns true if the pack is 100% done (uses done flag in save, or live state for current pack)
 function isPackFullyCompleted(packId){
   const p=PACKS.find(x=>x.id===packId);
   if(!p||!p.questions.length)return false;
-  // Check live state for current pack
-  if(packId===currentPack.id){
+  // Live check for current active pack
+  if(packId===currentPack.id&&completed.length>0){
     return completed.length>=p.questions.length;
   }
-  // Check saved state for other packs
+  // Saved check — rely on the done:true flag written by saveProgress
   const saved=loadProgress(packId);
   if(!saved)return false;
-  return saved.completed&&saved.completed.length>=p.questions.length;
+  // Support both the new done flag and old completed-length check for backwards compat
+  return saved.done===true||(saved.completed&&saved.completed.length>=p.questions.length);
+}
+
+// Strict saved-only check (used by initPack to block replay on load)
+function isPackSavedCompleted(packId){
+  const p=PACKS.find(x=>x.id===packId);
+  if(!p||!p.questions.length)return false;
+  const saved=loadProgress(packId);
+  if(!saved)return false;
+  return saved.done===true||(saved.completed&&saved.completed.length>=p.questions.length);
 }
 
 function checkAndUnlockPacks(){
@@ -999,18 +1012,18 @@ function buildGlobalScoreBar(){
   bar.innerHTML='';
   let total=0;
   PACKS.filter(p=>p.unlocked&&p.questions.length>0).forEach(p=>{
-    const saved=loadProgress(p.id);
-    const pts=saved?saved.score:0;
-    const done=saved&&saved.completed?saved.completed.length:0;
+    // Use live score for current pack, saved score for others
+    const pts=p.id===currentPack.id ? score : (()=>{const s=loadProgress(p.id);return s?s.score:0;})();
+    const done=p.id===currentPack.id ? completed.length : (()=>{const s=loadProgress(p.id);return s&&s.completed?s.completed.length:0;})();
     total+=pts;
     const item=document.createElement('div');
     item.className='gs-item'+(p.id===currentPack.id?' active':'');
+    const isFinished=isPackFullyCompleted(p.id);
     item.innerHTML='<span class="gs-icon">'+p.label.split(' ')[0]+'</span>'
-      +'<span style="font-size:.72rem;letter-spacing:1px;color:#555;">'+(done>0?done+'/'+p.questions.length+' ✓':'En attente')+'</span>'
+      +'<span style="font-size:.72rem;letter-spacing:1px;color:'+(isFinished?'#2ECC71':'#555')+';">'+(done>0?done+'/'+p.questions.length+(isFinished?' ✓':''):'En attente')+'</span>'
       +'<span class="gs-pts">+'+pts+'</span>';
     bar.appendChild(item);
   });
-  // Add current pack live score
   const totalEl=document.createElement('div');
   totalEl.innerHTML='<span class="gs-total-label">TOTAL</span><span class="gs-total" id="globalScoreNum">'+total+'</span>';
   bar.appendChild(totalEl);
@@ -1038,18 +1051,18 @@ function updateGlobalScore(){
 function buildPackBar(){
   const bar=document.getElementById('packBar');bar.innerHTML='';
   PACKS.forEach(p=>{
-    const saved=loadProgress(p.id);
-    const isCompleted=saved&&saved.completed&&saved.completed.length>=p.questions.length&&p.questions.length>0;
+    // Use isPackFullyCompleted which correctly checks live state for current pack
+    // and saved state for others
+    const isCompleted=isPackFullyCompleted(p.id);
     let cls='pack-chip';
     if(p.id===currentPack.id)cls+=' active';
     if(!p.unlocked)cls+=' locked';
     if(isCompleted&&p.id!==currentPack.id)cls+=' completed';
     const c=document.createElement('div');
     c.className=cls;
-    c.textContent=p.label+(p.unlocked?'':(p.questions.length===0?'  🔒':'  🔒'))+(isCompleted?' ✓':'');
+    c.textContent=p.label+(p.unlocked?'':'  🔒')+(isCompleted?' ✓':'');
     if(p.unlocked&&p.questions.length>0)c.addEventListener('click',()=>{
       if(p.id===currentPack.id)return;
-      // Check if pack is already fully completed — block switching back to replay it
       if(isCompleted){
         toast('✅ Ce pack est déjà terminé ! Continue sur un autre pack.');
         return;
@@ -1060,17 +1073,23 @@ function buildPackBar(){
   });
 }
 
+function isPackSavedCompleted(packId){
+  const p=PACKS.find(x=>x.id===packId);
+  if(!p||!p.questions.length)return false;
+  const saved=loadProgress(packId);
+  if(!saved)return false;
+  // Accept either the explicit done flag OR a full completed array (backwards compat)
+  return saved.done===true||(saved.completed&&saved.completed.length>=p.questions.length);
+}
+
 function initPack(p){
   stopTimer();
   currentPack=p;
-  
-  // Check if pack already fully completed — prevent replay
-  const existing=loadProgress(p.id);
-  const alreadyDone=existing&&existing.completed&&existing.completed.length>=p.questions.length&&p.questions.length>0;
-  if(alreadyDone){
-    toast('✅ Pack "'+p.label+'" déjà complété ! Choisis un autre pack.');
-    // Find first non-completed unlocked pack
-    const next=PACKS.find(x=>x.unlocked&&x.questions.length>0&&x.id!==p.id&&!isPackFullyCompleted(x.id));
+
+  // Check saved-only completion flag — prevents replaying a finished pack
+  if(isPackSavedCompleted(p.id)){
+    toast('✅ Pack "'+p.label+'" déjà terminé ! Choisis un autre pack.');
+    const next=PACKS.find(x=>x.unlocked&&x.questions.length>0&&x.id!==p.id&&!isPackSavedCompleted(x.id));
     if(next){initPack(next);}
     return;
   }
@@ -1082,9 +1101,9 @@ function initPack(p){
   consecutiveErrors=0;
   updatePenaltyUI();
 
-  // Load saved progress for this pack
+  // Load saved partial progress for this pack
+  const existing=loadProgress(p.id);
   if(existing&&existing.completed&&existing.completed.length>0){
-    // Restore from save
     completed=existing.completed||[];
     score=existing.score||0;
     angle=existing.angle||0;
@@ -1100,12 +1119,12 @@ function initPack(p){
   document.getElementById('resumeBanner').className='resume-banner';
   buildPackBar();
   updateProg();
-  drawWheel(angle);
+  if(questions.length>0)drawWheel(angle);
   buildGlobalScoreBar();
 
   if(!p.unlocked||!p.questions.length)return;
 
-  // Show resume if partial progress
+  // Show resume banner if partial progress
   if(existing&&existing.completed&&existing.completed.length>0&&existing.completed.length<p.questions.length){
     document.getElementById('resumeDesc').textContent=existing.completed.length+'/'+p.questions.length+' défis — Score: '+existing.score+' pts';
     document.getElementById('resumeBanner').className='resume-banner show';
@@ -1132,7 +1151,23 @@ function freshStart(){
 // ═══════════════════════════════════
 function drawWheel(rot){
   ctx.clearRect(0,0,W,H);
-  const cx=W/2,cy=H/2,r=W/2-6,N=questions.length,arc=(2*Math.PI)/N;
+  const cx=W/2,cy=H/2,r=W/2-6;
+
+  // Guard: if no questions yet, draw a decorative placeholder wheel
+  if(!questions||questions.length===0){
+    ctx.beginPath();ctx.arc(cx,cy,r,0,2*Math.PI);
+    ctx.fillStyle='#111';ctx.fill();
+    ctx.strokeStyle='rgba(255,235,0,.4)';ctx.lineWidth=5;ctx.stroke();
+    ctx.beginPath();ctx.arc(cx,cy,32,0,2*Math.PI);
+    ctx.fillStyle='#0A0A0A';ctx.fill();
+    ctx.strokeStyle='rgba(255,235,0,.5)';ctx.lineWidth=3;ctx.stroke();
+    ctx.font='bold 18px Arial';ctx.fillStyle='rgba(255,235,0,.3)';
+    ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText('BTP CFA',cx,cy);
+    return;
+  }
+
+  const N=questions.length,arc=(2*Math.PI)/N;
   for(let i=0;i<N;i++){
     const sa=rot+i*arc-Math.PI/2,ea=sa+arc;
     const m=questions[i],col=SCOLS[m.sIdx],done=completed.includes(i);
@@ -1578,7 +1613,7 @@ async function endGame(){
   const btns=document.getElementById('nextPackBtns');btns.innerHTML='';
 
   // Offer next non-completed packs
-  PACKS.filter(p=>p.unlocked&&p.id!==currentPack.id&&p.questions.length>0&&!isPackFullyCompleted(p.id)).forEach(p=>{
+  PACKS.filter(p=>p.unlocked&&p.id!==currentPack.id&&p.questions.length>0&&!isPackSavedCompleted(p.id)).forEach(p=>{
     const b=document.createElement('button');b.className='npbtn';b.textContent='▶ '+p.label;
     b.addEventListener('click',()=>{banner.className='pack-complete';initPack(p);});btns.appendChild(b);
   });
@@ -1590,13 +1625,19 @@ async function endGame(){
 
 function continueGame(){
   // Go to the next non-completed unlocked pack, or back to game screen
-  const next=PACKS.find(p=>p.unlocked&&p.questions.length>0&&!isPackFullyCompleted(p.id));
+  const next=PACKS.find(p=>p.unlocked&&p.questions.length>0&&!isPackSavedCompleted(p.id));
   show('sGame');
   if(next){
     initPack(next);
   } else {
-    // All packs done — just go back to game
-    initPack(currentPack);
+    // All packs done — show game screen at rest state
+    buildPackBar();
+    buildGlobalScoreBar();
+    document.getElementById('idleMsg').style.display='flex';
+    document.getElementById('chContent').style.display='none';
+    document.getElementById('packCompleteBanner').className='pack-complete';
+    document.getElementById('spinBtn').disabled=true;
+    document.getElementById('metierBox').innerHTML='<div class="mh">🎉 Tous les packs terminés !</div>';
   }
 }
 
