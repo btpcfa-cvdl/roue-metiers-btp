@@ -212,6 +212,8 @@ header{background:var(--bk);border-bottom:3px solid var(--y);padding:10px 20px;d
 .share-btn-fb:hover{background:#1465d0;}
 .share-btn-wa{background:#25D366;color:#fff;}
 .share-btn-wa:hover{background:#20b858;}
+.share-btn-ig{background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);color:#fff;border:none;}
+.share-btn-ig:hover{opacity:.85;}
 .share-btn-cp{background:#333;color:var(--y);border:2px solid #444;}
 .share-btn-cp:hover{border-color:var(--y);}
 .share-title{font-family:'Bebas Neue',sans-serif;font-size:1rem;color:var(--gr);letter-spacing:2px;text-align:center;margin-bottom:8px;text-transform:uppercase;}
@@ -1196,7 +1198,7 @@ function onTimeout(){
   document.querySelectorAll('.mcq-btn').forEach(b=>b.disabled=true);
   document.querySelectorAll('.mi').forEach(b=>b.style.pointerEvents='none');
   const m=questions[curQ];
-  if(m.type==='mcq'){const bs=document.querySelectorAll('.mcq-btn');if(bs[m.correct])bs[m.correct].classList.add('correct');}
+  if(m.type==='mcq'){const bs=document.querySelectorAll('.mcq-btn');if(bs[currentCorrectPos])bs[currentCorrectPos].classList.add('correct');}
   showFb(false,'⏱️ Temps écoulé ! '+m.explanation);
   const card=document.getElementById('ccard'),fl=document.createElement('div');
   fl.className='timeout-flash';card.style.position='relative';card.appendChild(fl);setTimeout(()=>fl.remove(),500);
@@ -1232,20 +1234,41 @@ function calcPtsForTimer(currentT,baseT){
   if(ratio>0.6)return 15;if(ratio>0.3)return 10;return 5;
 }
 
+let currentCorrectPos=-1; // shuffled position of correct answer for current MCQ
+
+function shuffleArray(arr){
+  const a=[...arr];
+  for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
+  return a;
+}
+
 function buildMCQ(m,c){
   const d=document.createElement('div');d.className='mcq-opts';
-  m.options.forEach((o,i)=>{
+
+  // Shuffle indices, retrying until correct answer is NOT at its original position
+  let indices=m.options.map((_,i)=>i);
+  let attempts=0;
+  do {
+    indices=shuffleArray(indices);
+    attempts++;
+  } while(indices.indexOf(m.correct)===m.correct && attempts<15);
+
+  const newCorrectPos=indices.indexOf(m.correct);
+  currentCorrectPos=newCorrectPos;
+
+  indices.forEach((origIdx,pos)=>{
     const b=document.createElement('button');b.className='mcq-btn';
-    b.innerHTML='<strong style="color:var(--y);margin-right:8px;">'+String.fromCharCode(65+i)+'.</strong>'+o;
+    b.innerHTML='<strong style="color:var(--y);margin-right:8px;">'+String.fromCharCode(65+pos)+'.</strong>'+m.options[origIdx];
     b.addEventListener('click',()=>{
       if(challengeAnswered)return;challengeAnswered=true;stopTimer();
       document.getElementById('timerWrap').style.display='none';
       d.querySelectorAll('.mcq-btn').forEach(x=>x.disabled=true);
-      if(i===m.correct){
+      if(pos===newCorrectPos){
         b.classList.add('correct');showFb(true,m.explanation);addPts(calcPts());playSuccess();
         registerCorrect();checkInGameBadges();
       } else {
-        b.classList.add('wrong');d.querySelectorAll('.mcq-btn')[m.correct].classList.add('correct');
+        b.classList.add('wrong');
+        d.querySelectorAll('.mcq-btn')[newCorrectPos].classList.add('correct');
         showFb(false,m.explanation);playWrong();packErrors++;
         registerError();
       }
@@ -1349,38 +1372,156 @@ function nextChallenge(){
 // ═══════════════════════════════════
 // SHARE FUNCTIONS
 // ═══════════════════════════════════
-function buildShareButtons(finalScore,packLabel){
-  const gameUrl='https://btp-cfa-cvdl.fr'; // replace with actual URL
-  const msg=encodeURIComponent('🏆 J\'ai fait '+finalScore+' pts sur La Roue des Métiers BTP CFA CVDL (pack '+packLabel+') ! Tente ta chance : '+gameUrl+' #BTPCFA #MétiersBTP');
-  const msgWa=encodeURIComponent('🏆 J\'ai fait '+finalScore+' pts sur La Roue des Métiers BTP CFA CVDL ! Pack : '+packLabel+'. Essaie : '+gameUrl);
-  const fbUrl=encodeURIComponent(gameUrl);
+
+// Generate a score card image via an offscreen canvas, returns a data URL
+function generateScoreImage(finalScore, packLabel, userName){
+  const W=600, H=340;
+  const oc=document.createElement('canvas');
+  oc.width=W; oc.height=H;
+  const c=oc.getContext('2d');
+
+  // Background
+  c.fillStyle='#0A0A0A';
+  c.fillRect(0,0,W,H);
+
+  // Yellow border
+  c.strokeStyle='#FFEB00';
+  c.lineWidth=4;
+  c.strokeRect(4,4,W-8,H-8);
+
+  // Inner accent line
+  c.strokeStyle='rgba(255,235,0,0.2)';
+  c.lineWidth=1;
+  c.strokeRect(14,14,W-28,H-28);
+
+  // BTP CFA label top-left
+  c.fillStyle='#FFEB00';
+  c.font='bold 13px Arial';
+  c.letterSpacing='3px';
+  c.fillText('BTP CFA CVDL', 30, 48);
+
+  // Trophy emoji (as text)
+  c.font='56px serif';
+  c.fillText('🏆', W/2-30, 110);
+
+  // Score
+  c.fillStyle='#FFEB00';
+  c.font='bold 72px Arial Black, Arial';
+  c.textAlign='center';
+  c.fillText(finalScore+' pts', W/2, 190);
+
+  // Player name
+  c.fillStyle='#ffffff';
+  c.font='bold 22px Arial';
+  c.fillText(userName || 'Joueur anonyme', W/2, 230);
+
+  // Pack label
+  c.fillStyle='#888888';
+  c.font='16px Arial';
+  c.fillText('Pack : '+packLabel, W/2, 260);
+
+  // Call to action
+  c.fillStyle='rgba(255,235,0,0.7)';
+  c.font='bold 14px Arial';
+  c.fillText('🎮 La Roue des Métiers — BTP CFA Centre-Val de Loire', W/2, 300);
+
+  // Hashtags
+  c.fillStyle='#555';
+  c.font='12px Arial';
+  c.fillText('#BTPCFA #MétiersBTP #Alternance', W/2, 322);
+
+  c.textAlign='left';
+  return oc.toDataURL('image/png');
+}
+
+async function downloadScoreCard(finalScore, packLabel){
+  const imgData=generateScoreImage(finalScore, packLabel, currentUser?.name);
+  const a=document.createElement('a');
+  a.href=imgData;
+  a.download='mon-score-btpcfa.png';
+  a.click();
+  toast('📥 Image téléchargée ! Partage-la sur Instagram ou Facebook.');
+}
+
+async function shareScoreNative(finalScore, packLabel){
+  const imgData=generateScoreImage(finalScore, packLabel, currentUser?.name);
+  // Convert data URL to blob
+  const res=await fetch(imgData);
+  const blob=await res.blob();
+  const file=new File([blob],'mon-score-btpcfa.png',{type:'image/png'});
+  const shareMsg='🏆 J\'ai fait '+finalScore+' pts sur La Roue des Métiers BTP CFA CVDL ('+packLabel+') ! #BTPCFA #MétiersBTP';
+  if(navigator.canShare&&navigator.canShare({files:[file]})){
+    try{
+      await navigator.share({files:[file],title:'Mon score BTP CFA CVDL',text:shareMsg});
+    }catch(e){
+      if(e.name!=='AbortError')downloadScoreCard(finalScore,packLabel);
+    }
+  } else {
+    downloadScoreCard(finalScore,packLabel);
+  }
+}
+
+function buildShareButtons(finalScore, packLabel){
+  const shareMsg=encodeURIComponent('🏆 J\'ai fait '+finalScore+' pts sur La Roue des Métiers BTP CFA CVDL ('+packLabel+') ! #BTPCFA #MétiersBTP #Alternance');
+  const msgWa=encodeURIComponent('🏆 J\'ai fait '+finalScore+' pts sur La Roue des Métiers BTP CFA CVDL ! Pack : '+packLabel+'. #BTPCFA');
+
+  // Preview the score card image in trophy screen
+  const imgData=generateScoreImage(finalScore, packLabel, currentUser?.name);
+  let previewEl=document.getElementById('scoreCardPreview');
+  if(!previewEl){
+    previewEl=document.createElement('div');
+    previewEl.id='scoreCardPreview';
+    previewEl.style.cssText='margin:10px auto;max-width:340px;border-radius:10px;overflow:hidden;border:2px solid rgba(255,235,0,0.3);';
+    const img=document.createElement('img');
+    img.style.cssText='width:100%;display:block;';
+    img.src=imgData;
+    previewEl.appendChild(img);
+    // Insert before share row
+    const shareRow=document.getElementById('shareRow');
+    shareRow.parentNode.insertBefore(previewEl, shareRow);
+  } else {
+    previewEl.querySelector('img').src=imgData;
+  }
 
   const row=document.getElementById('shareRow');
   row.innerHTML='';
 
-  const btns=[
-    {cls:'share-btn share-btn-tw',icon:'𝕏',label:'Twitter / X',href:'https://twitter.com/intent/tweet?text='+msg},
-    {cls:'share-btn share-btn-fb',icon:'f',label:'Facebook',href:'https://www.facebook.com/sharer/sharer.php?u='+fbUrl+'&quote='+msg},
-    {cls:'share-btn share-btn-wa',icon:'💬',label:'WhatsApp',href:'https://wa.me/?text='+msgWa},
-  ];
+  // Facebook share (opens sharer with message)
+  const fbUrl='https://www.facebook.com/BTPCFACENTRE/';
+  const fbBtn=document.createElement('a');
+  fbBtn.className='share-btn share-btn-fb';
+  fbBtn.href='https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(fbUrl)+'&quote='+shareMsg;
+  fbBtn.target='_blank'; fbBtn.rel='noopener';
+  fbBtn.innerHTML='👍 Facebook';
+  row.appendChild(fbBtn);
 
-  btns.forEach(b=>{
-    const a=document.createElement('a');
-    a.className=b.cls;a.href=b.href;a.target='_blank';a.rel='noopener';
-    a.innerHTML=b.icon+' '+b.label;
-    row.appendChild(a);
+  // Instagram: can't deep-link share directly — download image for manual post
+  const igBtn=document.createElement('button');
+  igBtn.className='share-btn share-btn-ig';
+  igBtn.innerHTML='📸 Instagram';
+  igBtn.addEventListener('click',()=>{
+    shareScoreNative(finalScore, packLabel);
+    // Also open Instagram after a short delay
+    setTimeout(()=>{
+      window.open('https://www.instagram.com/btp.cfa.cvdl/','_blank');
+    },1200);
   });
+  row.appendChild(igBtn);
 
-  // Copy link button
-  const cpBtn=document.createElement('button');
-  cpBtn.className='share-btn share-btn-cp';
-  cpBtn.innerHTML='🔗 Copier le lien';
-  cpBtn.addEventListener('click',()=>{
-    const text='🏆 '+finalScore+' pts sur La Roue des Métiers BTP CFA CVDL ! '+gameUrl;
-    if(navigator.clipboard){navigator.clipboard.writeText(text).then(()=>toast('✅ Lien copié !')).catch(()=>toast('❌ Impossible de copier'));}
-    else{toast('ℹ️ Partage manuel : '+gameUrl);}
-  });
-  row.appendChild(cpBtn);
+  // WhatsApp
+  const waBtn=document.createElement('a');
+  waBtn.className='share-btn share-btn-wa';
+  waBtn.href='https://wa.me/?text='+msgWa;
+  waBtn.target='_blank'; waBtn.rel='noopener';
+  waBtn.innerHTML='💬 WhatsApp';
+  row.appendChild(waBtn);
+
+  // Download card
+  const dlBtn=document.createElement('button');
+  dlBtn.className='share-btn share-btn-cp';
+  dlBtn.innerHTML='📥 Télécharger ma carte';
+  dlBtn.addEventListener('click',()=>downloadScoreCard(finalScore, packLabel));
+  row.appendChild(dlBtn);
 }
 
 // ═══════════════════════════════════
