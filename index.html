@@ -683,12 +683,11 @@ const SUPA_HEADERS={
 
 async function getLB(){
   try {
-    const params = new URLSearchParams({ order: 'score.desc', limit: '200' });
     const res = await fetch(
-      SUPA_URL + '/rest/v1/leaderboard?' + params.toString(),
+      SUPA_URL + '/rest/v1/leaderboard?order=score.desc&limit=200',
       { headers: SUPA_HEADERS }
     );
-    if(!res.ok) throw new Error('getLB failed: ' + res.status);
+    if(!res.ok) throw new Error('getLB failed');
     return await res.json();
   } catch(e) {
     console.warn('Supabase getLB error:', e);
