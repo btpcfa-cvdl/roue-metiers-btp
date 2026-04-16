@@ -674,6 +674,53 @@ const SUPA_HEADERS={
 };
 
 // ═══════════════════════════════════
+// SUPABASE API HELPERS
+// ═══════════════════════════════════
+async function getLB(){
+  try {
+    const res = await fetch(
+      SUPA_URL + '/rest/v1/leaderboard?order=score.desc&limit=200',
+      { headers: SUPA_HEADERS }
+    );
+    if(!res.ok) throw new Error('getLB failed');
+    return await res.json();
+  } catch(e) {
+    console.warn('Supabase getLB error:', e);
+    return [];
+  }
+}
+
+async function addToLB(e){
+  if(!e || !e.score) return;
+  if(currentUser?.isGuest) return;
+
+  try {
+    const payload = {
+      name: currentUser.name,
+      score: e.score,
+      pack_id: e.packId,
+      pack_label: e.packLabel,
+      dur: e.dur,
+      timer_mode: e.timerMode,
+      ts: Date.now()
+    };
+
+    const res = await fetch(
+      SUPA_URL + '/rest/v1/leaderboard',
+      {
+        method: 'POST',
+        headers: { ...SUPA_HEADERS, 'Prefer': 'return=minimal' },
+        body: JSON.stringify(payload)
+      }
+    );
+
+    if(!res.ok) throw new Error('addToLB failed');
+  } catch(err) {
+    console.warn('Supabase addToLB error:', err);
+  }
+}
+  
+// ═══════════════════════════════════
 // AUTH
 // ═══════════════════════════════════
 let currentUser=null;
