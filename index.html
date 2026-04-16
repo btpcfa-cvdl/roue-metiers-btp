@@ -703,7 +703,7 @@ function switchAuthTab(t){
   document.getElementById('registerForm').style.display=t==='register'?'block':'none';
 }
 
-function doRegister(){
+async function doRegister(){
   const name=document.getElementById('regName').value.trim();
   const pin=document.getElementById('regPin').value.trim();
   const pin2=document.getElementById('regPin2').value.trim();
@@ -712,25 +712,91 @@ function doRegister(){
   if(!name||name.length<2){err.textContent='Entre un prénom valide (2 caractères min).';err.className='err-box show';return;}
   if(!/^\d{4}$/.test(pin)){err.textContent='Le code PIN doit contenir exactement 4 chiffres.';err.className='err-box show';return;}
   if(pin!==pin2){err.textContent='Les deux codes PIN ne correspondent pas.';err.className='err-box show';return;}
-  const key='btpcfa_user_'+name.toLowerCase();
-  if(LS.get(key)){err.textContent='Ce prénom est déjà pris. Connecte-toi ou choisis un autre prénom.';err.className='err-box show';return;}
-  if(!LS.set(key,{name,pin,createdAt:Date.now()})){err.textContent='Impossible de sauvegarder. Vérifie les paramètres de ton navigateur.';err.className='err-box show';return;}
+
+  const btn=document.getElementById('registerBtn');
+  btn.disabled=true; btn.textContent='⏳ Inscription...';
+
+  try {
+    // Check if name already taken in Supabase
+    const checkRes=await fetch(SUPA_URL+'/rest/v1/users?name_lower=eq.'+encodeURIComponent(name.toLowerCase())+'&select=id',
+      {headers:SUPA_HEADERS});
+    const existing=await checkRes.json();
+    if(existing&&existing.length>0){
+      err.textContent='Ce prénom est déjà pris. Connecte-toi ou choisis un autre prénom.';
+      err.className='err-box show'; btn.disabled=false; btn.textContent='🚀 CRÉER MON COMPTE'; return;
+    }
+    // Insert new user
+    const insRes=await fetch(SUPA_URL+'/rest/v1/users',{
+      method:'POST',
+      headers:{...SUPA_HEADERS,'Prefer':'return=minimal'},
+      body:JSON.stringify({name:name,name_lower:name.toLowerCase(),pin:pin})
+    });
+    if(!insRes.ok){
+      const errBody=await insRes.text();
+      // Unique constraint violation = name taken
+      if(insRes.status===409||errBody.includes('unique')){
+        err.textContent='Ce prénom est déjà pris.';err.className='err-box show';
+        btn.disabled=false; btn.textContent='🚀 CRÉER MON COMPTE'; return;
+      }
+      throw new Error('insert failed: '+insRes.status+' '+errBody);
+    }
+  } catch(e) {
+    console.warn('Supabase register error:',e);
+    // Fallback: localStorage only (offline/network error)
+    const lsKey='btpcfa_user_'+name.toLowerCase();
+    if(LS.get(lsKey)){err.textContent='Ce prénom est déjà pris.';err.className='err-box show';btn.disabled=false;btn.textContent='🚀 CRÉER MON COMPTE';return;}
+    LS.set(lsKey,{name,pin,createdAt:Date.now()});
+    toast('⚠️ Compte créé en local (réseau indisponible).');
+    currentUser={name,pin}; btn.disabled=false; btn.textContent='🚀 CRÉER MON COMPTE';
+    startSession(); return;
+  }
+
+  // Also save locally for fast re-login
+  LS.set('btpcfa_user_'+name.toLowerCase(),{name,pin,createdAt:Date.now()});
   toast('🎉 Compte créé ! Bienvenue '+name+' !');
   currentUser={name,pin};
+  btn.disabled=false; btn.textContent='🚀 CRÉER MON COMPTE';
   startSession();
 }
 
-function doLogin(){
+async function doLogin(){
   const name=document.getElementById('loginName').value.trim();
   const pin=document.getElementById('loginPin').value.trim();
   const err=document.getElementById('loginErr');
   err.className='err-box';
   if(!name||!pin){err.textContent='Entre ton prénom et ton code PIN.';err.className='err-box show';return;}
-  const u=LS.get('btpcfa_user_'+name.toLowerCase());
-  if(!u){err.textContent='Prénom inconnu. Inscris-toi via l\'onglet Inscription !';err.className='err-box show';return;}
-  if(u.pin!==pin){err.textContent='Code PIN incorrect.';err.className='err-box show';return;}
-  currentUser={name:u.name,pin};
-  toast('👋 Bon retour '+u.name+' !');
+
+  const btn=document.getElementById('loginBtn');
+  btn.disabled=true; btn.textContent='⏳ Connexion...';
+
+  let found=null;
+
+  // Try Supabase first
+  try {
+    const res=await fetch(SUPA_URL+'/rest/v1/users?name_lower=eq.'+encodeURIComponent(name.toLowerCase())+'&select=name,pin',
+      {headers:SUPA_HEADERS});
+    const rows=await res.json();
+    if(rows&&rows.length>0) found=rows[0];
+  } catch(e) {
+    console.warn('Supabase login error:',e);
+  }
+
+  // Fallback: localStorage
+  if(!found){
+    const u=LS.get('btpcfa_user_'+name.toLowerCase());
+    if(u) found=u;
+  }
+
+  btn.disabled=false; btn.textContent='🎯 JOUER !';
+
+  if(!found){err.textContent='Prénom inconnu. Inscris-toi via l\'onglet Inscription !';err.className='err-box show';return;}
+  if(found.pin!==pin){err.textContent='Code PIN incorrect.';err.className='err-box show';return;}
+
+  // Sync locally for offline use
+  LS.set('btpcfa_user_'+name.toLowerCase(),{name:found.name||name,pin,createdAt:Date.now()});
+
+  currentUser={name:found.name||name,pin};
+  toast('👋 Bon retour '+currentUser.name+' !');
   startSession();
 }
 
