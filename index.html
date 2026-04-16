@@ -679,7 +679,7 @@ const SUPA_HEADERS={
 async function getLB(){
   try {
     const res = await fetch(
-      SUPA_URL + '/rest/v1/leaderboard?order=score.desc&limit=200',
+      SUPA_URL + '/rest/v1/leaderboard?order=score.desc&limit=200'
       { headers: SUPA_HEADERS }
     );
     if(!res.ok) throw new Error('getLB failed');
