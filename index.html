@@ -843,8 +843,8 @@ async function doLogin(){
 
   // Try Supabase first
   try {
-    const res=await fetch(SUPA_URL+'/rest/v1/users?name_lower=eq.'+encodeURIComponent(name.toLowerCase())+'&select=name,pin',
-      {headers:SUPA_HEADERS});
+   const res=await fetch(
+  SUPA_URL+'/rest/v1/users?name_lower=eq.'+encodeURIComponent(name.toLowerCase())+'&select=name,pin',{headers:SUPA_HEADERS});
     const rows=await res.json();
     if(rows&&rows.length>0) found=rows[0];
   } catch(e) {
