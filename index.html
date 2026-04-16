@@ -683,32 +683,44 @@ const SUPA_HEADERS={
 
 async function getLB(){
   try {
+    // BUG FIX — select=* explicite pour garantir que tous les champs sont retournés
+    // même si RLS ou schéma Supabase restreint les colonnes par défaut
+    const params = new URLSearchParams({
+      select: '*',
+      order: 'score.desc',
+      limit: '200'
+    });
     const res = await fetch(
-      SUPA_URL + '/rest/v1/leaderboard?order=score.desc&limit=200',
+      SUPA_URL + '/rest/v1/leaderboard?' + params.toString(),
       { headers: SUPA_HEADERS }
     );
-    if(!res.ok) throw new Error('getLB failed');
-    return await res.json();
+    if(!res.ok) throw new Error('getLB failed: ' + res.status);
+    const data = await res.json();
+    // Supabase retourne parfois un objet d'erreur au lieu d'un tableau
+    if(!Array.isArray(data)){console.warn('getLB unexpected response:', data);return [];}
+    return data;
   } catch(e) {
     console.warn('Supabase getLB error:', e);
     return [];
   }
 }
+
 async function addToLB(e){
+  // BUG FIX — guard utilisait !e.score qui bloque score=0 (falsy)
   if(!e || typeof e.score !== 'number') return;
-  if(currentUser?.isGuest) return;
+  if(currentUser && currentUser.isGuest) return;
 
   try {
     const payload = {
-  name: currentUser.name,
-  score: Number(e.score),
-  pack_id: String(e.packId),
-  pack_label: String(e.packLabel),
-  dur: Number(e.dur),
-  timer_mode: Number(e.timerMode)
-};
-
-    console.log('ADD TO LB payload:', payload);
+      name: currentUser.name,
+      score: Number(e.score),
+      pack_id: String(e.packId),
+      pack_label: String(e.packLabel),
+      dur: Number(e.dur),
+      timer_mode: Number(e.timerMode),
+      // BUG FIX — ts manquait dans le payload → les dates n'apparaissaient pas dans le classement
+      ts: Date.now()
+    };
 
     const res = await fetch(
       SUPA_URL + '/rest/v1/leaderboard',
@@ -719,9 +731,7 @@ async function addToLB(e){
       }
     );
 
-    console.log('ADD TO LB status:', res.status);
-
-    if(!res.ok) throw new Error('addToLB failed');
+    if(!res.ok) throw new Error('addToLB failed: ' + res.status);
   } catch(err) {
     console.warn('Supabase addToLB error:', err);
   }
@@ -1731,7 +1741,12 @@ function quitGame(){
 // LEADERBOARD
 // ═══════════════════════════════════
 let lbFilter='all';
-function showLB(){buildLB(lbFilter);show('sLB');}
+async function showLB(){
+  // BUG FIX — buildLB est async mais n'était pas attendu → le classement
+  // s'affichait vide car show() s'exécutait avant la fin du fetch
+  show('sLB');
+  await buildLB(lbFilter);
+}
 async function buildLB(filter){
   lbFilter=filter;
   const tabs=document.getElementById('lbTabs');tabs.innerHTML='';
@@ -1742,11 +1757,9 @@ async function buildLB(filter){
   });
   const list=document.getElementById('lbList');
   list.innerHTML='<div class="lb-empty" style="color:#555;">⏳ Chargement…</div>';
-  let rows = await getLB();
-console.log('LB rows:', rows);
-
-if(filter !== 'all') rows = rows.filter(e => e.pack_id === filter);
-rows.sort((a,b) => b.score - a.score);
+  let rows=await getLB();
+  if(filter!=='all')rows=rows.filter(e=>e.pack_id===filter);
+  rows.sort((a,b)=>b.score-a.score);
   document.getElementById('lbSub').textContent=rows.length+' score'+(rows.length!==1?'s':'')+(filter!=='all'?' — '+(PACKS.find(p=>p.id===filter)&&PACKS.find(p=>p.id===filter).label||''):'');
   list.innerHTML='';
   if(!rows.length){list.innerHTML='<div class="lb-empty">Aucun score encore !<br>Sois le premier à jouer 🎯</div>';return;}
@@ -1755,8 +1768,10 @@ rows.sort((a,b) => b.score - a.score);
     const min=Math.floor((e.dur||0)/60),sec=(e.dur||0)%60;
     const pack=PACKS.find(p=>p.id===(e.pack_id||e.packId));
     const dt=e.ts?new Date(e.ts).toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}):'';
-    const modeLabel=e.timer_mode===5?'⚡ Éclair 5s':e.timer_mode===10?'🔥 Rapide 10s':'⏱️ Normal 20s';
-    const modeColor=e.timer_mode===5?'#E74C3C':e.timer_mode===10?'#f39c12':'#2ECC71';
+    // BUG FIX — timer_mode comparé avec === sur int mais Supabase peut renvoyer string
+    const tm=Number(e.timer_mode);
+    const modeLabel=tm===5?'⚡ Éclair 5s':tm===10?'🔥 Rapide 10s':'⏱️ Normal 20s';
+    const modeColor=tm===5?'#E74C3C':tm===10?'#f39c12':'#2ECC71';
     row.innerHTML='<div class="lb-rank">'+(i+1)+'</div>'
       +'<div class="lb-av">'+(e.name||'?')[0].toUpperCase()+'</div>'
       +'<div class="lb-info">'
