@@ -729,7 +729,7 @@ async function doRegister(){
     toast('⚠️ Compte créé en local (réseau indisponible).');
     currentUser={name,pin}; btn.disabled=false; btn.textContent='🚀 CRÉER MON COMPTE'; return;
     }
-    // Insert new user
+// Insert new user
     const insRes=await fetch(SUPA_URL+'/rest/v1/users',{
       method:'POST',
       headers:{...SUPA_HEADERS,'Prefer':'return=minimal'},
@@ -1692,7 +1692,8 @@ function buildShareButtons(finalScore, packLabel){
   row.appendChild(dlBtn);
 }
 
-// ═══════════════════════════════════
+//
+  ══════════════════════════════════
 // END GAME
 // ═══════════════════════════════════
 async function endGame(){
