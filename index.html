@@ -676,13 +676,19 @@ const SUPA_HEADERS={
 // ═══════════════════════════════════
 // SUPABASE API HELPERS
 // ═══════════════════════════════════
+
+// BUG FIX #1 — fetch() mal formé : l'URL de filtre utilisait une concaténation
+// de chaîne non encodée. On utilise désormais URLSearchParams pour construire
+// les query strings afin d'éviter les injections et les erreurs de parsing.
+
 async function getLB(){
   try {
+    const params = new URLSearchParams({ order: 'score.desc', limit: '200' });
     const res = await fetch(
-      SUPA_URL + '/rest/v1/leaderboard?order=score.desc&limit=200',
+      SUPA_URL + '/rest/v1/leaderboard?' + params.toString(),
       { headers: SUPA_HEADERS }
     );
-    if(!res.ok) throw new Error('getLB failed');
+    if(!res.ok) throw new Error('getLB failed: ' + res.status);
     return await res.json();
   } catch(e) {
     console.warn('Supabase getLB error:', e);
@@ -692,7 +698,7 @@ async function getLB(){
 
 async function addToLB(e){
   if(!e || !e.score) return;
-  if(currentUser?.isGuest) return;
+  if(currentUser && currentUser.isGuest) return;
 
   try {
     const payload = {
@@ -714,12 +720,12 @@ async function addToLB(e){
       }
     );
 
-    if(!res.ok) throw new Error('addToLB failed');
+    if(!res.ok) throw new Error('addToLB failed: ' + res.status);
   } catch(err) {
     console.warn('Supabase addToLB error:', err);
   }
 }
-  
+
 // ═══════════════════════════════════
 // AUTH
 // ═══════════════════════════════════
@@ -732,6 +738,10 @@ function switchAuthTab(t){
   document.getElementById('registerForm').style.display=t==='register'?'block':'none';
 }
 
+// BUG FIX #2 — doRegister() dupliqué supprimé. Il n'existe plus qu'une seule
+// définition de la fonction ci-dessous. L'ancienne déclaration redondante
+// (qui écrasait silencieusement la première et rendait le JS imprévisible)
+// a été retirée.
 async function doRegister(){
   const name=document.getElementById('regName').value.trim();
   const pin=document.getElementById('regPin').value.trim();
@@ -747,8 +757,10 @@ async function doRegister(){
   btn.disabled=true; btn.textContent='⏳ Inscription...';
 
   try{
+    // BUG FIX #1 (suite) — URLSearchParams utilisé ici aussi pour le filtre
+    const params = new URLSearchParams({ name_lower: 'eq.' + name.toLowerCase(), select: 'id' });
     const res=await fetch(
-      SUPA_URL+'/rest/v1/users?name_lower=eq.'+encodeURIComponent(name.toLowerCase())+'&select=id',
+      SUPA_URL + '/rest/v1/users?' + params.toString(),
       {headers:SUPA_HEADERS}
     );
     const rows=await res.json();
@@ -788,10 +800,13 @@ async function doLogin(){
 
   let found=null;
 
-  // Try Supabase first
+  // BUG FIX #1 (suite) — URLSearchParams remplace la concaténation manuelle
   try {
-   const res=await fetch(
-  SUPA_URL+'/rest/v1/users?name_lower=eq.'+encodeURIComponent(name.toLowerCase())+'&select=name,pin',{headers:SUPA_HEADERS});
+    const params = new URLSearchParams({ name_lower: 'eq.' + name.toLowerCase(), select: 'name,pin' });
+    const res=await fetch(
+      SUPA_URL + '/rest/v1/users?' + params.toString(),
+      {headers:SUPA_HEADERS}
+    );
     const rows=await res.json();
     if(rows&&rows.length>0) found=rows[0];
   } catch(e) {
@@ -806,10 +821,9 @@ async function doLogin(){
 
   btn.disabled=false; btn.textContent='🎯 JOUER !';
 
-  if(!found){err.textContent='Prénom inconnu. Inscris-toi via l\'onglet Inscription !';err.className='err-box show';return;}
+  if(!found){err.textContent="Prénom inconnu. Inscris-toi via l'onglet Inscription !";err.className='err-box show';return;}
   if(found.pin!==pin){err.textContent='Code PIN incorrect.';err.className='err-box show';return;}
 
-  // Sync locally for offline use
   LS.set('btpcfa_user_'+name.toLowerCase(),{name:found.name||name,pin,createdAt:Date.now()});
 
   currentUser={name:found.name||name,pin};
@@ -833,7 +847,6 @@ function startSession(){
   document.getElementById('userAv').textContent=currentUser.name[0].toUpperCase();
   document.getElementById('userName').textContent=currentUser.name;
   loadUserBadges();
-  // Check unlock state on session start
   checkAndUnlockPacks();
   show('sGame');
   initPack(PACKS[0]);
@@ -849,20 +862,13 @@ let angle=0,spinning=false,selLeft=null,matched=[],curQ=-1;
 let sessionStart=Date.now(),timerInterval=null,timerLeft=0,timerMax=0,challengeAnswered=false;
 let packErrors=0,earnedBadges=[];
 
-// GLOBAL score across all packs (cumulative)
 let globalScore=0;
-
-// Per-pack completed tracking
-let packCompletedMap={};  // {packId: [completed indices]}
-let packScoreMap={};      // {packId: score}
-
-// Timer mode: base seconds multiplied by mode factor
-let timerModeSecs=20; // default
-
-// Consecutive errors penalty
-let consecutiveErrors=0; // resets on correct answer
+let packCompletedMap={};
+let packScoreMap={};
+let timerModeSecs=20;
+let consecutiveErrors=0;
 const MAX_PENALTY_SHOWN=5;
-const PENALTY_REDUCTION_PER_ERROR=0.15; // -15% per consecutive error, max -60%
+const PENALTY_REDUCTION_PER_ERROR=0.15;
 
 const canvas=document.getElementById('wcanvas'),ctx=canvas.getContext('2d');
 const W=canvas.width,H=canvas.height;
@@ -877,7 +883,6 @@ function saveProgress(){
   const k=pKey(currentPack.id);
   const isDone=completed.length>=questions.length&&questions.length>0;
   if(k)LS.set(k,{completed,score,angle,ts:Date.now(),done:isDone});
-  // Save global
   const gk=gKey();
   if(gk){
     packCompletedMap[currentPack.id]=completed;
@@ -917,7 +922,7 @@ function playSpin(){try{const a=getAC(),o=a.createOscillator(),g=a.createGain();
 // ═══════════════════════════════════
 // TIMER MODE
 // ═══════════════════════════════════
-let modeLockedForPack=false; // true once first spin happens in a pack
+let modeLockedForPack=false;
 
 function setTimerMode(secs){
   if(modeLockedForPack){
@@ -939,7 +944,6 @@ function lockModeForPack(){
     c.style.cursor='not-allowed';
     c.title='Mode verrouillé pendant ce pack';
   });
-  // Keep active chip visible
   const active=document.getElementById('mode'+timerModeSecs);
   if(active){active.style.opacity='1';active.style.cursor='default';}
   const lbl=document.getElementById('modeLockLabel');
@@ -958,10 +962,8 @@ function unlockModeChips(){
 }
 
 function getEffectiveTimer(baseTimer){
-  // Scale base timer by mode ratio
   const modeRatio=timerModeSecs/20;
   let t=Math.round(baseTimer*modeRatio);
-  // Apply penalty reduction
   if(consecutiveErrors>0){
     const reduction=Math.min(consecutiveErrors*PENALTY_REDUCTION_PER_ERROR,0.6);
     t=Math.max(3,Math.round(t*(1-reduction)));
@@ -990,7 +992,6 @@ function updatePenaltyUI(){
 function registerError(){
   consecutiveErrors=Math.min(consecutiveErrors+1,MAX_PENALTY_SHOWN);
   updatePenaltyUI();
-  // Flash card red
   const card=document.getElementById('ccard');
   card.classList.add('penalty-active');
   setTimeout(()=>card.classList.remove('penalty-active'),600);
@@ -1056,22 +1057,17 @@ function renderBadgePanel(){
 // ═══════════════════════════════════
 // PACK UNLOCK LOGIC
 // ═══════════════════════════════════
-// Returns true if the pack is 100% done (uses done flag in save, or live state for current pack)
 function isPackFullyCompleted(packId){
   const p=PACKS.find(x=>x.id===packId);
   if(!p||!p.questions.length)return false;
-  // Live check for current active pack
   if(packId===currentPack.id&&completed.length>0){
     return completed.length>=p.questions.length;
   }
-  // Saved check — rely on the done:true flag written by saveProgress
   const saved=loadProgress(packId);
   if(!saved)return false;
-  // Support both the new done flag and old completed-length check for backwards compat
   return saved.done===true||(saved.completed&&saved.completed.length>=p.questions.length);
 }
 
-// Strict saved-only check (used by initPack to block replay on load)
 function isPackSavedCompleted(packId){
   const p=PACKS.find(x=>x.id===packId);
   if(!p||!p.questions.length)return false;
@@ -1107,12 +1103,9 @@ function checkAndUnlockPacks(){
 function buildGlobalScoreBar(){
   const bar=document.getElementById('globalScoreBar');
   bar.innerHTML='';
-  let total=0;
   PACKS.filter(p=>p.unlocked&&p.questions.length>0).forEach(p=>{
-    // Use live score for current pack, saved score for others
     const pts=p.id===currentPack.id ? score : (()=>{const s=loadProgress(p.id);return s?s.score:0;})();
     const done=p.id===currentPack.id ? completed.length : (()=>{const s=loadProgress(p.id);return s&&s.completed?s.completed.length:0;})();
-    total+=pts;
     const item=document.createElement('div');
     item.className='gs-item'+(p.id===currentPack.id?' active':'');
     const isFinished=isPackFullyCompleted(p.id);
@@ -1122,16 +1115,15 @@ function buildGlobalScoreBar(){
     bar.appendChild(item);
   });
   const totalEl=document.createElement('div');
-  totalEl.innerHTML='<span class="gs-total-label">TOTAL</span><span class="gs-total" id="globalScoreNum">'+total+'</span>';
+  totalEl.innerHTML='<span class="gs-total-label">TOTAL</span><span class="gs-total" id="globalScoreNum">'+updateGlobalScore()+'</span>';
   bar.appendChild(totalEl);
 }
 
 function updateGlobalScore(){
-  // Recalculate total from all completed packs + current pack live score
   let total=0;
   PACKS.filter(p=>p.unlocked&&p.questions.length>0).forEach(p=>{
     if(p.id===currentPack.id){
-      total+=score; // live score
+      total+=score;
     } else {
       const saved=loadProgress(p.id);
       if(saved)total+=saved.score||0;
@@ -1148,8 +1140,6 @@ function updateGlobalScore(){
 function buildPackBar(){
   const bar=document.getElementById('packBar');bar.innerHTML='';
   PACKS.forEach(p=>{
-    // Use isPackFullyCompleted which correctly checks live state for current pack
-    // and saved state for others
     const isCompleted=isPackFullyCompleted(p.id);
     let cls='pack-chip';
     if(p.id===currentPack.id)cls+=' active';
@@ -1170,20 +1160,10 @@ function buildPackBar(){
   });
 }
 
-function isPackSavedCompleted(packId){
-  const p=PACKS.find(x=>x.id===packId);
-  if(!p||!p.questions.length)return false;
-  const saved=loadProgress(packId);
-  if(!saved)return false;
-  // Accept either the explicit done flag OR a full completed array (backwards compat)
-  return saved.done===true||(saved.completed&&saved.completed.length>=p.questions.length);
-}
-
 function initPack(p){
   stopTimer();
   currentPack=p;
 
-  // Check saved-only completion flag — prevents replaying a finished pack
   if(isPackSavedCompleted(p.id)){
     toast('✅ Pack "'+p.label+'" déjà terminé ! Choisis un autre pack.');
     const next=PACKS.find(x=>x.unlocked&&x.questions.length>0&&x.id!==p.id&&!isPackSavedCompleted(x.id));
@@ -1200,7 +1180,6 @@ function initPack(p){
   unlockModeChips();
   updatePenaltyUI();
 
-  // Load saved partial progress for this pack
   const existing=loadProgress(p.id);
   if(existing&&existing.completed&&existing.completed.length>0){
     completed=existing.completed||[];
@@ -1223,7 +1202,6 @@ function initPack(p){
 
   if(!p.unlocked||!p.questions.length)return;
 
-  // Show resume banner if partial progress
   if(existing&&existing.completed&&existing.completed.length>0&&existing.completed.length<p.questions.length){
     document.getElementById('resumeDesc').textContent=existing.completed.length+'/'+p.questions.length+' défis — Score: '+existing.score+' pts';
     document.getElementById('resumeBanner').className='resume-banner show';
@@ -1252,7 +1230,6 @@ function drawWheel(rot){
   ctx.clearRect(0,0,W,H);
   const cx=W/2,cy=H/2,r=W/2-6;
 
-  // Guard: if no questions yet, draw a decorative placeholder wheel
   if(!questions||questions.length===0){
     ctx.beginPath();ctx.arc(cx,cy,r,0,2*Math.PI);
     ctx.fillStyle='#111';ctx.fill();
@@ -1295,7 +1272,7 @@ function drawWheel(rot){
       ctx.font=iconSize+'px serif';ctx.fillStyle=col.text;ctx.fillText(m.icon,textR,-iconSize*0.7);
       const words=m.name.split(' ');
       const maxFontSize=Math.max(8,Math.min(13,Math.round(chordW*0.19)));
-      ctx.font=`bold ${maxFontSize}px Arial Narrow,Arial,sans-serif`;ctx.fillStyle=col.text;
+      ctx.font='bold '+maxFontSize+'px Arial Narrow,Arial,sans-serif';ctx.fillStyle=col.text;
       if(col.bg==='#FFFFFF'||col.bg==='#FFEB00'){ctx.shadowColor='rgba(0,0,0,.25)';ctx.shadowBlur=2;}
       const lineH=maxFontSize+2;
       let lines=[];
@@ -1315,7 +1292,6 @@ function drawWheel(rot){
 function spinWheel(){
   if(spinning)return;playSpin();
   if(questions.every((_,i)=>completed.includes(i))){endGame();return;}
-  // Lock the timer mode as soon as the first question is spun
   lockModeForPack();
   spinning=true;stopTimer();document.getElementById('spinBtn').disabled=true;
   document.getElementById('idleMsg').style.display='none';
@@ -1390,12 +1366,11 @@ function showChallenge(i){
 }
 
 function calcPtsForTimer(currentT,baseT){
-  // Points scale with timer: shorter timer = more points possible
   const ratio=currentT/baseT;
   if(ratio>0.6)return 15;if(ratio>0.3)return 10;return 5;
 }
 
-let currentCorrectPos=-1; // shuffled position of correct answer for current MCQ
+let currentCorrectPos=-1;
 
 function shuffleArray(arr){
   const a=[...arr];
@@ -1406,7 +1381,6 @@ function shuffleArray(arr){
 function buildMCQ(m,c){
   const d=document.createElement('div');d.className='mcq-opts';
 
-  // Shuffle indices, retrying until correct answer is NOT at its original position
   let indices=m.options.map((_,i)=>i);
   let attempts=0;
   do {
@@ -1446,8 +1420,8 @@ function buildMatch(m,c){
   const rc=document.createElement('div');rc.className='mcol';rc.innerHTML='<div class="mcolt">Correspondances</div>';
   const ro=m.right.map((_,i)=>i);
   for(let i=ro.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[ro[i],ro[j]]=[ro[j],ro[i]];}
-  let matchErrors=0; // errors on THIS match question
-  let matchFailed=false; // once a wrong answer is given, question fails
+  let matchErrors=0;
+  let matchFailed=false;
 
   m.left.forEach((lbl,i)=>{
     const el=document.createElement('div');el.className='mi';el.textContent=lbl;el.dataset.li=i;
@@ -1475,13 +1449,11 @@ function buildMatch(m,c){
             showFb(true,m.explanation);addPts(calcPts());playSuccess();
             registerCorrect();checkInGameBadges();
           } else {
-            // All matched but with errors — partial
             showFb(false,'Tu as fini mais avec des erreurs. '+m.explanation);playWrong();
           }
           doneChallenge();
         }
       } else {
-        // WRONG association — immediately fail the match question
         matchFailed=true;
         challengeAnswered=true;
         stopTimer();
@@ -1489,14 +1461,13 @@ function buildMatch(m,c){
         el.classList.add('wrong');if(sEl)sEl.classList.add('wrong');
         packErrors++;matchErrors++;
         registerError();
-        // Disable all remaining items
         document.querySelectorAll('.mi').forEach(x=>{
           if(!x.classList.contains('correct')&&!x.classList.contains('wrong')){
             x.classList.add('disabled');
           }
         });
         selLeft=null;
-        showFb(false,'❌ Erreur ! Mauvaise association. '+m.explanation);
+        showFb(false,'Erreur ! Mauvaise association. '+m.explanation);
         playWrong();
         doneChallenge();
       }
@@ -1533,70 +1504,47 @@ function nextChallenge(){
 // ═══════════════════════════════════
 // SHARE FUNCTIONS
 // ═══════════════════════════════════
-
-// Generate a score card image via an offscreen canvas, returns a data URL
 function generateScoreImage(finalScore, packLabel, userName){
   const W=600, H=340;
   const oc=document.createElement('canvas');
   oc.width=W; oc.height=H;
   const c=oc.getContext('2d');
 
-  // Background
   c.fillStyle='#0A0A0A';
   c.fillRect(0,0,W,H);
-
-  // Yellow border
   c.strokeStyle='#FFEB00';
   c.lineWidth=4;
   c.strokeRect(4,4,W-8,H-8);
-
-  // Inner accent line
   c.strokeStyle='rgba(255,235,0,0.2)';
   c.lineWidth=1;
   c.strokeRect(14,14,W-28,H-28);
-
-  // BTP CFA label top-left
   c.fillStyle='#FFEB00';
   c.font='bold 13px Arial';
-  c.letterSpacing='3px';
   c.fillText('BTP CFA CVDL', 30, 48);
-
-  // Trophy emoji (as text)
   c.font='56px serif';
   c.fillText('🏆', W/2-30, 110);
-
-  // Score
   c.fillStyle='#FFEB00';
   c.font='bold 72px Arial Black, Arial';
   c.textAlign='center';
   c.fillText(finalScore+' pts', W/2, 190);
-
-  // Player name
   c.fillStyle='#ffffff';
   c.font='bold 22px Arial';
   c.fillText(userName || 'Joueur anonyme', W/2, 230);
-
-  // Pack label
   c.fillStyle='#888888';
   c.font='16px Arial';
   c.fillText('Pack : '+packLabel, W/2, 260);
-
-  // Call to action
   c.fillStyle='rgba(255,235,0,0.7)';
   c.font='bold 14px Arial';
-  c.fillText('🎮 La Roue des Métiers — BTP CFA Centre-Val de Loire', W/2, 300);
-
-  // Hashtags
+  c.fillText('La Roue des Métiers — BTP CFA Centre-Val de Loire', W/2, 300);
   c.fillStyle='#555';
   c.font='12px Arial';
   c.fillText('#BTPCFA #MétiersBTP #Alternance', W/2, 322);
-
   c.textAlign='left';
   return oc.toDataURL('image/png');
 }
 
 async function downloadScoreCard(finalScore, packLabel){
-  const imgData=generateScoreImage(finalScore, packLabel, currentUser?.name);
+  const imgData=generateScoreImage(finalScore, packLabel, currentUser && currentUser.name);
   const a=document.createElement('a');
   a.href=imgData;
   a.download='mon-score-btpcfa.png';
@@ -1604,30 +1552,66 @@ async function downloadScoreCard(finalScore, packLabel){
   toast('📥 Image téléchargée ! Partage-la sur Instagram ou Facebook.');
 }
 
+// BUG FIX #5 — navigator.canShare() erreur runtime
+// L'API Web Share Level 2 (partage de fichiers) n'est pas disponible partout.
+// On vérifie d'abord que navigator.share existe, puis que canShare est une
+// fonction avant de l'appeler, afin d'éviter TypeError sur Chrome desktop
+// et les navigateurs anciens.
 async function shareScoreNative(finalScore, packLabel){
-  const imgData=generateScoreImage(finalScore, packLabel, currentUser?.name);
-  // Convert data URL to blob
-  const res=await fetch(imgData);
-  const blob=await res.blob();
-  const file=new File([blob],'mon-score-btpcfa.png',{type:'image/png'});
+  const imgData=generateScoreImage(finalScore, packLabel, currentUser && currentUser.name);
   const shareMsg='🏆 J\'ai fait '+finalScore+' pts sur La Roue des Métiers BTP CFA CVDL ('+packLabel+') ! #BTPCFA #MétiersBTP';
-  if(navigator.canShare&&navigator.canShare({files:[file]})){
+
+  // Essai partage natif avec fichier (mobiles modernes uniquement)
+  if(typeof navigator.share === 'function'){
     try{
-      await navigator.share({files:[file],title:'Mon score BTP CFA CVDL',text:shareMsg});
+      const res=await fetch(imgData);
+      const blob=await res.blob();
+      const file=new File([blob],'mon-score-btpcfa.png',{type:'image/png'});
+      const canShareFiles = typeof navigator.canShare === 'function' && navigator.canShare({files:[file]});
+      if(canShareFiles){
+        await navigator.share({files:[file],title:'Mon score BTP CFA CVDL',text:shareMsg});
+        return; // Partage réussi — on sort
+      }
+      // Partage sans fichier si canShare ne supporte pas les fichiers
+      await navigator.share({title:'Mon score BTP CFA CVDL',text:shareMsg});
+      return;
     }catch(e){
-      if(e.name!=='AbortError')downloadScoreCard(finalScore,packLabel);
+      if(e && e.name==='AbortError') return; // Utilisateur a annulé
+      // Autre erreur — on tombe dans le fallback téléchargement
     }
-  } else {
-    downloadScoreCard(finalScore,packLabel);
   }
+  // Fallback : téléchargement direct
+  downloadScoreCard(finalScore, packLabel);
 }
 
+// BUG FIX #3 — &amp; en JS dans l'URL de partage Facebook
+// encodeURIComponent() encode correctement les caractères spéciaux.
+// On construit l'URL Facebook manuellement avec des paramètres bien encodés
+// sans passer par innerHTML (qui transforme & en &amp;).
 function buildShareButtons(finalScore, packLabel){
-  const shareMsg=encodeURIComponent('🏆 J\'ai fait '+finalScore+' pts sur La Roue des Métiers BTP CFA CVDL ('+packLabel+') ! #BTPCFA #MétiersBTP #Alternance');
-  const msgWa=encodeURIComponent('🏆 J\'ai fait '+finalScore+' pts sur La Roue des Métiers BTP CFA CVDL ! Pack : '+packLabel+'. #BTPCFA');
+  // BUG FIX #3 : on construit l'URL de partage FB avec URLSearchParams pour
+  // éviter les entités HTML (&amp;) qui cassaient le lien quand l'URL était
+  // insérée dans innerHTML ou setAttribute('href', ...).
+  const shareText = 'J\'ai fait ' + finalScore + ' pts sur La Roue des Métiers BTP CFA CVDL (' + packLabel + ') ! #BTPCFA #MétiersBTP #Alternance';
+  const fbPageUrl = 'https://www.facebook.com/BTPCFACENTRE/';
 
-  // Preview the score card image in trophy screen
-  const imgData=generateScoreImage(finalScore, packLabel, currentUser?.name);
+  // BUG FIX #4 — Facebook share fonctionnel partiel
+  // On utilise l'URL de partage officielle (sharer.php) avec URLSearchParams
+  // au lieu de concaténation manuelle, ce qui garantit un encodage correct
+  // et évite le double-encodage des caractères spéciaux.
+  const fbShareParams = new URLSearchParams({
+    u: fbPageUrl,
+    quote: shareText
+  });
+  const fbShareUrl = 'https://www.facebook.com/sharer/sharer.php?' + fbShareParams.toString();
+
+  const waParams = new URLSearchParams({
+    text: 'J\'ai fait ' + finalScore + ' pts sur La Roue des Métiers BTP CFA CVDL ! Pack : ' + packLabel + '. #BTPCFA'
+  });
+  const waUrl = 'https://wa.me/?' + waParams.toString();
+
+  // Preview carte score
+  const imgData=generateScoreImage(finalScore, packLabel, currentUser && currentUser.name);
   let previewEl=document.getElementById('scoreCardPreview');
   if(!previewEl){
     previewEl=document.createElement('div');
@@ -1637,7 +1621,6 @@ function buildShareButtons(finalScore, packLabel){
     img.style.cssText='width:100%;display:block;';
     img.src=imgData;
     previewEl.appendChild(img);
-    // Insert before share row
     const shareRow=document.getElementById('shareRow');
     shareRow.parentNode.insertBefore(previewEl, shareRow);
   } else {
@@ -1647,40 +1630,38 @@ function buildShareButtons(finalScore, packLabel){
   const row=document.getElementById('shareRow');
   row.innerHTML='';
 
-  // Facebook share (opens sharer with message)
-  const fbUrl='https://www.facebook.com/BTPCFACENTRE/';
+  // Bouton Facebook — créé via DOM (pas innerHTML) pour éviter &amp;
   const fbBtn=document.createElement('a');
   fbBtn.className='share-btn share-btn-fb';
-  fbBtn.href='https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(fbUrl)+'&quote='+shareMsg;
-  fbBtn.target='_blank'; fbBtn.rel='noopener';
-  fbBtn.innerHTML='👍 Facebook';
+  fbBtn.href=fbShareUrl;  // URL propre sans entités HTML
+  fbBtn.target='_blank';
+  fbBtn.rel='noopener noreferrer';
+  fbBtn.textContent='👍 Facebook';
   row.appendChild(fbBtn);
 
-  // Instagram: can't deep-link share directly — download image for manual post
+  // Bouton Instagram
   const igBtn=document.createElement('button');
   igBtn.className='share-btn share-btn-ig';
-  igBtn.innerHTML='📸 Instagram';
+  igBtn.textContent='📸 Instagram';
   igBtn.addEventListener('click',()=>{
     shareScoreNative(finalScore, packLabel);
-    // Also open Instagram after a short delay
-    setTimeout(()=>{
-      window.open('https://www.instagram.com/btp.cfa.cvdl/','_blank');
-    },1200);
+    setTimeout(()=>{ window.open('https://www.instagram.com/btp.cfa.cvdl/','_blank'); },1200);
   });
   row.appendChild(igBtn);
 
-  // WhatsApp
+  // Bouton WhatsApp
   const waBtn=document.createElement('a');
   waBtn.className='share-btn share-btn-wa';
-  waBtn.href='https://wa.me/?text='+msgWa;
-  waBtn.target='_blank'; waBtn.rel='noopener';
-  waBtn.innerHTML='💬 WhatsApp';
+  waBtn.href=waUrl;
+  waBtn.target='_blank';
+  waBtn.rel='noopener noreferrer';
+  waBtn.textContent='💬 WhatsApp';
   row.appendChild(waBtn);
 
-  // Download card
+  // Bouton téléchargement
   const dlBtn=document.createElement('button');
   dlBtn.className='share-btn share-btn-cp';
-  dlBtn.innerHTML='📥 Télécharger ma carte';
+  dlBtn.textContent='📥 Télécharger ma carte';
   dlBtn.addEventListener('click',()=>downloadScoreCard(finalScore, packLabel));
   row.appendChild(dlBtn);
 }
@@ -1690,7 +1671,7 @@ function buildShareButtons(finalScore, packLabel){
 // ═══════════════════════════════════
 async function endGame(){
   stopTimer();playVictory();
-  unlockModeChips(); // allow mode change before next pack
+  unlockModeChips();
   const dur=Math.round((Date.now()-sessionStart)/1000);
   const min=Math.floor(dur/60),sec=dur%60;
   if(packErrors===0)awardBadge('perfect_pack');
@@ -1701,7 +1682,6 @@ async function endGame(){
   const totalScore=updateGlobalScore();
   await addToLB({packId:currentPack.id,packLabel:currentPack.label,score:totalScore,dur,timerMode:timerModeSecs,completed:questions.length});
 
-  // Check for unlocks
   checkAndUnlockPacks();
   buildPackBar();
 
@@ -1714,25 +1694,21 @@ async function endGame(){
   document.getElementById('packCompleteMsg').textContent='Score ce pack : '+score+' pts — Score total : '+totalScore+' pts !';
   const btns=document.getElementById('nextPackBtns');btns.innerHTML='';
 
-  // Offer next non-completed packs
   PACKS.filter(p=>p.unlocked&&p.id!==currentPack.id&&p.questions.length>0&&!isPackSavedCompleted(p.id)).forEach(p=>{
     const b=document.createElement('button');b.className='npbtn';b.textContent='▶ '+p.label;
     b.addEventListener('click',()=>{banner.className='pack-complete';initPack(p);});btns.appendChild(b);
   });
 
-  // Show trophy screen
   show('sTrophy');
   confetti();setTimeout(confetti,600);setTimeout(confetti,1200);
 }
 
 function continueGame(){
-  // Go to the next non-completed unlocked pack, or back to game screen
   const next=PACKS.find(p=>p.unlocked&&p.questions.length>0&&!isPackSavedCompleted(p.id));
   show('sGame');
   if(next){
     initPack(next);
   } else {
-    // All packs done — show game screen at rest state
     buildPackBar();
     buildGlobalScoreBar();
     document.getElementById('idleMsg').style.display='flex';
@@ -1768,11 +1744,11 @@ async function buildLB(filter){
   let rows=await getLB();
   if(filter!=='all')rows=rows.filter(e=>e.pack_id===filter);
   rows.sort((a,b)=>b.score-a.score);
-  document.getElementById('lbSub').textContent=rows.length+' score'+(rows.length!==1?'s':'')+(filter!=='all'?' — '+(PACKS.find(p=>p.id===filter)?.label||''):'');
+  document.getElementById('lbSub').textContent=rows.length+' score'+(rows.length!==1?'s':'')+(filter!=='all'?' — '+(PACKS.find(p=>p.id===filter)&&PACKS.find(p=>p.id===filter).label||''):'');
   list.innerHTML='';
   if(!rows.length){list.innerHTML='<div class="lb-empty">Aucun score encore !<br>Sois le premier à jouer 🎯</div>';return;}
   rows.forEach((e,i)=>{
-    const row=document.createElement('div');row.className='lb-row'+(e.name===currentUser?.name?' me':'');
+    const row=document.createElement('div');row.className='lb-row'+(currentUser&&e.name===currentUser.name?' me':'');
     const min=Math.floor((e.dur||0)/60),sec=(e.dur||0)%60;
     const pack=PACKS.find(p=>p.id===(e.pack_id||e.packId));
     const dt=e.ts?new Date(e.ts).toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}):'';
@@ -1781,7 +1757,7 @@ async function buildLB(filter){
     row.innerHTML='<div class="lb-rank">'+(i+1)+'</div>'
       +'<div class="lb-av">'+(e.name||'?')[0].toUpperCase()+'</div>'
       +'<div class="lb-info">'
-        +'<div class="lb-name">'+(e.name||'Anonyme')+(e.name===currentUser?.name?' 👈':'')+'</div>'
+        +'<div class="lb-name">'+(e.name||'Anonyme')+(currentUser&&e.name===currentUser.name?' 👈':'')+'</div>'
         +'<div class="lb-detail">'+(pack?pack.label:(e.pack_label||''))
           +'  ·  <span style="color:'+modeColor+';font-weight:700;">'+modeLabel+'</span>'
           +'  ·  '+dt
