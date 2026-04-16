@@ -700,14 +700,13 @@ async function addToLB(e){
 
   try {
     const payload = {
-      name: currentUser.name,
-      score: e.score,
-      pack_id: e.packId,
-      pack_label: e.packLabel,
-      dur: e.dur,
-      timer_mode: e.timerMode,
-      ts: Date.now()
-    };
+  name: currentUser.name,
+  score: Number(e.score),
+  pack_id: String(e.packId),
+  pack_label: String(e.packLabel),
+  dur: Number(e.dur),
+  timer_mode: Number(e.timerMode)
+};
 
     console.log('ADD TO LB payload:', payload);
 
