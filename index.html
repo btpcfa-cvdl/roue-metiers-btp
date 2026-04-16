@@ -1743,9 +1743,11 @@ async function buildLB(filter){
   });
   const list=document.getElementById('lbList');
   list.innerHTML='<div class="lb-empty" style="color:#555;">⏳ Chargement…</div>';
-  let rows=await getLB();
-  if(filter!=='all')rows=rows.filter(e=>e.pack_id===filter);
-  rows.sort((a,b)=>b.score-a.score);
+  let rows = await getLB();
+console.log('LB rows:', rows);
+
+if(filter !== 'all') rows = rows.filter(e => e.pack_id === filter);
+rows.sort((a,b) => b.score - a.score);
   document.getElementById('lbSub').textContent=rows.length+' score'+(rows.length!==1?'s':'')+(filter!=='all'?' — '+(PACKS.find(p=>p.id===filter)&&PACKS.find(p=>p.id===filter).label||''):'');
   list.innerHTML='';
   if(!rows.length){list.innerHTML='<div class="lb-empty">Aucun score encore !<br>Sois le premier à jouer 🎯</div>';return;}
