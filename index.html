@@ -695,7 +695,7 @@ async function getLB(){
   }
 }
 async function addToLB(e){
-  if(!e || e.score === undefined || e.score === null) return;
+  if(!e || typeof e.score !== 'number') return;
   if(currentUser?.isGuest) return;
 
   try {
