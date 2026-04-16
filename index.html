@@ -694,10 +694,9 @@ async function getLB(){
     return [];
   }
 }
-
 async function addToLB(e){
-  if(!e || !e.score) return;
-  if(currentUser && currentUser.isGuest) return;
+  if(!e || e.score === undefined || e.score === null) return;
+  if(currentUser?.isGuest) return;
 
   try {
     const payload = {
@@ -710,6 +709,8 @@ async function addToLB(e){
       ts: Date.now()
     };
 
+    console.log('ADD TO LB payload:', payload);
+
     const res = await fetch(
       SUPA_URL + '/rest/v1/leaderboard',
       {
@@ -719,7 +720,9 @@ async function addToLB(e){
       }
     );
 
-    if(!res.ok) throw new Error('addToLB failed: ' + res.status);
+    console.log('ADD TO LB status:', res.status);
+
+    if(!res.ok) throw new Error('addToLB failed');
   } catch(err) {
     console.warn('Supabase addToLB error:', err);
   }
