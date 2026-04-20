@@ -719,7 +719,8 @@ async function addToLB(e){
       dur: Number(e.dur),
       timer_mode: Number(e.timerMode),
       // BUG FIX — ts manquait dans le payload → les dates n'apparaissaient pas dans le classement
-      ts: Date.now()
+      const dtRaw = e.created_at || e.ts || null;
+const dt = dtRaw ? new Date(dtRaw)
     };
 
     const res = await fetch(
