@@ -717,10 +717,9 @@ async function addToLB(e){
       pack_id: String(e.packId),
       pack_label: String(e.packLabel),
       dur: Number(e.dur),
-      timer_mode: Number(e.timerMode),
-      // BUG FIX — ts manquait dans le payload → les dates n'apparaissaient pas dans le classement
-      const dtRaw = e.created_at || e.ts || null;
-const dt = dtRaw ? new Date(dtRaw)
+      timer_mode: Number(e.timerMode)
+      // ts supprimé : Supabase génère created_at automatiquement (DEFAULT now())
+      // Envoyer un champ inconnu provoque un HTTP 400
     };
 
     const res = await fetch(
@@ -732,7 +731,7 @@ const dt = dtRaw ? new Date(dtRaw)
       }
     );
 
-    if(!res.ok) throw new Error('addToLB failed: ' + res.status);
+    if(!res.ok){ console.warn('addToLB HTTP', res.status); return; }
   } catch(err) {
     console.warn('Supabase addToLB error:', err);
   }
@@ -1768,7 +1767,9 @@ async function buildLB(filter){
     const row=document.createElement('div');row.className='lb-row'+(currentUser&&e.name===currentUser.name?' me':'');
     const min=Math.floor((e.dur||0)/60),sec=(e.dur||0)%60;
     const pack=PACKS.find(p=>p.id===(e.pack_id||e.packId));
-    const dt=e.ts?new Date(e.ts).toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}):'';
+    // Supabase stocke la date dans created_at (ISO string), ts n'existe pas
+    const dtRaw=e.created_at||e.ts||null;
+    const dt=dtRaw?new Date(dtRaw).toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}):'';
     // BUG FIX — timer_mode comparé avec === sur int mais Supabase peut renvoyer string
     const tm=Number(e.timer_mode);
     const modeLabel=tm===5?'⚡ Éclair 5s':tm===10?'🔥 Rapide 10s':'⏱️ Normal 20s';
