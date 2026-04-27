@@ -692,7 +692,7 @@ async function getLB(){
     });
     const res = await fetch(
       SUPA_URL + '/rest/v1/leaderboard?' + params.toString(),
-      { headers: SUPA_HEADERS }
+      { headers: { ...SUPA_HEADERS, 'Accept': 'application/json' } }
     );
     if(!res.ok) throw new Error('getLB failed: ' + res.status);
     const data = await res.json();
@@ -1742,8 +1742,6 @@ function quitGame(){
 // ═══════════════════════════════════
 let lbFilter='all';
 async function showLB(){
-  // BUG FIX — buildLB est async mais n'était pas attendu → le classement
-  // s'affichait vide car show() s'exécutait avant la fin du fetch
   show('sLB');
   await buildLB(lbFilter);
 }
